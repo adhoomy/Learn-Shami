@@ -1,5 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import MongoDBTest from "@/components/mongodb-test";
+import MongoDBFunctionsTest from "@/components/mongodb-functions-test";
+import SignInForm from "@/components/auth/signin-form";
 
 export default function Home() {
   return (
@@ -16,19 +18,19 @@ export default function Home() {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="text-slate-900 dark:text-slate-100">
-                Next.js 15
+                Modern Tech Stack
               </CardTitle>
               <CardDescription>
-                Latest version with App Router and Turbopack
+                Next.js 15, TypeScript, Tailwind CSS v4
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-slate-600 dark:text-slate-400">
-                Built with the newest Next.js features for optimal performance and developer experience.
+                Built with the latest technologies for optimal performance and developer experience.
               </p>
             </CardContent>
           </Card>
@@ -36,58 +38,40 @@ export default function Home() {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="text-slate-900 dark:text-slate-100">
-                TypeScript
+                Authentication & Database
               </CardTitle>
               <CardDescription>
-                Full type safety and IntelliSense support
+                NextAuth.js with MongoDB Atlas
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-slate-600 dark:text-slate-400">
-                Type-safe development with modern TypeScript features and strict configuration.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-slate-100">
-                Tailwind CSS v4
-              </CardTitle>
-              <CardDescription>
-                Utility-first CSS framework
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-slate-600 dark:text-slate-400">
-                Rapid UI development with the latest Tailwind CSS version and custom design system.
+                Secure user authentication with persistent data storage in MongoDB.
               </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* shadcn/ui Showcase */}
+
+
+        {/* MongoDB Atlas Connection */}
+        <MongoDBTest />
+
+        {/* MongoDB Functions Test */}
+        <MongoDBFunctionsTest />
+
+        {/* Authentication */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-slate-900 dark:text-slate-100">
-              shadcn/ui Components
+              NextAuth.js Authentication
             </CardTitle>
             <CardDescription>
-              Beautiful, accessible components built with Radix UI and Tailwind CSS
+              User authentication with MongoDB persistence
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex flex-wrap gap-4">
-              <Button variant="default">Default Button</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="destructive">Destructive</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="link">Link</Button>
-            </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              These components are fully customizable and follow modern design principles.
-            </p>
+          <CardContent>
+            <SignInForm />
           </CardContent>
         </Card>
 
@@ -102,15 +86,7 @@ export default function Home() {
             <ul className="space-y-2 text-slate-600 dark:text-slate-400">
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                ESLint disabled for faster development
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                App Router for modern Next.js routing
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                Turbopack for faster builds
+                Next.js 15 with App Router and Turbopack
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
@@ -122,7 +98,15 @@ export default function Home() {
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                shadcn/ui for beautiful components
+                shadcn/ui components
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                MongoDB Atlas integration
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                NextAuth.js authentication
               </li>
             </ul>
           </CardContent>
