@@ -41,5 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # raw data on palestinian arabic
-/data/raw/
-/data/cleaned/
+/data/raw/*
+!/data/raw/.gitkeep
