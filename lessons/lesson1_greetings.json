@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "title": "Greetings",
+    "description": "Learn common Palestinian greetings for daily interactions.",
+    "csv": "lesson1_greetings.csv",
+    "unit": 1,
+    "order": 1,
+    "difficulty": "Beginner",
+    "tags": ["palestinian", "arabic", "greetings"],
+    "estimatedTime": "5 minutes"
+}
