@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import MongoDBTest from "@/components/mongodb-test";
 import MongoDBFunctionsTest from "@/components/mongodb-functions-test";
 import SignInForm from "@/components/auth/signin-form";
+import LessonLoader from "@/components/lesson-loader";
 
 export default function Home() {
   return (
@@ -59,6 +60,21 @@ export default function Home() {
 
         {/* MongoDB Functions Test */}
         <MongoDBFunctionsTest />
+
+        {/* Lesson Loader */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-slate-900 dark:text-slate-100">
+              Palestinian Arabic Lessons
+            </CardTitle>
+            <CardDescription>
+              Load and display CSV lesson files
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LessonLoader />
+          </CardContent>
+        </Card>
 
         {/* Authentication */}
         <Card className="mb-8">
