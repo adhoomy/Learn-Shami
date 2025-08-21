@@ -19,6 +19,7 @@ A modern Next.js project built with TypeScript, Tailwind CSS v4, and shadcn/ui c
 - **Styling**: Tailwind CSS v4
 - **UI Components**: shadcn/ui (New York style)
 - **Icons**: Lucide React
+- **Database**: MongoDB
 - **Package Manager**: npm
 
 ## 📁 Project Structure
@@ -48,6 +49,7 @@ learn-shami/
 
 - Node.js 18+ 
 - npm or yarn
+- MongoDB instance (local or cloud)
 
 ### Installation
 
@@ -62,18 +64,37 @@ learn-shami/
    npm install
    ```
 
-3. Run the development server:
+3. Set up environment variables:
+   ```bash
+   # Create .env.local file
+   MONGODB_URI=mongodb://localhost:27017/learn-shami
+   MONGODB_DB=learn-shami
+   ```
+
+4. Test MongoDB connection:
+   ```bash
+   npm run test-mongo
+   ```
+
+5. Populate the database with lesson data:
+   ```bash
+   npm run populate-lessons
+   ```
+
+6. Run the development server:
    ```bash
    npm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+7. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📝 Available Scripts
 
 - `npm run dev` - Start development server with Turbopack
 - `npm run build` - Build the application for production
 - `npm run start` - Start production server
+- `npm run test-mongo` - Test MongoDB connection
+- `npm run populate-lessons` - Populate MongoDB with lesson data
 
 ## 🎨 Adding More shadcn/ui Components
 
@@ -115,6 +136,35 @@ This project structure provides:
 3. **Maintainability**: Type-safe code with TypeScript
 4. **Design System**: Consistent UI components with shadcn/ui
 5. **Flexibility**: Easy to extend and customize
+6. **Data Persistence**: MongoDB integration for scalable data storage
+
+## 🗄️ MongoDB Integration
+
+This project includes MongoDB integration for storing lesson metadata and data:
+
+### Database Structure
+- **Collection**: `lessons`
+- **Document Structure**: Contains lesson metadata (title, description, difficulty, tags, etc.)
+- **CSV Files**: Stored in `lessons/` directory and loaded dynamically
+
+### API Endpoints
+- **`/api/lessons/[id]`**: Fetches lesson by ID from MongoDB and combines with CSV data
+
+### Response Format
+```json
+{
+  "lessonId": 1,
+  "title": "Greetings",
+  "description": "Learn common Palestinian greetings for daily interactions.",
+  "difficulty": "Beginner",
+  "tags": ["palestinian", "arabic", "greetings"],
+  "totalItems": 20,
+  "data": [...],
+  "unit": 1,
+  "order": 1,
+  "estimatedTime": "5 minutes"
+}
+```
 
 ## 📚 Learn More
 
@@ -122,6 +172,7 @@ This project structure provides:
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [shadcn/ui Documentation](https://ui.shadcn.com/)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [MongoDB Documentation](https://docs.mongodb.com/)
 
 ## 🤝 Contributing
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import Papa from 'papaparse';
+import { getCollection } from '@/lib/mongodb';
 
 export async function GET(
   request: NextRequest,
@@ -18,15 +19,31 @@ export async function GET(
       );
     }
 
-    // Construct the file path
-    const filePath = path.join(process.cwd(), 'lessons', `lesson${lessonId}_greetings.csv`);
+    // Get lessons collection from MongoDB
+    const lessonsCollection = await getCollection('lessons');
     
-    // Check if file exists
+    // Look up lesson metadata by ID from MongoDB
+    const lessonMetadata = await lessonsCollection.findOne({ 
+      id: parseInt(lessonId) 
+    });
+
+    if (!lessonMetadata) {
+      return NextResponse.json(
+        { error: `Lesson ${lessonId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    // Load the corresponding CSV file from lessons/
+    const csvFileName = lessonMetadata.csv;
+    const filePath = path.join(process.cwd(), 'lessons', csvFileName);
+    
+    // Check if CSV file exists
     try {
       await fs.access(filePath);
     } catch (error) {
       return NextResponse.json(
-        { error: `Lesson ${lessonId} not found.` },
+        { error: `CSV file for lesson ${lessonId} not found.` },
         { status: 404 }
       );
     }
@@ -54,12 +71,22 @@ export async function GET(
       );
     }
 
-    // Return the parsed JSON data
-    return NextResponse.json({
+    // Combine metadata + parsed CSV into one JSON response
+    const response = {
       lessonId: parseInt(lessonId),
+      title: lessonMetadata.title,
+      description: lessonMetadata.description,
+      difficulty: lessonMetadata.difficulty,
+      tags: lessonMetadata.tags,
       totalItems: result.data.length,
-      data: result.data
-    });
+      data: result.data,
+      // Include additional metadata
+      unit: lessonMetadata.unit,
+      order: lessonMetadata.order,
+      estimatedTime: lessonMetadata.estimatedTime
+    };
+
+    return NextResponse.json(response);
 
   } catch (error) {
     console.error('Error loading lesson:', error);

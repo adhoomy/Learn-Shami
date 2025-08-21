@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { findDocument, insertDocument } from "@/lib/db";
+import { getCollection } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
@@ -18,7 +18,8 @@ const handler = NextAuth({
           }
 
           // Check if user exists in MongoDB
-          const user = await findDocument("users", { email: credentials.email });
+          const usersCollection = await getCollection("users");
+          const user = await usersCollection.findOne({ email: credentials.email });
           
           if (user) {
             // User exists, verify password
@@ -44,7 +45,7 @@ const handler = NextAuth({
                 createdAt: new Date(),
               };
               
-              const result = await insertDocument("users", newUser);
+              const result = await usersCollection.insertOne(newUser);
               const userToReturn = {
                 id: result.insertedId.toString(),
                 email: newUser.email,
@@ -62,7 +63,7 @@ const handler = NextAuth({
                 createdAt: new Date(),
               };
               
-              const result = await insertDocument("users", newUser);
+              const result = await usersCollection.insertOne(newUser);
               const userToReturn = {
                 id: result.insertedId.toString(),
                 email: newUser.email,
@@ -94,7 +95,8 @@ const handler = NextAuth({
       // If token exists but is missing role, fetch it from the database
       if (token && !token.role && token.email) {
         try {
-          const userDoc = await findDocument("users", { email: token.email });
+          const usersCollection = await getCollection("users");
+          const userDoc = await usersCollection.findOne({ email: token.email });
           if (userDoc && userDoc.role) {
             token.role = userDoc.role;
           }

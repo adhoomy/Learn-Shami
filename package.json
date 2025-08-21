@@ -2,10 +2,13 @@
   "name": "learn-shami",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test-mongo": "node scripts/test-connection.js",
+    "populate-lessons": "node scripts/populate-lessons.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
@@ -16,6 +19,7 @@
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.1",
     "lucide-react": "^0.539.0",
     "mongodb": "^6.18.0",
     "next": "15.4.6",

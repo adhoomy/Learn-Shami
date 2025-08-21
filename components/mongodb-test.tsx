@@ -6,10 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default function MongoDBTest() {
   const testConnection = async () => {
     try {
-      const response = await fetch('/api/test-db');
+      const response = await fetch('/api/test-mongo');
       const data = await response.json();
       if (response.ok) {
-        alert('✅ MongoDB connected successfully!\n\nDatabase: ' + data.database + '\nCollections: ' + data.collections.length);
+        alert('✅ MongoDB connected successfully!\n\nMessage: ' + data.message + '\nLesson found: ' + data.lessonFound + '\nLesson count: ' + data.lessonCount);
       } else {
         alert('❌ MongoDB connection failed: ' + data.error);
       }

@@ -1,6 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import MongoDBTest from "@/components/mongodb-test";
-import MongoDBFunctionsTest from "@/components/mongodb-functions-test";
 import SignInForm from "@/components/auth/signin-form";
 import LessonLoader from "@/components/lesson-loader";
 
@@ -58,8 +57,7 @@ export default function Home() {
         {/* MongoDB Atlas Connection */}
         <MongoDBTest />
 
-        {/* MongoDB Functions Test */}
-        <MongoDBFunctionsTest />
+
 
         {/* Lesson Loader */}
         <Card className="mb-8">
