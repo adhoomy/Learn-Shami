@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "test-mongo": "node scripts/test-connection.js",
-    "populate-lessons": "node scripts/populate-lessons.js"
+    "populate-lessons": "node scripts/populate-lessons.js",
+    "setup-users": "node scripts/setup-users.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",

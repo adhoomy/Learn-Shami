@@ -1,9 +1,11 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getCollection } from "@/lib/mongodb";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -11,72 +13,36 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
         try {
-          if (!credentials?.email || !credentials?.password) {
+          const client = await clientPromise;
+          const db = client.db(process.env.MONGODB_DB || 'learn-shami');
+          const user = await db.collection('users').findOne({ 
+            email: credentials.email.toLowerCase() 
+          });
+
+          if (!user || !user.password) {
             return null;
           }
 
-          // Check if user exists in MongoDB
-          const usersCollection = await getCollection("users");
-          const user = await usersCollection.findOne({ email: credentials.email });
+          const isValidPassword = await bcrypt.compare(credentials.password, user.password);
           
-          if (user) {
-            // User exists, verify password
-            const isValidPassword = await bcrypt.compare(credentials.password, user.password);
-            if (isValidPassword) {
-              const userToReturn = {
-                id: user._id.toString(),
-                email: user.email,
-                name: user.name,
-                role: user.role,
-              };
-              return userToReturn;
-            }
-          } else {
-            // Create new user if credentials match demo accounts
-            if (credentials.email === "admin@example.com" && credentials.password === "password") {
-              const hashedPassword = await bcrypt.hash("password", 12);
-              const newUser = {
-                email: "admin@example.com",
-                name: "Admin User",
-                password: hashedPassword,
-                role: "admin",
-                createdAt: new Date(),
-              };
-              
-              const result = await usersCollection.insertOne(newUser);
-              const userToReturn = {
-                id: result.insertedId.toString(),
-                email: newUser.email,
-                name: newUser.name,
-                role: newUser.role,
-              };
-              return userToReturn;
-            } else if (credentials.email === "learner@example.com" && credentials.password === "password") {
-              const hashedPassword = await bcrypt.hash("password", 12);
-              const newUser = {
-                email: "learner@example.com",
-                name: "Demo Learner",
-                password: hashedPassword,
-                role: "learner",
-                createdAt: new Date(),
-              };
-              
-              const result = await usersCollection.insertOne(newUser);
-              const userToReturn = {
-                id: result.insertedId.toString(),
-                email: newUser.email,
-                name: newUser.name,
-                role: newUser.role,
-              };
-              return userToReturn;
-            }
+          if (!isValidPassword) {
+            return null;
           }
-          
-          return null;
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name || user.email,
+            role: user.role || 'user'
+          };
         } catch (error) {
-          console.error("Authorization error:", error);
+          console.error("Auth error:", error);
           return null;
         }
       }
@@ -84,27 +50,17 @@ const handler = NextAuth({
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
         token.role = user.role;
+        token.id = user.id;
       }
-      
-      // If token exists but is missing role, fetch it from the database
-      if (token && !token.role && token.email) {
-        try {
-          const usersCollection = await getCollection("users");
-          const userDoc = await usersCollection.findOne({ email: token.email });
-          if (userDoc && userDoc.role) {
-            token.role = userDoc.role;
-          }
-        } catch (error) {
-          console.error("Error fetching user role from database:", error);
-        }
-      }
-      
       return token;
     },
     async session({ session, token }) {
@@ -112,10 +68,14 @@ const handler = NextAuth({
         session.user.id = token.id as string;
         session.user.role = token.role as string;
       }
-      
       return session;
     },
   },
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export { handler as GET, handler as POST };

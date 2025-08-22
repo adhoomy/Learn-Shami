@@ -11,6 +11,8 @@ A modern Next.js project built with TypeScript, Tailwind CSS v4, and shadcn/ui c
 - **ESLint Disabled** - Faster development without linting overhead
 - **App Router** - Modern Next.js routing system
 - **Turbopack** - Fast bundler for development
+- **NextAuth.js** - Secure authentication with multiple providers
+- **MongoDB Integration** - Persistent user data and sessions
 
 ## 🛠️ Tech Stack
 
@@ -20,6 +22,7 @@ A modern Next.js project built with TypeScript, Tailwind CSS v4, and shadcn/ui c
 - **UI Components**: shadcn/ui (New York style)
 - **Icons**: Lucide React
 - **Database**: MongoDB
+- **Authentication**: NextAuth.js with MongoDB adapter
 - **Package Manager**: npm
 
 ## 📁 Project Structure
@@ -27,15 +30,27 @@ A modern Next.js project built with TypeScript, Tailwind CSS v4, and shadcn/ui c
 ```
 learn-shami/
 ├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes
+│   │   └── auth/          # NextAuth.js API routes
+│   ├── login/             # Login page
 │   ├── globals.css        # Global styles with Tailwind CSS
 │   ├── layout.tsx         # Root layout component
-│   └── page.tsx           # Home page
+│   └── page.tsx           # Home page (protected)
 ├── components/             # Reusable components
+│   ├── auth/              # Authentication components
+│   │   ├── protected-route.tsx  # Route protection wrapper
+│   │   ├── register-form.tsx    # User registration form
+│   │   └── user-header.tsx      # User info display
+│   ├── providers/         # Context providers
+│   │   └── session-provider.tsx # NextAuth session provider
 │   └── ui/                # shadcn/ui components
 │       ├── button.tsx     # Button component
 │       └── card.tsx       # Card component
 ├── lib/                    # Utility functions
+│   ├── mongodb.ts         # MongoDB connection utilities
 │   └── utils.ts           # shadcn/ui utilities
+├── scripts/                # Database setup scripts
+│   └── setup-users.js     # Initial user creation script
 ├── public/                 # Static assets
 ├── components.json         # shadcn/ui configuration
 ├── postcss.config.mjs      # PostCSS configuration for Tailwind CSS v4
@@ -69,6 +84,10 @@ learn-shami/
    # Create .env.local file
    MONGODB_URI=mongodb://localhost:27017/learn-shami
    MONGODB_DB=learn-shami
+   NEXTAUTH_SECRET=your-super-secret-key-here-at-least-32-characters
+   NEXTAUTH_URL=http://localhost:3000
+   
+
    ```
 
 4. Test MongoDB connection:
@@ -76,17 +95,22 @@ learn-shami/
    npm run test-mongo
    ```
 
-5. Populate the database with lesson data:
+5. Set up initial users:
+   ```bash
+   npm run setup-users
+   ```
+
+6. Populate the database with lesson data:
    ```bash
    npm run populate-lessons
    ```
 
-6. Run the development server:
+7. Run the development server:
    ```bash
    npm run dev
    ```
 
-7. Open [http://localhost:3000](http://localhost:3000) in your browser.
+8. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📝 Available Scripts
 
@@ -94,6 +118,7 @@ learn-shami/
 - `npm run build` - Build the application for production
 - `npm run start` - Start production server
 - `npm run test-mongo` - Test MongoDB connection
+- `npm run setup-users` - Set up initial users in MongoDB
 - `npm run populate-lessons` - Populate MongoDB with lesson data
 
 ## 🎨 Adding More shadcn/ui Components
@@ -137,6 +162,28 @@ This project structure provides:
 4. **Design System**: Consistent UI components with shadcn/ui
 5. **Flexibility**: Easy to extend and customize
 6. **Data Persistence**: MongoDB integration for scalable data storage
+
+## 🔐 Authentication
+
+This project includes NextAuth.js authentication with MongoDB integration:
+
+### Features
+- **Credentials Provider**: Email + password authentication
+- **User Registration**: Self-service account creation for learners
+- **MongoDB Adapter**: Persistent user sessions and data
+- **JWT Sessions**: Secure session management with cookies
+- **Protected Routes**: Automatic redirect to login for unauthenticated users
+
+### User Management
+- Users are stored in the `users` collection
+- Passwords are hashed using bcrypt
+- Role-based access control (admin, learner)
+- Self-service registration for new learners
+- Demo accounts available for testing
+
+### Demo Accounts
+- **Admin**: admin@example.com / password
+- **Learner**: learner@example.com / password
 
 ## 🗄️ MongoDB Integration
 
