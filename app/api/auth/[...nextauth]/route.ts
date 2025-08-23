@@ -5,7 +5,7 @@ import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(clientPromise) as any,
   providers: [
     CredentialsProvider({
       name: "credentials",

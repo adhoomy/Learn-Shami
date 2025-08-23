@@ -1,8 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import MongoDBTest from "@/components/mongodb-test";
-import LessonLoader from "@/components/lesson-loader";
 import ProtectedRoute from "@/components/auth/protected-route";
 import UserHeader from "@/components/auth/user-header";
+import LessonDashboard from "@/components/lesson-dashboard";
 
 export default function Home() {
   return (
@@ -18,9 +18,12 @@ export default function Home() {
               Welcome to Learn Shami
             </h1>
             <p className="text-xl text-slate-600 dark:text-slate-400">
-              A Next.js project with TypeScript, Tailwind CSS, and shadcn/ui
+              Your dashboard for learning Palestinian Arabic
             </p>
           </div>
+
+          {/* Lesson Dashboard */}
+          <LessonDashboard />
 
           {/* Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
@@ -59,23 +62,6 @@ export default function Home() {
 
           {/* MongoDB Atlas Connection */}
           <MongoDBTest />
-
-          {/* Lesson Loader */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-slate-100">
-                Palestinian Arabic Lessons
-              </CardTitle>
-              <CardDescription>
-                Load and display CSV lesson files
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <LessonLoader />
-            </CardContent>
-          </Card>
-
-
 
           {/* Project Info */}
           <Card>

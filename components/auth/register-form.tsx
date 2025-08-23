@@ -58,6 +58,14 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
       if (response.ok) {
         setMessage('Account created successfully! Signing you in...');
         
+        // Clear form
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+        
         // Automatically sign in the user
         const signInResult = await signIn("credentials", {
           email: formData.email,
