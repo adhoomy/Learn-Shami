@@ -191,7 +191,9 @@ export default function LessonViewer({ lessonId }: LessonViewerProps) {
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
                 <span>Progress</span>
-                <span>{progress.completedItems.length} / {lesson.totalItems} items</span>
+                <span>
+                  {progress.completedItems.length} / {lesson.totalItems} items complete ({getCompletionPercentage()}%)
+                </span>
               </div>
               <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                 <div 

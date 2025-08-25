@@ -117,6 +117,9 @@ export default function LessonDashboard() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                       Lesson {lesson.lessonId}: {lesson.title}
+                      {progress && (
+                        <span className="ml-2 text-sm text-slate-500 dark:text-slate-400">— {completionPercentage}% complete</span>
+                      )}
                     </h3>
                     {progress && (
                       <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">
@@ -134,7 +137,7 @@ export default function LessonDashboard() {
                     <div className="mb-3">
                       <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
                         <span>Progress</span>
-                        <span>{progress.completedItems.length} / {lesson.totalItems} items</span>
+                        <span>{progress.completedItems.length} / {lesson.totalItems} items complete ({completionPercentage}%)</span>
                       </div>
                       <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                         <div 
