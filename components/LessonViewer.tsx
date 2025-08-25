@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 interface LessonData {
   lessonId: number;
@@ -18,15 +19,24 @@ interface LessonData {
   estimatedTime: string;
 }
 
+interface ProgressData {
+  userId: string;
+  lessonId: number;
+  completedItems: string[];
+  updatedAt: string;
+}
+
 interface LessonViewerProps {
   lessonId: string;
 }
 
 export default function LessonViewer({ lessonId }: LessonViewerProps) {
   const [lesson, setLesson] = useState<LessonData | null>(null);
+  const [progress, setProgress] = useState<ProgressData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -48,6 +58,57 @@ export default function LessonViewer({ lessonId }: LessonViewerProps) {
 
     fetchLesson();
   }, [lessonId]);
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      if (!session?.user?.email) return;
+      
+      try {
+        const response = await fetch(`/api/progress/${lessonId}`);
+        if (response.ok) {
+          const progressData = await response.json();
+          setProgress(progressData);
+        }
+      } catch (err) {
+        console.error('Failed to fetch progress:', err);
+      }
+    };
+
+    fetchProgress();
+  }, [lessonId, session?.user?.email]);
+
+  const handleItemComplete = async (itemId: string) => {
+    if (!session?.user?.email || !lesson) return;
+
+    try {
+      const response = await fetch('/api/progress', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lessonId: lesson.lessonId,
+          itemId: itemId
+        }),
+      });
+
+      if (response.ok) {
+        const updatedProgress = await response.json();
+        setProgress(updatedProgress);
+      }
+    } catch (err) {
+      console.error('Failed to update progress:', err);
+    }
+  };
+
+  const isItemCompleted = (itemId: string) => {
+    return progress?.completedItems.includes(itemId) || false;
+  };
+
+  const getCompletionPercentage = () => {
+    if (!lesson || !progress) return 0;
+    return Math.round((progress.completedItems.length / lesson.totalItems) * 100);
+  };
 
   if (loading) {
     return (
@@ -100,6 +161,11 @@ export default function LessonViewer({ lessonId }: LessonViewerProps) {
               <p><strong>Difficulty:</strong> {lesson.difficulty}</p>
               <p><strong>Unit:</strong> {lesson.unit}</p>
               <p><strong>Time:</strong> {lesson.estimatedTime}</p>
+              {progress && (
+                <p className="text-green-600 dark:text-green-400 font-semibold">
+                  <strong>Progress:</strong> {getCompletionPercentage()}% Complete
+                </p>
+              )}
             </div>
           </div>
           
@@ -118,39 +184,91 @@ export default function LessonViewer({ lessonId }: LessonViewerProps) {
         </CardHeader>
       </Card>
 
+      {/* Progress Bar */}
+      {progress && (
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
+                <span>Progress</span>
+                <span>{progress.completedItems.length} / {lesson.totalItems} items</span>
+              </div>
+              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                <div 
+                  className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${getCompletionPercentage()}%` }}
+                ></div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Lesson Content Cards */}
       <div className="space-y-4">
-        {lesson.data.map((item, index) => (
-          <Card 
-            key={index} 
-            className="p-6 border border-slate-200 dark:border-slate-700 rounded-lg hover:shadow-md hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200"
-          >
-            <CardContent className="p-0">
-              <div className="space-y-3">
-                                 {/* Arabic Text */}
-                 {item.arabic && (
-                   <div className="text-xl font-bold text-center text-slate-900 dark:text-slate-100">
-                     {item.arabic}
-                   </div>
-                 )}
-                
-                {/* Transliteration */}
-                {item.transliteration && (
-                  <div className="text-sm italic text-slate-600 dark:text-slate-400 text-center">
-                    {item.transliteration}
+        {lesson.data.map((item, index) => {
+          const itemId = `item_${lessonId}_${index}`;
+          const completed = isItemCompleted(itemId);
+          
+          return (
+            <Card 
+              key={index} 
+              className={`p-6 border rounded-lg hover:shadow-md transition-all duration-200 ${
+                completed 
+                  ? 'border-green-500 bg-green-50 dark:bg-green-900/20' 
+                  : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+            >
+              <CardContent className="p-0">
+                <div className="space-y-3">
+                  {/* Arabic Text */}
+                  {item.arabic && (
+                    <div className="text-xl font-bold text-center text-slate-900 dark:text-slate-100">
+                      {item.arabic}
+                    </div>
+                  )}
+                  
+                  {/* Transliteration */}
+                  {item.transliteration && (
+                    <div className="text-sm italic text-slate-600 dark:text-slate-400 text-center">
+                      {item.transliteration}
+                    </div>
+                  )}
+                  
+                  {/* English Text */}
+                  {item.english && (
+                    <div className="text-base text-slate-700 dark:text-slate-300 text-center">
+                      {item.english}
+                    </div>
+                  )}
+                  
+                  {/* Progress Checkbox */}
+                  <div className="flex justify-center pt-2">
+                    <Button
+                      variant={completed ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handleItemComplete(itemId)}
+                      className={`${
+                        completed 
+                          ? 'bg-green-600 hover:bg-green-700 text-white' 
+                          : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {completed ? (
+                        <>
+                          <span className="mr-2">✓</span>
+                          Learned
+                        </>
+                      ) : (
+                        'Mark as Learned'
+                      )}
+                    </Button>
                   </div>
-                )}
-                
-                {/* English Text */}
-                {item.english && (
-                  <div className="text-base text-slate-700 dark:text-slate-300 text-center">
-                    {item.english}
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Navigation */}

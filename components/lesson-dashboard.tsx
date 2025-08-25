@@ -18,36 +18,65 @@ interface LessonData {
   estimatedTime: string;
 }
 
+interface ProgressData {
+  userId: string;
+  lessonId: number;
+  completedItems: string[];
+  updatedAt: string;
+}
+
 export default function LessonDashboard() {
   const { data: session } = useSession();
   const router = useRouter();
   const [lessons, setLessons] = useState<LessonData[]>([]);
+  const [progressData, setProgressData] = useState<ProgressData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchLessons = async () => {
+    const fetchLessonsAndProgress = async () => {
       try {
-        // For now, we'll fetch the first lesson
-        // In the future, this could fetch all available lessons
-        const response = await fetch('/api/lessons/1');
-        if (response.ok) {
-          const lessonData = await response.json();
+        // Fetch lesson data
+        const lessonResponse = await fetch('/api/lessons/1');
+        if (lessonResponse.ok) {
+          const lessonData = await lessonResponse.json();
           setLessons([lessonData]);
         }
+
+        // Fetch progress for all lessons (for now just lesson 1)
+        if (session?.user?.email) {
+          const progressResponse = await fetch('/api/progress/1');
+          if (progressResponse.ok) {
+            const progress = await progressResponse.json();
+            setProgressData([progress]);
+          }
+        }
       } catch (error) {
-        console.error('Failed to fetch lessons:', error);
+        console.error('Failed to fetch lessons or progress:', error);
       } finally {
         setLoading(false);
       }
     };
 
     if (session) {
-      fetchLessons();
+      fetchLessonsAndProgress();
     }
   }, [session]);
 
   const goToLesson = (lessonId: number) => {
     router.push(`/lessons/${lessonId}`);
+  };
+
+  const getProgressForLesson = (lessonId: number) => {
+    const progress = progressData.find(p => p.lessonId === lessonId);
+    return progress || null;
+  };
+
+  const getCompletionPercentage = (lessonId: number) => {
+    const progress = getProgressForLesson(lessonId);
+    const lesson = lessons.find(l => l.lessonId === lessonId);
+    
+    if (!progress || !lesson) return 0;
+    return Math.round((progress.completedItems.length / lesson.totalItems) * 100);
   };
 
   if (loading) {
@@ -75,49 +104,82 @@ export default function LessonDashboard() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {lessons.map((lesson) => (
-            <div 
-              key={lesson.lessonId}
-              className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-            >
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
-                  Lesson {lesson.lessonId}: {lesson.title}
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-2">
-                  {lesson.description}
-                </p>
-                <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                    {lesson.difficulty}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                    {lesson.estimatedTime}
-                  </span>
-                </div>
-                {lesson.tags && lesson.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {lesson.tags.map((tag, index) => (
-                      <span 
-                        key={index}
-                        className="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <Button 
-                onClick={() => goToLesson(lesson.lessonId)}
-                className="ml-4"
+          {lessons.map((lesson) => {
+            const progress = getProgressForLesson(lesson.lessonId);
+            const completionPercentage = getCompletionPercentage(lesson.lessonId);
+            
+            return (
+              <div 
+                key={lesson.lessonId}
+                className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
               >
-                Start Lesson
-              </Button>
-            </div>
-          ))}
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                      Lesson {lesson.lessonId}: {lesson.title}
+                    </h3>
+                    {progress && (
+                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">
+                        {completionPercentage}% Complete
+                      </span>
+                    )}
+                  </div>
+                  
+                  <p className="text-slate-600 dark:text-slate-400 mb-2">
+                    {lesson.description}
+                  </p>
+                  
+                  {/* Progress Bar */}
+                  {progress && (
+                    <div className="mb-3">
+                      <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+                        <span>Progress</span>
+                        <span>{progress.completedItems.length} / {lesson.totalItems} items</span>
+                      </div>
+                      <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                        <div 
+                          className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${completionPercentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+                    <span className="flex items-center gap-1">
+                      <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                      {lesson.difficulty}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      {lesson.estimatedTime}
+                    </span>
+                  </div>
+                  
+                  {lesson.tags && lesson.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {lesson.tags.map((tag, index) => (
+                        <span 
+                          key={index}
+                          className="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-xs"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                <Button 
+                  onClick={() => goToLesson(lesson.lessonId)}
+                  className="ml-4"
+                  variant={progress && completionPercentage > 0 ? "default" : "outline"}
+                >
+                  {progress && completionPercentage > 0 ? 'Continue' : 'Start'} Lesson
+                </Button>
+              </div>
+            );
+          })}
           
           {lessons.length === 0 && (
             <div className="text-center py-8 text-slate-500 dark:text-slate-400">
