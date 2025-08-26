@@ -13,8 +13,7 @@
     "setup-progress": "node scripts/setup-progress.js",
     "test-progress": "node scripts/test-progress.js",
     "generate-audio": "node scripts/generate-audio.js",
-    "generate-wav-audio": "node scripts/generate-wav-audio.js",
-    "test-audio": "node scripts/test-audio-generation.js"
+    "generate-wav-audio": "node scripts/generate-wav-audio.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
