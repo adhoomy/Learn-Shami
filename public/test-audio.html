@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Test</title>
+</head>
+<body>
+    <h1>Audio Test Page</h1>
+    
+    <h2>Test 1: HTML5 Audio Element (MP3)</h2>
+    <audio controls>
+        <source src="/audio/test_single.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <h2>Test 2: HTML5 Audio Element (WAV)</h2>
+    <audio controls>
+        <source src="/audio/test_wav.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <h3>JavaScript Tests:</h3>
+    <button onclick="playMp3()">Play MP3 (JavaScript)</button>
+    <button onclick="playWav()">Play WAV (JavaScript)</button>
+    <button onclick="stopAudio()">Stop Audio</button>
+    
+    <h3>Direct File Links:</h3>
+    <a href="/audio/test_single.mp3" target="_blank">Open MP3 in New Tab</a><br>
+    <a href="/audio/test_wav.wav" target="_blank">Open WAV in New Tab</a>
+    
+    <script>
+        let currentAudio = null;
+        
+        function playMp3() {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            
+            currentAudio = new Audio('/audio/test_single.mp3');
+            currentAudio.play().then(() => {
+                console.log('MP3 started playing');
+            }).catch(error => {
+                console.error('Failed to play MP3:', error);
+            });
+        }
+        
+        function playWav() {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            
+            currentAudio = new Audio('/audio/test_wav.wav');
+            currentAudio.play().then(() => {
+                console.log('WAV started playing');
+            }).catch(error => {
+                console.error('Failed to play WAV:', error);
+            });
+        }
+        
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+        }
+    </script>
+</body>
+</html>

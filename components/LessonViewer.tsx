@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { AudioPlayer } from '@/components/ui/audio-player';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -223,6 +224,17 @@ export default function LessonViewer({ lessonId }: LessonViewerProps) {
             >
               <CardContent className="p-0">
                 <div className="space-y-3">
+                  {/* Audio Player */}
+                  {item.audioUrl && (
+                    <div className="flex justify-center">
+                      <AudioPlayer 
+                        audioUrl={`/audio/${item.audioUrl}`} 
+                        size="sm"
+                        className="mb-2"
+                      />
+                    </div>
+                  )}
+                  
                   {/* Arabic Text */}
                   {item.arabic && (
                     <div className="text-xl font-bold text-center text-slate-900 dark:text-slate-100">
