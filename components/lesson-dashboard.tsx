@@ -31,6 +31,7 @@ export default function LessonDashboard() {
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [progressData, setProgressData] = useState<ProgressData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [dueCount, setDueCount] = useState(0);
 
   useEffect(() => {
     const fetchLessonsAndProgress = async () => {
@@ -49,6 +50,12 @@ export default function LessonDashboard() {
             const progress = await progressResponse.json();
             setProgressData([progress]);
           }
+        }
+        // Fetch due reviews count
+        const reviewRes = await fetch('/api/review');
+        if (reviewRes.ok) {
+          const due = await reviewRes.json();
+          setDueCount(due.length);
         }
       } catch (error) {
         console.error('Failed to fetch lessons or progress:', error);
@@ -104,6 +111,12 @@ export default function LessonDashboard() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <div className="text-slate-700 dark:text-slate-300">
+              <span className="font-medium">{dueCount}</span> items due for review today
+            </div>
+            <Button variant="outline" onClick={() => router.push('/review')}>Review Now</Button>
+          </div>
           {lessons.map((lesson) => {
             const progress = getProgressForLesson(lesson.lessonId);
             const completionPercentage = getCompletionPercentage(lesson.lessonId);

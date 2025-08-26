@@ -54,6 +54,22 @@ export async function POST(request: NextRequest) {
           { returnDocument: 'after' }
         );
         
+        // Initialize spaced-repetition review record for this item if missing
+        const reviewsCollection = await getCollection('reviews');
+        const existingReview = await reviewsCollection.findOne({ userId: session.user.email, itemId });
+        if (!existingReview) {
+          await reviewsCollection.insertOne({
+            userId: session.user.email,
+            lessonId: lessonId,
+            itemId,
+            nextReview: new Date(),
+            interval: 1,
+            easeFactor: 2.5,
+            repetitions: 0,
+            updatedAt: new Date()
+          });
+        }
+
         return NextResponse.json(updatedProgress);
       } else {
         // Item already completed, return existing progress
@@ -71,6 +87,22 @@ export async function POST(request: NextRequest) {
       const result = await progressCollection.insertOne(newProgress);
       const createdProgress = await progressCollection.findOne({ _id: result.insertedId });
       
+      // Initialize spaced-repetition review record for this first item
+      const reviewsCollection = await getCollection('reviews');
+      const existingReview = await reviewsCollection.findOne({ userId: session.user.email, itemId });
+      if (!existingReview) {
+        await reviewsCollection.insertOne({
+          userId: session.user.email,
+          lessonId: lessonId,
+          itemId,
+          nextReview: new Date(),
+          interval: 1,
+          easeFactor: 2.5,
+          repetitions: 0,
+          updatedAt: new Date()
+        });
+      }
+
       return NextResponse.json(createdProgress);
     }
 
