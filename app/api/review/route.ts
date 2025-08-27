@@ -94,6 +94,34 @@ export async function POST(request: NextRequest) {
       { returnDocument: 'after' }
     );
 
+    // Update user streak stats
+    const statsCol = await getCollection('user_stats');
+
+    const today = new Date();
+    const utcToday = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+
+    const stats = await statsCol.findOne({ userId: session.user.email });
+    let newStreak = 1;
+    let lastReviewDate: Date | null = utcToday;
+    if (stats?.lastReviewDate) {
+      const last = new Date(stats.lastReviewDate);
+      const lastUtc = new Date(Date.UTC(last.getUTCFullYear(), last.getUTCMonth(), last.getUTCDate()));
+      const diffDays = Math.round((utcToday.getTime() - lastUtc.getTime()) / (24 * 60 * 60 * 1000));
+      if (diffDays === 0) {
+        newStreak = stats.streak ?? 1; // already reviewed today; keep streak
+      } else if (diffDays === 1) {
+        newStreak = (stats.streak ?? 0) + 1;
+      } else {
+        newStreak = 1; // reset and start new streak today
+      }
+    }
+
+    await statsCol.updateOne(
+      { userId: session.user.email },
+      { $set: { userId: session.user.email, lastReviewDate: utcToday, streak: newStreak } },
+      { upsert: true }
+    );
+
     return NextResponse.json(updated);
   } catch (error) {
     console.error('Error updating review:', error);

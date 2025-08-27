@@ -25,6 +25,15 @@ interface ProgressData {
   updatedAt: string;
 }
 
+type StatsResponse = {
+  totalLearned: number;
+  dueToday: number;
+  streak: number;
+  lastReviewDate: string | null;
+  reviewsDoneToday: number;
+  perLessonDue: { lessonId: number; dueCount: number }[];
+};
+
 export default function LessonDashboard() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -32,6 +41,7 @@ export default function LessonDashboard() {
   const [progressData, setProgressData] = useState<ProgressData[]>([]);
   const [loading, setLoading] = useState(true);
   const [dueCount, setDueCount] = useState(0);
+  const [stats, setStats] = useState<StatsResponse | null>(null);
 
   useEffect(() => {
     const fetchLessonsAndProgress = async () => {
@@ -51,11 +61,12 @@ export default function LessonDashboard() {
             setProgressData([progress]);
           }
         }
-        // Fetch due reviews count
-        const reviewRes = await fetch('/api/review');
-        if (reviewRes.ok) {
-          const due = await reviewRes.json();
-          setDueCount(due.length);
+        // Fetch stats (includes dueToday, streak, totals, per-lesson due)
+        const statsRes = await fetch('/api/stats');
+        if (statsRes.ok) {
+          const s = await statsRes.json();
+          setStats(s);
+          setDueCount(s.dueToday ?? 0);
         }
       } catch (error) {
         console.error('Failed to fetch lessons or progress:', error);
@@ -86,6 +97,12 @@ export default function LessonDashboard() {
     return Math.round((progress.completedItems.length / lesson.totalItems) * 100);
   };
 
+  const getDueForLesson = (lessonId: number) => {
+    if (!stats?.perLessonDue) return 0;
+    const entry = stats.perLessonDue.find(x => x.lessonId === lessonId);
+    return entry?.dueCount ?? 0;
+  };
+
   if (loading) {
     return (
       <Card className="mb-8">
@@ -111,6 +128,23 @@ export default function LessonDashboard() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          {/* Stats Summary */}
+          {stats && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+                <div className="text-sm text-slate-500 dark:text-slate-400">📚 Items Learned</div>
+                <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.totalLearned}</div>
+              </div>
+              <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+                <div className="text-sm text-slate-500 dark:text-slate-400">⏳ Reviews Due Today</div>
+                <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.dueToday}</div>
+              </div>
+              <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+                <div className="text-sm text-slate-500 dark:text-slate-400">🔥 Streak</div>
+                <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.streak} days</div>
+              </div>
+            </div>
+          )}
           <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
             <div className="text-slate-700 dark:text-slate-300">
               <span className="font-medium">{dueCount}</span> items due for review today
@@ -120,6 +154,7 @@ export default function LessonDashboard() {
           {lessons.map((lesson) => {
             const progress = getProgressForLesson(lesson.lessonId);
             const completionPercentage = getCompletionPercentage(lesson.lessonId);
+            const lessonDue = getDueForLesson(lesson.lessonId);
             
             return (
               <div 
@@ -134,6 +169,11 @@ export default function LessonDashboard() {
                         <span className="ml-2 text-sm text-slate-500 dark:text-slate-400">— {completionPercentage}% complete</span>
                       )}
                     </h3>
+                    {lessonDue > 0 && (
+                      <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full">
+                        {lessonDue} due
+                      </span>
+                    )}
                     {progress && (
                       <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">
                         {completionPercentage}% Complete
