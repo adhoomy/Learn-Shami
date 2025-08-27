@@ -23,37 +23,30 @@ async function setupUsers() {
     const db = client.db(dbName);
     const usersCollection = db.collection('users');
     
-    // Check if users already exist
-    const existingUsers = await usersCollection.find({}).toArray();
-    
-    if (existingUsers.length > 0) {
-      console.log('Users already exist in database');
-      console.log('Existing users:', existingUsers.map(u => ({ email: u.email, role: u.role })));
-      return;
-    }
-    
-    // Create initial users
+    // Upsert demo and admin users
     const users = [
       {
         email: 'admin@example.com',
         name: 'Admin User',
         password: await bcrypt.hash('password', 12),
         role: 'admin',
-        createdAt: new Date(),
-        updatedAt: new Date()
       },
       {
-        email: 'learner@example.com',
+        email: 'demo@email.com',
         name: 'Demo Learner',
-        password: await bcrypt.hash('password', 12),
+        password: await bcrypt.hash('demo123', 12),
         role: 'learner',
-        createdAt: new Date(),
-        updatedAt: new Date()
       }
     ];
-    
-    const result = await usersCollection.insertMany(users);
-    console.log(`Created ${result.insertedCount} users:`, result.insertedIds);
+
+    for (const u of users) {
+      await usersCollection.updateOne(
+        { email: u.email },
+        { $set: { ...u, createdAt: new Date(), updatedAt: new Date() } },
+        { upsert: true }
+      );
+    }
+    console.log('✅ Upserted users:', users.map(u => u.email));
     
     // Create indexes for better performance
     await usersCollection.createIndex({ email: 1 }, { unique: true });

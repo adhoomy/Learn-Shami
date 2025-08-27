@@ -22,27 +22,59 @@ async function setupProgressCollection() {
     const db = client.db(process.env.MONGODB_DB || 'learn-shami');
     console.log(`✅ Database: ${db.databaseName}`);
     
-    // Create progress collection
+    // Create collections
     const progressCollection = db.collection('progress');
+    const reviewsCollection = db.collection('reviews');
+    const statsCollection = db.collection('user_stats');
     
     // Create indexes for better performance
     await progressCollection.createIndex({ userId: 1, lessonId: 1 }, { unique: true });
     await progressCollection.createIndex({ userId: 1 });
     await progressCollection.createIndex({ lessonId: 1 });
+    await reviewsCollection.createIndex({ userId: 1, itemId: 1 }, { unique: true });
+    await reviewsCollection.createIndex({ userId: 1, nextReview: 1 });
+    await statsCollection.createIndex({ userId: 1 }, { unique: true });
     
-    console.log('✅ Progress collection setup complete');
+    console.log('✅ Collections setup complete');
     console.log('✅ Indexes created:');
-    console.log('  - userId + lessonId (unique compound index)');
-    console.log('  - userId');
-    console.log('  - lessonId');
+    console.log('  - progress: userId + lessonId (unique), userId, lessonId');
+    console.log('  - reviews: userId + itemId (unique), userId + nextReview');
+    console.log('  - user_stats: userId (unique)');
     
     // Show collection stats
     const stats = await db.stats();
     console.log(`✅ Database: ${stats.db}`);
     console.log(`✅ Collections: ${stats.collections}`);
     
-    console.log('\n🎉 Progress collection is ready!');
-    console.log('You can now test it with: npm run test-progress');
+    // Seed demo data
+    console.log('\n🧪 Seeding demo data...');
+    const demoUser = 'demo@email.com';
+    const lessonId = 1;
+    const now = new Date();
+    const demoItems = Array.from({ length: 10 }).map((_, i) => ({
+      userId: demoUser,
+      lessonId,
+      itemId: `item_${lessonId}_${i}`,
+      nextReview: new Date(now.getTime() + (i % 3 === 0 ? -1 : 0) * 24*60*60*1000),
+      interval: i < 2 ? 1 : 3,
+      easeFactor: 2.5,
+      repetitions: i % 2,
+      updatedAt: now,
+    }));
+    await reviewsCollection.deleteMany({ userId: demoUser });
+    if (demoItems.length) await reviewsCollection.insertMany(demoItems);
+    await progressCollection.updateOne(
+      { userId: demoUser, lessonId },
+      { $set: { userId: demoUser, lessonId, completedItems: demoItems.slice(0,6).map((_, i) => `item_${lessonId}_${i}`), updatedAt: now } },
+      { upsert: true }
+    );
+    await statsCollection.updateOne(
+      { userId: demoUser },
+      { $set: { userId: demoUser, streak: 3, lastReviewDate: now } },
+      { upsert: true }
+    );
+    
+    console.log('\n🎉 Progress collections are ready and demo data seeded!');
     
   } catch (error) {
     console.error('❌ Error setting up progress collection:', error.message);

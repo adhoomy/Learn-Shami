@@ -109,7 +109,7 @@ export default function LessonDashboard() {
         <CardContent className="pt-6">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 dark:border-slate-100 mx-auto mb-4"></div>
-            <p className="text-slate-600 dark:text-slate-400">Loading lessons...</p>
+            <p className="text-slate-600 dark:text-slate-400">Loading dashboard...</p>
           </div>
         </CardContent>
       </Card>
@@ -129,7 +129,7 @@ export default function LessonDashboard() {
       <CardContent>
         <div className="space-y-4">
           {/* Stats Summary */}
-          {stats && (
+          {stats ? (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
                 <div className="text-sm text-slate-500 dark:text-slate-400">📚 Items Learned</div>
@@ -143,6 +143,15 @@ export default function LessonDashboard() {
                 <div className="text-sm text-slate-500 dark:text-slate-400">🔥 Streak</div>
                 <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.streak} days</div>
               </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {['Items Learned','Reviews Due Today','Streak'].map((label, i) => (
+                <div key={i} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+                  <div className="text-sm text-slate-500 dark:text-slate-400">{label}</div>
+                  <div className="h-7 mt-1 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                </div>
+              ))}
             </div>
           )}
           <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg">

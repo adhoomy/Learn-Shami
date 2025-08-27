@@ -1,6 +1,6 @@
-# Learn Shami
+# ShamiLearn
 
-A modern Next.js project built with TypeScript, Tailwind CSS v4, and shadcn/ui components.
+Fullstack app to learn Palestinian Arabic with SM-2 spaced repetition.
 
 ## 🚀 Features
 
@@ -11,12 +11,16 @@ A modern Next.js project built with TypeScript, Tailwind CSS v4, and shadcn/ui c
 - **ESLint Disabled** - Faster development without linting overhead
 - **App Router** - Modern Next.js routing system
 - **Turbopack** - Fast bundler for development
-- **NextAuth.js** - Secure authentication with multiple providers
+- **Lessons with flashcards, audio, and quizzes**
+- **Progress tracking + streaks**
+- **Real SM-2 spaced repetition algorithm**
+- **Auth system with register/login**
+- **NextAuth.js** - Secure authentication with MongoDB adapter
 - **MongoDB Integration** - Persistent user data and sessions
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15.4.6
+- **Framework**: Next.js 15
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS v4
 - **UI Components**: shadcn/ui (New York style)
@@ -95,12 +99,12 @@ learn-shami/
    npm run test-mongo
    ```
 
-5. Set up initial users:
+5. Set up initial users (includes demo user):
    ```bash
    npm run setup-users
    ```
 
-6. Populate the database with lesson data:
+6. Populate the database with lesson metadata (Lesson 1):
    ```bash
    npm run populate-lessons
    ```
@@ -120,6 +124,22 @@ learn-shami/
 - `npm run test-mongo` - Test MongoDB connection
 - `npm run setup-users` - Set up initial users in MongoDB
 - `npm run populate-lessons` - Populate MongoDB with lesson data
+- `npm run seed-lessons` - Seed Lesson 1 metadata from JSON
+- `npm run setup-progress` - Create indexes and seed demo data (optional)
+
+## 🔑 Demo User
+
+- Email: `demo@email.com`
+- Password: `demo123`
+
+Log in to see sample streaks/stats and due reviews on the dashboard.
+
+## 🖼️ Screenshots
+
+Add screenshots/GIFs here showcasing:
+- Dashboard with stats/streaks
+- Lesson viewer with audio and progress
+- Review flow (SM-2)
 
 ## 🎨 Adding More shadcn/ui Components
 
