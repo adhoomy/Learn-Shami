@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import AuthSessionProvider from "@/components/providers/session-provider";
+import { SessionProvider } from "@/components/providers/session-provider";
+import Navbar from "@/components/ui/navbar";
+import Footer from "@/components/ui/footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ShamiLearn",
-  description: "Learn Palestinian Arabic with SM-2 spaced repetition",
+  title: "ShamiLearn - Master Palestinian Arabic",
+  description: "Learn the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.",
 };
 
 export default function RootLayout({
@@ -25,21 +19,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AuthSessionProvider>
-          <header className="sticky top-0 z-10 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur">
-            <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-md bg-gradient-to-br from-green-500 to-blue-600" />
-                <span className="font-semibold text-slate-900 dark:text-slate-100">ShamiLearn</span>
-              </div>
-            </div>
-          </header>
-          {children}
-        </AuthSessionProvider>
+      <body className={inter.className}>
+        <SessionProvider>
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );

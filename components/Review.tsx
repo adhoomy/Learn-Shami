@@ -1,131 +1,210 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Play, Volume2, CheckCircle, XCircle, RotateCcw, TrendingUp } from "lucide-react";
+import { useAudio } from "@/lib/useAudio";
 
-interface ReviewDoc {
-  userId: string;
-  lessonId: number;
-  itemId: string;
-  nextReview: string;
-  interval: number;
-  easeFactor: number;
-  repetitions: number;
-  updatedAt: string;
+interface ReviewProps {
+  lessonId: string;
+  items: any[];
 }
 
-interface LessonItem {
-  arabic?: string | null;
-  english?: string | null;
-}
+export default function Review({ lessonId, items }: ReviewProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard' | null>(null);
+  const [completed, setCompleted] = useState(0);
+  const { playAudio, isPlaying } = useAudio();
 
-interface LessonResponse {
-  lessonId: number;
-  data: LessonItem[];
-}
+  const currentItem = items[currentIndex];
+  const isLastItem = currentIndex === items.length - 1;
 
-export default function Review({ lessonId }: { lessonId: string }) {
-  const [due, setDue] = useState<ReviewDoc[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [index, setIndex] = useState(0);
-  const [lesson, setLesson] = useState<LessonResponse | null>(null);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const [r, l] = await Promise.all([
-          fetch('/api/review'),
-          fetch(`/api/lessons/${lessonId}`),
-        ]);
-        if (!r.ok) throw new Error('Failed to load due reviews');
-        if (!l.ok) throw new Error('Failed to load lesson');
-        const dueItems: ReviewDoc[] = await r.json();
-        const lessonData: LessonResponse = await l.json();
-        setDue(dueItems.filter((d) => d.lessonId === Number(lessonId)));
-        setLesson(lessonData);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : 'Failed to load review data');
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, [lessonId]);
-
-  const current = due[index];
-  const itemData = useMemo(() => {
-    if (!current || !lesson) return null;
-    const [, , idxStr] = current.itemId.split('_');
-    const i = Number(idxStr);
-    return lesson.data[i];
-  }, [current, lesson]);
-
-  const grade = async (result: 'correct' | 'incorrect') => {
-    if (!current) return;
-    try {
-      // Map to SM-2 numeric grades: Correct -> 5 (perfect), Incorrect -> 2 (fail)
-      const numeric = result === 'correct' ? 5 : 2;
-      await fetch('/api/review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ itemId: current.itemId, grade: numeric }),
-      });
-    } catch {}
-    if (index + 1 < due.length) setIndex(index + 1);
-    else setDue([]);
+  const handleShowAnswer = () => {
+    setShowAnswer(true);
   };
 
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-slate-900 dark:border-slate-100 mx-auto mb-4"></div>
-        <p className="text-slate-600 dark:text-slate-400">Loading reviews...</p>
-      </div>
-    );
-  }
+  const handleDifficultySelect = (selectedDifficulty: 'easy' | 'medium' | 'hard') => {
+    setDifficulty(selectedDifficulty);
+    setCompleted(completed + 1);
+    
+    // Simulate spaced repetition logic
+    setTimeout(() => {
+      if (currentIndex < items.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+        setShowAnswer(false);
+        setDifficulty(null);
+      }
+    }, 1000);
+  };
 
-  if (error) {
-    return (
-      <Card>
-        <CardContent className="pt-6 text-red-600 dark:text-red-400 text-center">{error}</CardContent>
-      </Card>
-    );
-  }
+  const handleAudioPlay = () => {
+    if (currentItem?.audioUrl) {
+      playAudio(currentItem.audioUrl);
+    }
+  };
 
-  if (!current || !itemData) {
+  const handleRestart = () => {
+    setCurrentIndex(0);
+    setShowAnswer(false);
+    setDifficulty(null);
+    setCompleted(0);
+  };
+
+  if (completed === items.length) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">No items due</CardTitle>
-          <CardDescription>You're all caught up for this lesson.</CardDescription>
-        </CardHeader>
+      <Card className="max-w-2xl mx-auto">
+        <CardContent className="p-8 text-center">
+          <div className="mb-6">
+            <h2 className="text-3xl font-display text-neutral-900 mb-2">
+              Review Complete! 🎯
+            </h2>
+            <p className="text-lg text-neutral-600">
+              Great job reviewing all items!
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl p-6 mb-6">
+            <div className="text-4xl font-display text-primary-600 mb-2">
+              {completed}/{items.length}
+            </div>
+            <div className="text-lg text-neutral-600">
+              All items reviewed successfully!
+            </div>
+          </div>
+          
+          <Button 
+            onClick={handleRestart}
+            className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+          >
+            <RotateCcw className="w-5 h-5 mr-2" />
+            Review Again
+          </Button>
+        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div>
-            <CardTitle className="text-xl">Review</CardTitle>
-            <CardDescription>
-              {index + 1} of {due.length} reviewed
-            </CardDescription>
-          </div>
+    <Card className="max-w-4xl mx-auto">
+      <CardHeader className="text-center">
+        <CardTitle className="text-2xl font-display text-neutral-900">
+          Spaced Repetition Review 🔄
+        </CardTitle>
+        <p className="text-neutral-600">
+          Review {currentIndex + 1} of {items.length}
+        </p>
+        <div className="w-full bg-neutral-200 rounded-full h-2 mt-4">
+          <div 
+            className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000"
+            style={{ width: `${(completed / items.length) * 100}%` }}
+          />
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="p-6 border rounded-lg">
-          <div className="text-center mb-4">
-            <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">{itemData.arabic}</div>
-            <div className="text-slate-600 dark:text-slate-400">{itemData.english}</div>
+      <CardContent className="p-8">
+        {/* Question Card */}
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-medium text-neutral-800 mb-4">
+            What does this mean?
+          </h3>
+          
+          {/* Arabic Text */}
+          <div className="text-4xl font-display text-neutral-900 mb-6 leading-relaxed">
+            {currentItem?.arabic}
           </div>
-          <div className="flex gap-3 justify-center">
-            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={() => grade('correct')}>Correct</Button>
-            <Button className="bg-red-600 hover:bg-red-700 text-white" onClick={() => grade('incorrect')}>Incorrect</Button>
+          
+          {/* Audio Player */}
+          <div className="flex justify-center mb-6">
+            <Button
+              onClick={handleAudioPlay}
+              disabled={isPlaying}
+              size="lg"
+              className="w-16 h-16 rounded-full bg-gradient-to-r from-accent-500 to-primary-500 hover:from-accent-600 hover:to-primary-600 text-white shadow-lg hover:scale-110 transition-all duration-200"
+            >
+              {isPlaying ? (
+                <Volume2 className="w-6 h-6" />
+              ) : (
+                <Play className="w-6 h-6 ml-1" />
+              )}
+            </Button>
+          </div>
+          
+          {/* Transliteration */}
+          <p className="text-xl text-neutral-600 italic font-medium">
+            {currentItem?.transliteration}
+          </p>
+        </div>
+
+        {/* Answer Section */}
+        {!showAnswer ? (
+          <div className="text-center">
+            <Button
+              onClick={handleShowAnswer}
+              className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+            >
+              Show Answer
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {/* Answer Display */}
+            <Card className="bg-gradient-to-r from-neutral-50 to-neutral-100 border-0">
+              <CardContent className="p-6 text-center">
+                <h4 className="text-lg font-medium text-neutral-700 mb-2">
+                  English Translation:
+                </h4>
+                <p className="text-2xl font-medium text-neutral-900">
+                  {currentItem?.english}
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Difficulty Selection */}
+            <div className="text-center">
+              <h4 className="text-lg font-medium text-neutral-700 mb-4">
+                How well did you know this?
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button
+                  onClick={() => handleDifficultySelect('easy')}
+                  className="h-16 bg-green-100 hover:bg-green-200 text-green-700 border-green-300 hover:scale-105 transition-all duration-200 rounded-xl"
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">😊</div>
+                    <div className="font-medium">Easy</div>
+                  </div>
+                </Button>
+                
+                <Button
+                  onClick={() => handleDifficultySelect('medium')}
+                  className="h-16 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 border-yellow-300 hover:scale-105 transition-all duration-200 rounded-xl"
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">🤔</div>
+                    <div className="font-medium">Medium</div>
+                  </div>
+                </Button>
+                
+                <Button
+                  onClick={() => handleDifficultySelect('hard')}
+                  className="h-16 bg-red-100 hover:bg-red-200 text-red-700 border-red-300 hover:scale-105 transition-all duration-200 rounded-xl"
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">😰</div>
+                    <div className="font-medium">Hard</div>
+                  </div>
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Progress Info */}
+        <div className="mt-8 text-center text-sm text-neutral-500">
+          <div className="flex items-center justify-center space-x-2">
+            <TrendingUp className="w-4 h-4" />
+            <span>Progress: {completed} of {items.length} completed</span>
           </div>
         </div>
       </CardContent>

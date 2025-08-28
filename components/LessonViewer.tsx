@@ -1,307 +1,229 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { AudioPlayer } from '@/components/ui/audio-player';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Play, Volume2, CheckCircle, XCircle, ArrowRight, ArrowLeft } from "lucide-react";
+import { useAudio } from "@/lib/useAudio";
+import Quiz from "./Quiz";
+import Review from "./Review";
 
-interface LessonData {
-  lessonId: number;
-  title: string;
-  description: string;
-  difficulty: string;
-  tags: string[];
-  totalItems: number;
-  data: any[];
-  unit: string;
-  order: number;
-  estimatedTime: string;
-}
-
-interface ProgressData {
-  userId: string;
-  lessonId: number;
-  completedItems: string[];
-  updatedAt: string;
+interface LessonItem {
+  id: string;
+  arabic: string;
+  transliteration: string;
+  english: string;
+  audioUrl: string;
 }
 
 interface LessonViewerProps {
   lessonId: string;
+  items: LessonItem[];
 }
 
-export default function LessonViewer({ lessonId }: LessonViewerProps) {
-  const [lesson, setLesson] = useState<LessonData | null>(null);
-  const [progress, setProgress] = useState<ProgressData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
-  const { data: session } = useSession();
+type TabType = 'cards' | 'quiz' | 'review';
 
-  useEffect(() => {
-    const fetchLesson = async () => {
-      try {
-        const response = await fetch(`/api/lessons/${lessonId}`);
-        
-        if (!response.ok) {
-          throw new Error(`Failed to load lesson: ${response.statusText}`);
-        }
-        
-        const lessonData = await response.json();
-        setLesson(lessonData);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load lesson');
-      } finally {
-        setLoading(false);
-      }
-    };
+export default function LessonViewer({ lessonId, items }: LessonViewerProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState<TabType>('cards');
+  const [completedItems, setCompletedItems] = useState<Set<string>>(new Set());
+  const { playAudio, isPlaying } = useAudio();
 
-    fetchLesson();
-  }, [lessonId]);
+  const currentItem = items[currentIndex];
+  const isLastItem = currentIndex === items.length - 1;
+  const isFirstItem = currentIndex === 0;
 
-  useEffect(() => {
-    const fetchProgress = async () => {
-      if (!session?.user?.email) return;
-      
-      try {
-        const response = await fetch(`/api/progress/${lessonId}`);
-        if (response.ok) {
-          const progressData = await response.json();
-          setProgress(progressData);
-        }
-      } catch (err) {
-        console.error('Failed to fetch progress:', err);
-      }
-    };
-
-    fetchProgress();
-  }, [lessonId, session?.user?.email]);
-
-  const handleItemComplete = async (itemId: string) => {
-    if (!session?.user?.email || !lesson) return;
-
-    try {
-      const response = await fetch('/api/progress', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          lessonId: lesson.lessonId,
-          itemId: itemId
-        }),
-      });
-
-      if (response.ok) {
-        const updatedProgress = await response.json();
-        setProgress(updatedProgress);
-      }
-    } catch (err) {
-      console.error('Failed to update progress:', err);
+  const handleNext = () => {
+    if (!isLastItem) {
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
-  const isItemCompleted = (itemId: string) => {
-    return progress?.completedItems.includes(itemId) || false;
+  const handlePrevious = () => {
+    if (!isFirstItem) {
+      setCurrentIndex(currentIndex - 1);
+    }
   };
 
-  const getCompletionPercentage = () => {
-    if (!lesson || !progress) return 0;
-    return Math.round((progress.completedItems.length / lesson.totalItems) * 100);
+  const handleComplete = () => {
+    if (currentItem) {
+      setCompletedItems(prev => new Set([...prev, currentItem.id]));
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-slate-900 dark:border-slate-100 mx-auto mb-4"></div>
-        <p className="text-slate-600 dark:text-slate-400">Loading lesson...</p>
-      </div>
-    );
-  }
+  const handleAudioPlay = () => {
+    if (currentItem?.audioUrl) {
+      playAudio(currentItem.audioUrl);
+    }
+  };
 
-  if (error) {
-    return (
-      <Card className="mb-6">
-        <CardContent className="pt-6">
-          <div className="text-center text-red-600 dark:text-red-400">
-            <p className="text-lg font-semibold mb-2">Error Loading Lesson</p>
-            <p>{error}</p>
-            <Button 
-              onClick={() => router.push('/')} 
-              className="mt-4"
-            >
-              Return to Dashboard
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
+    { id: 'cards', label: 'Cards', icon: '📚' },
+    { id: 'quiz', label: 'Quiz', icon: '🧠' },
+    { id: 'review', label: 'Review', icon: '🔄' },
+  ];
 
-  if (!lesson) {
-    return null;
-  }
+  const progress = (completedItems.size / items.length) * 100;
 
   return (
-    <div className="space-y-6">
-      {/* Lesson Header */}
-      <Card className="mb-8">
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div>
-              <CardTitle className="text-3xl text-slate-900 dark:text-slate-100 mb-2">
-                {lesson.title}
-              </CardTitle>
-              <CardDescription className="text-lg text-slate-600 dark:text-slate-400 mb-4">
-                {lesson.description}
-              </CardDescription>
-            </div>
-            <div className="text-right text-sm text-slate-500 dark:text-slate-400">
-              <p><strong>Total Items:</strong> {lesson.totalItems}</p>
-              <p><strong>Difficulty:</strong> {lesson.difficulty}</p>
-              <p><strong>Unit:</strong> {lesson.unit}</p>
-              <p><strong>Time:</strong> {lesson.estimatedTime}</p>
-              {progress && (
-                <p className="text-green-600 dark:text-green-400 font-semibold">
-                  <strong>Progress:</strong> {getCompletionPercentage()}% Complete
-                </p>
-              )}
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-display text-neutral-900 mb-2">
+            Lesson {lessonId}
+          </h1>
+          <p className="text-lg text-neutral-600">
+            Master the Shami dialect one phrase at a time
+          </p>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-neutral-700">
+              Progress: {completedItems.size} / {items.length}
+            </span>
+            <span className="text-sm font-medium text-neutral-700">
+              {Math.round(progress)}%
+            </span>
           </div>
-          
-          {lesson.tags && lesson.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {lesson.tags.map((tag, index) => (
-                <span 
-                  key={index}
-                  className="px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-sm"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </CardHeader>
-      </Card>
+          <div className="w-full bg-neutral-200 rounded-full h-3 overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
 
-      {/* Progress Bar */}
-      {progress && (
-        <Card className="mb-6">
-          <CardContent className="pt-6">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
-                <span>Progress</span>
-                <span>
-                  {progress.completedItems.length} / {lesson.totalItems} items complete ({getCompletionPercentage()}%)
+        {/* Tabs */}
+        <div className="flex justify-center mb-8">
+          <div className="flex bg-white rounded-2xl p-1 shadow-sm border border-neutral-200">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'text-primary-600 bg-primary-50'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
+                }`}
+              >
+                <span className="flex items-center space-x-2">
+                  <span>{tab.icon}</span>
+                  <span>{tab.label}</span>
                 </span>
-              </div>
-              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                <div 
-                  className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${getCompletionPercentage()}%` }}
-                ></div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                {activeTab === tab.id && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {/* Lesson Content Cards */}
-      <div className="space-y-4">
-        {lesson.data.map((item, index) => {
-          const itemId = `item_${lessonId}_${index}`;
-          const completed = isItemCompleted(itemId);
-          
-          return (
-            <Card 
-              key={index} 
-              className={`p-6 border rounded-lg hover:shadow-md transition-all duration-200 ${
-                completed 
-                  ? 'border-green-500 bg-green-50 dark:bg-green-900/20' 
-                  : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <CardContent className="p-0">
-                <div className="space-y-3">
+        {/* Content */}
+        {activeTab === 'cards' && (
+          <div className="space-y-6">
+            {/* Navigation */}
+            <div className="flex justify-between items-center">
+              <Button
+                onClick={handlePrevious}
+                disabled={isFirstItem}
+                variant="outline"
+                className="flex items-center space-x-2 disabled:opacity-50"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Previous
+              </Button>
+              
+              <span className="text-sm text-neutral-500">
+                {currentIndex + 1} of {items.length}
+              </span>
+              
+              <Button
+                onClick={handleNext}
+                disabled={isLastItem}
+                variant="outline"
+                className="flex items-center space-x-2 disabled:opacity-50"
+              >
+                Next
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+
+            {/* Lesson Card */}
+            <Card className="group hover:scale-105 transition-all duration-300 shadow-lg border-0">
+              <CardContent className="p-8">
+                {/* Arabic Text */}
+                <div className="text-center mb-8">
+                  <h2 className="text-4xl font-display text-neutral-900 mb-4 leading-relaxed">
+                    {currentItem?.arabic}
+                  </h2>
+                  
                   {/* Audio Player */}
-                  {item.audioUrl && (
-                    <div className="flex justify-center">
-                      <AudioPlayer 
-                        audioUrl={`/audio/${item.audioUrl}`} 
-                        size="sm"
-                        className="mb-2"
-                      />
-                    </div>
-                  )}
-                  
-                  {/* Arabic Text */}
-                  {item.arabic && (
-                    <div className="text-xl font-bold text-center text-slate-900 dark:text-slate-100">
-                      {item.arabic}
-                    </div>
-                  )}
-                  
-                  {/* Transliteration */}
-                  {item.transliteration && (
-                    <div className="text-sm italic text-slate-600 dark:text-slate-400 text-center">
-                      {item.transliteration}
-                    </div>
-                  )}
-                  
-                  {/* English Text */}
-                  {item.english && (
-                    <div className="text-base text-slate-700 dark:text-slate-300 text-center">
-                      {item.english}
-                    </div>
-                  )}
-                  
-                  {/* Progress Checkbox */}
-                  <div className="flex justify-center pt-2">
+                  <div className="flex justify-center mb-6">
                     <Button
-                      variant={completed ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleItemComplete(itemId)}
-                      className={`${
-                        completed 
-                          ? 'bg-green-600 hover:bg-green-700 text-white' 
-                          : 'hover:bg-slate-100 dark:hover:bg-slate-800'
-                      }`}
+                      onClick={handleAudioPlay}
+                      disabled={isPlaying}
+                      size="lg"
+                      className="w-16 h-16 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 text-white shadow-lg hover:scale-110 transition-all duration-200"
                     >
-                      {completed ? (
-                        <>
-                          <span className="mr-2">✓</span>
-                          Learned
-                        </>
+                      {isPlaying ? (
+                        <Volume2 className="w-6 h-6" />
                       ) : (
-                        'Mark as Learned'
+                        <Play className="w-6 h-6 ml-1" />
                       )}
                     </Button>
                   </div>
                 </div>
+
+                {/* Transliteration */}
+                <div className="text-center mb-6">
+                  <p className="text-xl text-neutral-600 italic font-medium">
+                    {currentItem?.transliteration}
+                  </p>
+                </div>
+
+                {/* English Translation */}
+                <div className="text-center mb-8">
+                  <p className="text-2xl text-neutral-800 font-medium">
+                    {currentItem?.english}
+                  </p>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-center space-x-4">
+                  <Button
+                    onClick={handleComplete}
+                    disabled={completedItems.has(currentItem?.id || '')}
+                    className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+                  >
+                    <CheckCircle className="w-5 h-5 mr-2" />
+                    {completedItems.has(currentItem?.id || '') ? 'Completed' : 'Mark Complete'}
+                  </Button>
+                </div>
+
+                {/* Completion Status */}
+                {completedItems.has(currentItem?.id || '') && (
+                  <div className="mt-4 text-center">
+                    <div className="inline-flex items-center space-x-2 bg-primary-100 text-primary-700 px-4 py-2 rounded-full">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="text-sm font-medium">Completed!</span>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
-          );
-        })}
-      </div>
+          </div>
+        )}
 
-      {/* Navigation */}
-      <div className="flex justify-between items-center pt-6 border-t border-slate-200 dark:border-slate-700">
-        <Button 
-          variant="outline" 
-          onClick={() => router.push('/')}
-          className="hover:bg-slate-100 dark:hover:bg-slate-800"
-        >
-          ← Back to Dashboard
-        </Button>
-        
-        <Button 
-          disabled 
-          variant="outline"
-          className="opacity-50 cursor-not-allowed"
-        >
-          Next Lesson →
-        </Button>
+        {activeTab === 'quiz' && (
+          <Quiz lessonId={lessonId} items={items} />
+        )}
+
+        {activeTab === 'review' && (
+          <Review lessonId={lessonId} items={items} />
+        )}
       </div>
     </div>
   );

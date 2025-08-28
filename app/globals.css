@@ -1,5 +1,7 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @custom-variant dark (&:is(.dark *));
 
@@ -113,10 +115,57 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
   }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-neutral-50 text-neutral-900 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-neutral-900;
+  }
+  
+  p {
+    @apply font-body text-neutral-700 leading-relaxed;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+  
+  .btn-accent {
+    @apply bg-accent-500 hover:bg-accent-600 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-neutral-200 transition-all duration-200 hover:shadow-md hover:scale-[1.02];
+  }
+  
+  .nav-link {
+    @apply relative text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-200;
+  }
+  
+  .nav-link::after {
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+  
+  .progress-bar {
+    @apply w-full bg-neutral-200 rounded-full h-2 overflow-hidden;
+  }
+  
+  .progress-fill {
+    @apply h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000 ease-out;
   }
 }

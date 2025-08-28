@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { BookOpen, Eye, EyeOff } from "lucide-react";
 
 function LoginForm() {
   const { data: session, status } = useSession();
@@ -17,6 +18,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (session) {
@@ -32,10 +34,10 @@ function LoginForm() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-900 dark:border-slate-100 mx-auto"></div>
-          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500 mx-auto mb-4"></div>
+          <p className="text-xl text-neutral-600">Loading...</p>
         </div>
       </div>
     );
@@ -65,30 +67,39 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
+        {/* Logo and Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <BookOpen className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-display text-neutral-900 mb-2">
             Welcome Back
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
-            Sign in to access your lessons
+          <p className="text-lg text-neutral-600">
+            Sign in to continue your Shami learning journey
           </p>
         </div>
 
-        <Card className="shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-slate-900 dark:text-slate-100">
+        {/* Login Form */}
+        <Card className="shadow-xl border-0">
+          <CardHeader className="text-center pb-4">
+            <CardTitle className="text-2xl font-display text-neutral-900">
               Sign In
             </CardTitle>
-            <CardDescription>
-              Use your email and password to sign in
+            <CardDescription className="text-neutral-600">
+              Use your email and password to access your account
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <form onSubmit={handleCredentialsSignIn} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-neutral-700 font-medium">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -97,49 +108,79 @@ function LoginForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
+                  className="h-12 px-4 rounded-xl border-neutral-200 focus:border-primary-500 focus:ring-primary-500 transition-colors duration-200"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={isLoading}
-                />
+                <Label htmlFor="password" className="text-neutral-700 font-medium">
+                  Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    className="h-12 px-4 pr-12 rounded-xl border-neutral-200 focus:border-primary-500 focus:ring-primary-500 transition-colors duration-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl hover:scale-105 transition-all duration-200 shadow-lg" 
+                disabled={isLoading}
+              >
                 {isLoading ? "Signing In..." : "Sign In"}
               </Button>
             </form>
 
+            {/* Message Display */}
             {message && (
-              <div className={`p-3 rounded-md text-sm ${
+              <div className={`p-4 rounded-xl text-sm font-medium ${
                 message.includes("failed") 
-                  ? "bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400" 
-                  : "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
+                  ? "bg-red-50 text-red-700 border border-red-200" 
+                  : "bg-green-50 text-green-700 border border-green-200"
               }`}>
                 {message}
               </div>
             )}
 
-            <div className="text-center">
+            {/* Register Link */}
+            <div className="text-center pt-4 border-t border-neutral-200">
               <Button 
                 variant="link" 
                 onClick={() => router.push('/register')}
-                className="text-slate-600 dark:text-slate-400"
+                className="text-neutral-600 hover:text-primary-600 font-medium"
               >
                 Don't have an account? Register here
               </Button>
             </div>
 
-            <div className="text-xs text-slate-500 dark:text-slate-400 text-center space-y-1 border-t pt-4">
-              <p><strong>Demo Accounts:</strong></p>
-              <p>Admin: admin@example.com / password</p>
-              <p>Learner: learner@example.com / password</p>
+            {/* Demo Accounts */}
+            <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-200">
+              <p className="text-xs font-semibold text-neutral-700 mb-3 text-center">
+                Demo Accounts
+              </p>
+              <div className="space-y-2 text-xs text-neutral-600">
+                <div className="flex justify-between">
+                  <span>Admin:</span>
+                  <span className="font-mono">admin@example.com / password</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Learner:</span>
+                  <span className="font-mono">learner@example.com / password</span>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -151,10 +192,10 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-900 dark:border-slate-100 mx-auto"></div>
-          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500 mx-auto mb-4"></div>
+          <p className="text-xl text-neutral-600">Loading...</p>
         </div>
       </div>
     }>
