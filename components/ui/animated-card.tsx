@@ -67,7 +67,7 @@ export function AnimatedProgressBar({
   className = "" 
 }: { progress: number; className?: string }) {
   return (
-    <div className={`w-full bg-neutral-200 rounded-full h-2 overflow-hidden ${className}`}>
+    <div className={`w-full bg-slate-200 rounded-full h-2 overflow-hidden ${className}`}>
       <motion.div
         className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full"
         initial={{ width: 0 }}
