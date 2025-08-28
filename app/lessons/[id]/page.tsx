@@ -1,14 +1,52 @@
 'use client';
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import UserHeader from "@/components/auth/user-header";
-import ProtectedRoute from "@/components/auth/protected-route";
-import LessonViewer from "@/components/LessonViewer";
-import Quiz from "@/components/Quiz";
-import Review from "@/components/Review";
-import { useSearchParams, useRouter as useNextRouter } from "next/navigation";
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import ProtectedRoute from '@/components/auth/protected-route';
+import UserHeader from '@/components/auth/user-header';
+import LessonViewer from '@/components/LessonViewer';
+import Quiz from '@/components/Quiz';
+import Review from '@/components/Review';
+
+// Mock lesson data - replace with real API call
+const mockLessonItems = [
+  {
+    id: 'greet_0001',
+    arabic: 'مرحبا',
+    transliteration: 'marHaba',
+    english: 'Hello',
+    audioUrl: '/audio/greet_0001.wav'
+  },
+  {
+    id: 'greet_0002',
+    arabic: 'أهلين',
+    transliteration: 'ahleen',
+    english: 'Hi there',
+    audioUrl: '/audio/greet_0002.wav'
+  },
+  {
+    id: 'greet_0003',
+    arabic: 'أهلا وسهلا',
+    transliteration: 'ahlan wa sahlan',
+    english: 'Welcome',
+    audioUrl: '/audio/greet_0003.wav'
+  },
+  {
+    id: 'greet_0004',
+    arabic: 'صباح الخير',
+    transliteration: 'ṣabāḥ il-khēr',
+    english: 'Good morning',
+    audioUrl: '/audio/greet_0004.wav'
+  },
+  {
+    id: 'greet_0005',
+    arabic: 'مسا الخير',
+    transliteration: 'masāʾ il-khēr',
+    english: 'Good evening',
+    audioUrl: '/audio/greet_0005.wav'
+  }
+];
 
 export default function LessonPage({ params }: { params: Promise<{ id: string }> }) {
   const { data: session, status } = useSession();
@@ -58,7 +96,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-slate-900 dark:border-slate-100 mx-auto mb-4"></div>
-          <p className="text-slate-600 dark:text-slate-400">Loading lesson ID...</p>
+          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading lesson ID...</p>
         </div>
       </div>
     );
@@ -106,7 +144,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
           </div>
 
           {/* Content */}
-          {tab === 'cards' && <LessonViewer lessonId={lessonId} />}
+          {tab === 'cards' && <LessonViewer lessonId={lessonId} items={mockLessonItems} />}
           {tab === 'quiz' && <Quiz lessonId={lessonId} mode="mcq" />}
           {tab === 'review' && <Review lessonId={lessonId} />}
         </div>
