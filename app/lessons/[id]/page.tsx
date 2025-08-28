@@ -145,7 +145,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
 
           {/* Content */}
           {tab === 'cards' && <LessonViewer lessonId={lessonId} items={mockLessonItems} />}
-          {tab === 'quiz' && <Quiz lessonId={lessonId} mode="mcq" />}
+          {tab === 'quiz' && <Quiz lessonId={lessonId} items={mockLessonItems} />}
           {tab === 'review' && <Review lessonId={lessonId} />}
         </div>
       </div>
