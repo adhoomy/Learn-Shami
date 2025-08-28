@@ -195,11 +195,11 @@ export default function LessonViewer({ lessonId, items }: LessonViewerProps) {
         )}
 
         {activeTab === 'quiz' && (
-          <Quiz lessonId={lessonId} mode="mcq" />
+          <Quiz lessonId={lessonId} items={items} />
         )}
 
         {activeTab === 'review' && (
-          <Review lessonId={lessonId} />
+          <Review lessonId={lessonId} items={items} />
         )}
       </div>
     </div>
