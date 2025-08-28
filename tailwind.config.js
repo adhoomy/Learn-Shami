@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -106,6 +105,7 @@ const config: Config = {
       transitionProperty: {
         'all': 'all',
         'colors': 'color, background-color, border-color, text-decoration-color, fill, stroke',
+        'css': 'color, background-color, border-color, text-decoration-color, fill, stroke',
         'transform': 'transform',
         'opacity': 'opacity',
       },
@@ -116,6 +116,5 @@ const config: Config = {
     },
   },
   plugins: [],
-};
+}
 
-export default config;
