@@ -50,15 +50,15 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section */}
         <AnimatedCard delay={0} whileHover={false}>
           <div className="mb-8">
-            <h1 className="text-4xl font-display text-neutral-900 mb-2">
+            <h1 className="text-4xl font-display text-gray-900 mb-2">
               Welcome back! 👋
             </h1>
-            <p className="text-xl text-neutral-600">
+            <p className="text-xl text-gray-600">
               Ready to continue your Shami learning journey?
             </p>
           </div>
@@ -74,13 +74,13 @@ export default function Dashboard() {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-neutral-600 mb-1">
+                        <p className="text-sm font-medium text-gray-600 mb-1">
                           {stat.title}
                         </p>
-                        <p className="text-3xl font-display text-neutral-900 mb-2">
+                        <p className="text-3xl font-display text-gray-900 mb-2">
                           {stat.value}
                         </p>
-                        <p className="text-sm text-neutral-500">
+                        <p className="text-sm text-gray-500">
                           {stat.change}
                         </p>
                       </div>
@@ -109,7 +109,7 @@ export default function Dashboard() {
                 <Link href="/lessons">
                   <Button 
                     size="lg" 
-                    className="bg-white text-primary-600 hover:bg-neutral-100 hover:scale-105 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl shadow-lg"
+                    className="bg-white text-primary-600 hover:bg-gray-100 hover:scale-105 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl shadow-lg"
                   >
                     <Play className="w-5 h-5 mr-2" />
                     Continue Learning
@@ -124,7 +124,7 @@ export default function Dashboard() {
         <div className="mb-8">
           <AnimatedCard delay={5} whileHover={false}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-display text-neutral-900">
+              <h2 className="text-2xl font-display text-gray-900">
                 Your Lessons
               </h2>
               <Link href="/lessons">
@@ -142,16 +142,16 @@ export default function Dashboard() {
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className="font-medium text-neutral-900 mb-2">
+                        <h3 className="font-medium text-gray-900 mb-2">
                           {lesson.title}
                         </h3>
                         <div className="flex items-center space-x-2 mb-3">
                           {lesson.completed ? (
                             <CheckCircle className="w-4 h-4 text-primary-500" />
                           ) : (
-                            <Target className="w-4 h-4 text-neutral-400" />
+                            <Target className="w-4 h-4 text-gray-400" />
                           )}
-                          <span className="text-sm text-neutral-500">
+                          <span className="text-sm text-gray-500">
                             {lesson.completed ? 'Completed' : 'In Progress'}
                           </span>
                         </div>
@@ -166,8 +166,8 @@ export default function Dashboard() {
                     {/* Progress Bar */}
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-neutral-600">Progress</span>
-                        <span className="font-medium text-neutral-900">{lesson.progress}%</span>
+                        <span className="text-gray-600">Progress</span>
+                        <span className="font-medium text-gray-900">{lesson.progress}%</span>
                       </div>
                       <AnimatedProgressBar progress={lesson.progress} />
                     </div>
@@ -210,10 +210,10 @@ export default function Dashboard() {
                     <TrendingUp className="w-6 h-6 text-accent-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-neutral-900 mb-1">
+                    <h3 className="font-medium text-gray-900 mb-1">
                       Review Due Items
                     </h3>
-                    <p className="text-sm text-neutral-600 mb-3">
+                    <p className="text-sm text-gray-600 mb-3">
                       Practice with spaced repetition for better retention
                     </p>
                     <Link href="/review">
@@ -235,10 +235,10 @@ export default function Dashboard() {
                     <Flame className="w-6 h-6 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-neutral-900 mb-1">
+                    <h3 className="font-medium text-gray-900 mb-1">
                       Maintain Streak
                     </h3>
-                    <p className="text-sm text-neutral-600 mb-3">
+                    <p className="text-sm text-gray-600 mb-3">
                       Don't break your 7-day learning streak!
                     </p>
                     <Link href="/lessons">

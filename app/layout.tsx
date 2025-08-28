@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SessionProvider } from "@/components/providers/session-provider";
+import AuthSessionProvider from "@/components/providers/session-provider";
 import Navbar from "@/components/ui/navbar";
 import Footer from "@/components/ui/footer";
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider>
+        <AuthSessionProvider>
           <div className="min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-1">
@@ -28,7 +28,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-        </SessionProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );
