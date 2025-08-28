@@ -1,6 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import { SessionStrategy } from "next-auth";
+import { SessionStrategy, JWT, Session } from "next-auth";
 import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
@@ -56,14 +56,14 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT & { role?: string; id?: string }; user?: any }) {
       if (user) {
         token.role = user.role;
         token.id = user.id;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT & { role?: string; id?: string } }) {
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
