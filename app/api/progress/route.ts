@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
             lessonId: lessonId
           },
           {
-            $push: { completedItems: { $each: [itemId] } },
+            $addToSet: { completedItems: itemId },
             $set: { updatedAt: new Date() }
           },
           { returnDocument: 'after' }
