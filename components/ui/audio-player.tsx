@@ -32,7 +32,7 @@ export function AudioPlayer({ audioUrl, size = 'sm', className = '' }: AudioPlay
       variant="outline"
       size="sm"
       onClick={handleClick}
-      className={`${buttonSize} p-0 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 ${className}`}
+      className={`${buttonSize} p-0 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ${className}`}
       aria-label={isCurrentlyPlaying ? 'Stop audio' : 'Play audio'}
     >
       {isCurrentlyPlaying ? (

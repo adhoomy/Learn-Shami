@@ -16,7 +16,7 @@ export default function Review({ lessonId, items }: ReviewProps) {
   const [showAnswer, setShowAnswer] = useState(false);
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard' | null>(null);
   const [completed, setCompleted] = useState(0);
-  const { playAudio, isPlaying } = useAudio();
+  const { play, isPlaying } = useAudio();
 
   const currentItem = items[currentIndex];
   const isLastItem = currentIndex === items.length - 1;
@@ -41,7 +41,7 @@ export default function Review({ lessonId, items }: ReviewProps) {
 
   const handleAudioPlay = () => {
     if (currentItem?.audioUrl) {
-      playAudio(currentItem.audioUrl);
+      play(currentItem.audioUrl);
     }
   };
 

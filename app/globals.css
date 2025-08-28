@@ -9,15 +9,15 @@
   }
   
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-white text-black antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading text-slate-900;
+    @apply font-heading text-black;
   }
   
   p {
-    @apply font-body text-slate-700 leading-relaxed;
+    @apply font-body text-gray-700 leading-relaxed;
   }
 }
 
@@ -27,7 +27,7 @@
   }
   
   .btn-secondary {
-    @apply bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95;
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95;
   }
   
   .btn-accent {
@@ -35,11 +35,11 @@
   }
   
   .card {
-    @apply bg-white rounded-2xl shadow-sm border border-slate-200 transition-all duration-200 hover:shadow-md hover:scale-[1.02];
+    @apply bg-white rounded-2xl shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:scale-[1.02];
   }
   
   .nav-link {
-    @apply relative text-slate-600 hover:text-slate-900 font-medium transition-colors duration-200;
+    @apply relative text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200;
   }
   
   .nav-link::after {
@@ -51,7 +51,7 @@
   }
   
   .progress-bar {
-    @apply w-full bg-slate-200 rounded-full h-2 overflow-hidden;
+    @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
   }
   
   .progress-fill {

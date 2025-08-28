@@ -27,7 +27,7 @@ export default function LessonViewer({ lessonId, items }: LessonViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<TabType>('cards');
   const [completedItems, setCompletedItems] = useState<Set<string>>(new Set());
-  const { playAudio, isPlaying } = useAudio();
+  const { play, isPlaying } = useAudio();
 
   const currentItem = items[currentIndex];
   const isLastItem = currentIndex === items.length - 1;
@@ -53,7 +53,7 @@ export default function LessonViewer({ lessonId, items }: LessonViewerProps) {
 
   const handleAudioPlay = () => {
     if (currentItem?.audioUrl) {
-      playAudio(currentItem.audioUrl);
+      play(currentItem.audioUrl);
     }
   };
 
