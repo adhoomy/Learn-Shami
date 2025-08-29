@@ -140,7 +140,7 @@ export default function ProfilePage() {
                       size="lg" 
                       className="bg-white text-primary-600 hover:bg-gray-100 hover:scale-105 transition-all duration-200 px-6 py-3 text-lg font-medium rounded-xl shadow-lg"
                     >
-                      <BookOpen className="w-5 h-5 mr-2" />
+                      <img src="/logo.png" alt="Logo" className="w-5 h-5 mr-2" />
                       Continue Learning
                     </Button>
                   </Link>

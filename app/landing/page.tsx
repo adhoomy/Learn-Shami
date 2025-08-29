@@ -39,9 +39,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <BookOpen className="w-12 h-12 text-white" />
-            </div>
+            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-24 h-24 mx-auto mb-6" />
             <h1 className="text-4xl font-display text-neutral-900 mb-4">
               Welcome to Lean to Falasteen
             </h1>
@@ -55,7 +53,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="w-8 h-8 text-primary-600" />
+                                 <img src="/logo.png" alt="Logo" className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-display text-black mb-3">Interactive Lessons</h3>
               <p className="text-gray-600">
@@ -128,9 +126,7 @@ export default function LandingPage() {
             {/* Brand Section */}
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-white" />
-                </div>
+                               <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-8 h-8" />
                 <span className="text-xl font-display text-neutral-900">Lean to Falasteen</span>
               </div>
               <p className="text-neutral-600 max-w-md mb-4">

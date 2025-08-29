@@ -72,9 +72,7 @@ function LoginForm() {
         {/* Logo and Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center shadow-lg">
-              <BookOpen className="w-8 h-8 text-white" />
-            </div>
+            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 shadow-lg" />
           </div>
           <h1 className="text-3xl font-display text-neutral-900 mb-2">
             Welcome Back
@@ -103,7 +101,7 @@ function LoginForm() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@example.com"
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -166,22 +164,7 @@ function LoginForm() {
               </Button>
             </div>
 
-            {/* Demo Accounts */}
-            <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-200">
-              <p className="text-xs font-semibold text-neutral-700 mb-3 text-center">
-                Demo Accounts
-              </p>
-              <div className="space-y-2 text-xs text-neutral-600">
-                <div className="flex justify-between">
-                  <span>Admin:</span>
-                  <span className="font-mono">admin@example.com / password</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Learner:</span>
-                  <span className="font-mono">learner@example.com / password</span>
-                </div>
-              </div>
-            </div>
+
           </CardContent>
         </Card>
       </div>

@@ -85,7 +85,7 @@ export default function ReviewPage() {
               <CardContent className="p-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <BookOpen className="w-8 h-8 text-primary-600" />
+                    <img src="/logo.png" alt="Logo" className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-display text-black mb-2">Lesson Reviews</h3>
                   <p className="text-gray-600 mb-4">Review specific lessons to reinforce learning</p>
@@ -103,7 +103,7 @@ export default function ReviewPage() {
               <CardContent className="p-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <BookOpen className="w-8 h-8 text-accent-600" />
+                    <img src="/logo.png" alt="Logo" className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-display text-black mb-2">Mixed Practice</h3>
                   <p className="text-gray-600 mb-4">Practice with items from all completed lessons</p>

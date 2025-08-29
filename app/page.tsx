@@ -237,7 +237,7 @@ export default function Dashboard() {
                           className="w-full text-primary-600 border-primary-200 hover:bg-primary-50"
                           onClick={() => window.location.href = `/lessons/${lesson.id}`}
                         >
-                          <BookOpen className="w-4 h-4 mr-2" />
+                          <img src="/logo.png" alt="Logo" className="w-4 h-4 mr-2" />
                           Review
                         </Button>
                       ) : (

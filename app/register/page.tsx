@@ -94,9 +94,7 @@ function RegisterForm() {
         {/* Logo and Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center shadow-lg">
-              <BookOpen className="w-8 h-8 text-white" />
-            </div>
+            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 shadow-lg" />
           </div>
           <h1 className="text-3xl font-display text-neutral-900 mb-2">
             Join Lean to Falasteen

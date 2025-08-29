@@ -43,9 +43,7 @@ export default function ContactPage() {
             </Button>
           </Link>
           <div className="text-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Mail className="w-8 h-8 text-primary-600" />
-            </div>
+            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-4xl font-display text-black mb-4">Contact Us</h1>
             <p className="text-lg text-gray-600">Get in touch with our team</p>
           </div>

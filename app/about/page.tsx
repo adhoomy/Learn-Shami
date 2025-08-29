@@ -18,9 +18,7 @@ export default function AboutPage() {
             </Button>
           </Link>
           <div className="text-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <BookOpen className="w-8 h-8 text-primary-600" />
-            </div>
+            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-4xl font-display text-black mb-4">About Lean to Falasteen</h1>
             <p className="text-lg text-gray-600">Empowering learners to master Palestinian Arabic</p>
           </div>
@@ -51,7 +49,7 @@ export default function AboutPage() {
           <Card>
             <CardHeader>
               <CardTitle className="text-xl font-display text-black flex items-center">
-                <BookOpen className="w-6 h-6 text-primary-600 mr-3" />
+                <img src="/logo.png" alt="Logo" className="w-6 h-6 mr-3" />
                 Interactive Lessons
               </CardTitle>
             </CardHeader>
