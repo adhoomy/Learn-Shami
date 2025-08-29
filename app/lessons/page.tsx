@@ -9,85 +9,70 @@ import { BookOpen, Play, CheckCircle, Target, Clock, Star } from "lucide-react";
 import Link from "next/link";
 import AnimatedCard from "@/components/ui/animated-card";
 
-// Mock lessons data - replace with real API call
-const mockLessons = [
+// Real lessons data structure
+const lessons = [
   {
     id: 1,
-    title: "Basic Greetings",
-    description: "Learn essential greetings and introductions in Shami Arabic",
+    title: "Greetings",
+    description: "Learn common Palestinian greetings for daily interactions.",
     difficulty: "Beginner",
-    estimatedTime: "15 min",
-    progress: 80,
-    completed: true,
-    totalItems: 20,
-    completedItems: 16
-  },
-  {
-    id: 2,
-    title: "Numbers 1-10",
-    description: "Master counting from one to ten in Shami dialect",
-    difficulty: "Beginner",
-    estimatedTime: "20 min",
-    progress: 60,
-    completed: false,
-    totalItems: 15,
-    completedItems: 9
-  },
-  {
-    id: 3,
-    title: "Family Members",
-    description: "Learn family relationships and kinship terms",
-    difficulty: "Beginner",
-    estimatedTime: "25 min",
-    progress: 0,
-    completed: false,
-    totalItems: 18,
-    completedItems: 0
-  },
-  {
-    id: 4,
-    title: "Daily Activities",
-    description: "Common daily routines and activities in Shami",
-    difficulty: "Intermediate",
-    estimatedTime: "30 min",
-    progress: 0,
-    completed: false,
-    totalItems: 25,
-    completedItems: 0
-  },
-  {
-    id: 5,
-    title: "Food & Dining",
-    description: "Essential food vocabulary and dining expressions",
-    difficulty: "Intermediate",
-    estimatedTime: "35 min",
-    progress: 0,
-    completed: false,
-    totalItems: 30,
-    completedItems: 0
-  },
-  {
-    id: 6,
-    title: "Shopping & Markets",
-    description: "Navigate markets and shopping in Shami Arabic",
-    difficulty: "Intermediate",
-    estimatedTime: "40 min",
-    progress: 0,
-    completed: false,
-    totalItems: 28,
-    completedItems: 0
+    estimatedTime: "5 minutes",
+    unit: 1,
+    order: 1,
+    tags: ["palestinian", "arabic", "greetings"]
   }
+  // Add more lessons as you create them
 ];
 
 export default function LessonsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [lessonsWithProgress, setLessonsWithProgress] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push('/login');
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      loadLessonsWithProgress();
+    }
+  }, [status]);
+
+  const loadLessonsWithProgress = async () => {
+    try {
+      // Load user progress for all lessons
+      const progressRes = await fetch('/api/progress');
+      if (progressRes.ok) {
+        const progressData = await progressRes.json();
+        
+        // Merge lessons with progress data
+        const lessonsWithProgressData = lessons.map(lesson => {
+          const userProgress = progressData.find((p: any) => p.lessonId === lesson.id);
+          const completedItems = userProgress?.completedItems?.length || 0;
+          const totalItems = 20; // This should come from your lesson data
+          const progress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+          
+          return {
+            ...lesson,
+            progress,
+            completed: progress === 100,
+            totalItems,
+            completedItems
+          };
+        });
+        
+        setLessonsWithProgress(lessonsWithProgressData);
+      }
+    } catch (error) {
+      console.error('Error loading lessons progress:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (status === "loading") {
     return (
@@ -152,7 +137,7 @@ export default function LessonsPage() {
 
         {/* Lessons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockLessons.map((lesson, index) => (
+          {lessonsWithProgress.map((lesson, index) => (
             <AnimatedCard key={lesson.id} delay={2 + index}>
               <Card className="group hover:scale-105 transition-all duration-300 h-full">
                 <CardHeader className="pb-4">

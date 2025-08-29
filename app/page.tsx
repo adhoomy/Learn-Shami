@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +20,9 @@ import AnimatedCard, { AnimatedStatsCard, AnimatedProgressBar } from "@/componen
 export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [stats, setStats] = useState<any>(null);
+  const [recentLessons, setRecentLessons] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -27,7 +30,36 @@ export default function Dashboard() {
     }
   }, [status, router]);
 
-  if (status === "loading") {
+  useEffect(() => {
+    if (status === "authenticated") {
+      loadDashboardData();
+    }
+  }, [status]);
+
+  const loadDashboardData = async () => {
+    try {
+      // Load user stats
+      const statsRes = await fetch('/api/stats');
+      if (statsRes.ok) {
+        const statsData = await statsRes.json();
+        setStats(statsData);
+      }
+
+      // Load progress data for lessons
+      const progressRes = await fetch('/api/progress');
+      if (progressRes.ok) {
+        const progressData = await progressRes.json();
+        // Transform progress data to show lesson status
+        setRecentLessons(progressData);
+      }
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
         <div className="text-center">
@@ -42,19 +74,19 @@ export default function Dashboard() {
     return null;
   }
 
-  // Mock data - replace with real data from your API
-  const stats = [
+  // Transform real data for display
+  const displayStats = [
     {
-      title: "Lessons Completed",
-      value: "12",
+      title: "Total Learned",
+      value: stats?.totalLearned?.toString() || "0",
       icon: BookOpen,
       color: "text-primary-600",
       bgColor: "bg-primary-50",
-      change: "+2 this week"
+      change: "Items mastered"
     },
     {
       title: "Learning Streak",
-      value: "7",
+      value: stats?.streak?.toString() || "0",
       icon: Flame,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
@@ -62,7 +94,7 @@ export default function Dashboard() {
     },
     {
       title: "Reviews Due",
-      value: "5",
+      value: stats?.dueToday?.toString() || "0",
       icon: Clock,
       color: "text-accent-600",
       bgColor: "bg-accent-50",
@@ -70,12 +102,21 @@ export default function Dashboard() {
     }
   ];
 
-  const recentLessons = [
-    { id: 1, title: "Basic Greetings", progress: 80, completed: true },
-    { id: 2, title: "Numbers 1-10", progress: 60, completed: false },
-    { id: 3, title: "Family Members", progress: 0, completed: false },
-    { id: 4, title: "Daily Activities", progress: 0, completed: false },
-  ];
+  // Transform progress data to show lesson status
+  const displayLessons = recentLessons.map((progress: any) => {
+    const totalItems = progress.totalItems || 0;
+    const completedItems = progress.completedItems?.length || 0;
+    const progressPercent = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+    
+    return {
+      id: progress.lessonId,
+      title: `Lesson ${progress.lessonId}`,
+      progress: progressPercent,
+      completed: progressPercent === 100,
+      totalItems,
+      completedItems
+    };
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -94,7 +135,7 @@ export default function Dashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {stats.map((stat, index) => {
+          {displayStats.map((stat: any, index: number) => {
             const Icon = stat.icon;
             return (
               <AnimatedStatsCard key={stat.title} delay={index + 1}>
@@ -164,7 +205,7 @@ export default function Dashboard() {
           </AnimatedCard>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recentLessons.map((lesson, index) => (
+            {displayLessons.map((lesson, index) => (
               <AnimatedCard key={lesson.id} delay={6 + index}>
                 <Card className="group hover:scale-105 transition-all duration-300 cursor-pointer">
                   <CardContent className="p-6">
