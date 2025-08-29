@@ -7,12 +7,35 @@ import { Button } from "@/components/ui/button";
 import { User, Settings, BookOpen, Trophy, Calendar } from "lucide-react";
 import Link from "next/link";
 import AnimatedCard from "@/components/ui/animated-card";
+import { useState, useEffect } from 'react';
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [stats, setStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (status === "loading") {
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const response = await fetch('/api/stats');
+        if (response.ok) {
+          const statsData = await response.json();
+          setStats(statsData);
+        }
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (status === "authenticated") {
+      loadStats();
+    }
+  }, [status]);
+
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
         <div className="text-center">
@@ -36,7 +59,7 @@ export default function ProfilePage() {
           <AnimatedCard delay={1}>
             <Card className="bg-gradient-to-r from-primary-500 to-primary-600 text-white border-0 shadow-lg">
               <CardContent className="p-6 text-center">
-                <div className="text-3xl font-display mb-2">12</div>
+                <div className="text-3xl font-display mb-2">{stats?.lessonsCompleted || 0}</div>
                 <div className="text-primary-100">Lessons Completed</div>
               </CardContent>
             </Card>
@@ -45,7 +68,7 @@ export default function ProfilePage() {
           <AnimatedCard delay={2}>
             <Card className="bg-gradient-to-r from-accent-500 to-accent-600 text-white border-0 shadow-lg">
               <CardContent className="p-6 text-center">
-                <div className="text-3xl font-display mb-2">7</div>
+                <div className="text-3xl font-display mb-2">{stats?.streak || 0}</div>
                 <div className="text-accent-100">Day Streak</div>
               </CardContent>
             </Card>
@@ -54,7 +77,7 @@ export default function ProfilePage() {
           <AnimatedCard delay={3}>
             <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white border-0 shadow-lg">
               <CardContent className="p-6 text-center">
-                <div className="text-3xl font-display mb-2">85%</div>
+                <div className="text-3xl font-display mb-2">{stats?.accuracy || 0}%</div>
                 <div className="text-green-100">Overall Accuracy</div>
               </CardContent>
             </Card>

@@ -9,20 +9,47 @@ import { BookOpen } from 'lucide-react';
 
 export default function ReviewPage() {
   const [dueCount, setDueCount] = useState(0);
+  const [stats, setStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const load = async () => {
+    const loadData = async () => {
       try {
-        const res = await fetch('/api/review');
-        if (res.ok) {
-          const items = await res.json();
+        // Load review items
+        const reviewRes = await fetch('/api/review');
+        if (reviewRes.ok) {
+          const items = await reviewRes.json();
           setDueCount(items.length);
         }
-      } catch {}
+
+        // Load user stats
+        const statsRes = await fetch('/api/stats');
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
+          setStats(statsData);
+        }
+      } catch (error) {
+        console.error('Error loading review data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
-    load();
+    loadData();
   }, []);
+
+  if (loading) {
+    return (
+      <ProtectedRoute>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-900 mx-auto"></div>
+            <p className="mt-4 text-slate-600">Loading review data...</p>
+          </div>
+        </div>
+      </ProtectedRoute>
+    );
+  }
 
   return (
     <ProtectedRoute>
@@ -39,14 +66,14 @@ export default function ReviewPage() {
             
             <Card className="bg-gradient-to-r from-accent-500 to-accent-600 text-white border-0 shadow-lg">
               <CardContent className="p-6 text-center">
-                <div className="text-3xl font-display mb-2">7</div>
+                <div className="text-3xl font-display mb-2">{stats?.streak || 0}</div>
                 <div className="text-accent-100">Day Streak</div>
               </CardContent>
             </Card>
             
             <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white border-0 shadow-lg">
               <CardContent className="p-6 text-center">
-                <div className="text-3xl font-display mb-2">85%</div>
+                <div className="text-3xl font-display mb-2">{stats?.accuracy || 0}%</div>
                 <div className="text-green-100">Accuracy</div>
               </CardContent>
             </Card>
