@@ -121,18 +121,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Section */}
-        <AnimatedCard delay={0} whileHover={false}>
-          <div className="mb-8">
-            <h1 className="text-4xl font-display text-black mb-2">
-              Welcome back! 👋
-            </h1>
-            <p className="text-xl text-gray-600">
-              Ready to continue your Shami learning journey?
-            </p>
-          </div>
-        </AnimatedCard>
-
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {displayStats.map((stat: any, index: number) => {
@@ -325,4 +313,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
 

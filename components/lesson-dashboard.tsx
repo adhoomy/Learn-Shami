@@ -128,14 +128,6 @@ export default function LessonDashboard() {
 
   return (
     <Card className="mb-8">
-      <CardHeader>
-        <CardTitle className="text-slate-900 dark:text-slate-100">
-          Welcome, {session?.user?.email}!
-        </CardTitle>
-        <CardDescription>
-          Ready to start learning? Choose a lesson below to begin your journey with Palestinian Arabic.
-        </CardDescription>
-      </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {/* Stats Summary */}

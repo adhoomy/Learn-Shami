@@ -28,16 +28,6 @@ export default function ReviewPage() {
     <ProtectedRoute>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-display text-black mb-4">
-              Review & Practice 🧠
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Strengthen your memory with spaced repetition and targeted practice
-            </p>
-          </div>
-
           {/* Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card className="bg-gradient-to-r from-primary-500 to-primary-600 text-white border-0 shadow-lg">

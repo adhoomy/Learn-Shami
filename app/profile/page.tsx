@@ -31,21 +31,6 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <AnimatedCard delay={0} whileHover={false}>
-          <div className="mb-8 text-center">
-            <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <User className="w-12 h-12 text-white" />
-            </div>
-            <h1 className="text-4xl font-display text-black mb-2">
-              {session?.user?.name || 'User Profile'}
-            </h1>
-            <p className="text-xl text-gray-600">
-              {session?.user?.email}
-            </p>
-          </div>
-        </AnimatedCard>
-
         {/* Profile Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <AnimatedCard delay={1}>

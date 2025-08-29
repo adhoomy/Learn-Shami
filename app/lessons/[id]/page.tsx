@@ -9,51 +9,14 @@ import LessonViewer from '@/components/LessonViewer';
 import Quiz from '@/components/Quiz';
 import Review from '@/components/Review';
 
-// Mock lesson data - replace with real API call
-const mockLessonItems = [
-  {
-    id: 'greet_0001',
-    arabic: 'مرحبا',
-    transliteration: 'marHaba',
-    english: 'Hello',
-    audioUrl: '/audio/greet_0001.wav'
-  },
-  {
-    id: 'greet_0002',
-    arabic: 'أهلين',
-    transliteration: 'ahleen',
-    english: 'Hi there',
-    audioUrl: '/audio/greet_0002.wav'
-  },
-  {
-    id: 'greet_0003',
-    arabic: 'أهلا وسهلا',
-    transliteration: 'ahlan wa sahlan',
-    english: 'Welcome',
-    audioUrl: '/audio/greet_0003.wav'
-  },
-  {
-    id: 'greet_0004',
-    arabic: 'صباح الخير',
-    transliteration: 'ṣabāḥ il-khēr',
-    english: 'Good morning',
-    audioUrl: '/audio/greet_0004.wav'
-  },
-  {
-    id: 'greet_0005',
-    arabic: 'مسا الخير',
-    transliteration: 'masāʾ il-khēr',
-    english: 'Good evening',
-    audioUrl: '/audio/greet_0005.wav'
-  }
-];
-
 export default function LessonPage({ params }: { params: Promise<{ id: string }> }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [lessonId, setLessonId] = useState<string>('');
   const [tab, setTab] = useState<'cards' | 'quiz' | 'review'>('cards');
+  const [lessonData, setLessonData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -76,12 +39,37 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
     else setTab('cards');
   }, [searchParams]);
 
-  if (status === "loading") {
+  useEffect(() => {
+    const loadLessonData = async () => {
+      if (!lessonId) return;
+      
+      try {
+        const response = await fetch(`/api/lessons/${lessonId}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Lesson data loaded:', data);
+          setLessonData(data);
+        } else {
+          console.error('Failed to load lesson:', response.status);
+        }
+      } catch (error) {
+        console.error('Error loading lesson:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (lessonId) {
+      loadLessonData();
+    }
+  }, [lessonId]);
+
+  if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-900 dark:border-slate-100 mx-auto"></div>
-          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading lesson...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-900 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading lesson...</p>
         </div>
       </div>
     );
@@ -91,16 +79,25 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
     return null;
   }
 
-  if (!lessonId) {
+  if (!lessonId || !lessonData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-slate-900 dark:border-slate-100 mx-auto mb-4"></div>
-          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading lesson ID...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-slate-900 mx-auto mb-4"></div>
+          <p className="mt-4 text-slate-600">Loading lesson data...</p>
         </div>
       </div>
     );
   }
+
+  // Transform lesson data to match expected format
+  const lessonItems = lessonData.data?.map((item: any) => ({
+    id: item.id,
+    arabic: item.arabic,
+    transliteration: item.transliteration,
+    english: item.english,
+    audioUrl: item.audioUrl || `/audio/${item.id}.wav`
+  })) || [];
 
   return (
     <ProtectedRoute>
@@ -144,9 +141,9 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
           </div>
 
           {/* Content */}
-          {tab === 'cards' && <LessonViewer lessonId={lessonId} items={mockLessonItems} />}
-          {tab === 'quiz' && <Quiz lessonId={lessonId} items={mockLessonItems} />}
-          {tab === 'review' && <Review lessonId={lessonId} items={mockLessonItems} />}
+          {tab === 'cards' && <LessonViewer lessonId={lessonId} items={lessonItems} />}
+          {tab === 'quiz' && <Quiz lessonId={lessonId} items={lessonItems} />}
+          {tab === 'review' && <Review lessonId={lessonId} items={lessonItems} />}
         </div>
       </div>
     </ProtectedRoute>
