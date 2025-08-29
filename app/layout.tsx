@@ -10,11 +10,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Lean to Falasteen - Master Palestinian Arabic",
   description: "Learn the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.",
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/logo.png",
-  },
 };
 
 export default function RootLayout({
