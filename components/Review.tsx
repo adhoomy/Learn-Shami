@@ -74,30 +74,30 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
 
   if (completed === items.length) {
     return (
-      <div className="bg-brand-background rounded-lg shadow-lg p-8">
-        <Card className="max-w-2xl mx-auto border-0 shadow-none bg-brand-background">
+      <div className="bg-white rounded-lg shadow-lg p-8">
+        <Card className="max-w-2xl mx-auto border-0 shadow-none bg-white">
           <CardContent className="p-8 text-center">
             <div className="mb-6">
-              <h2 className="text-3xl font-bold text-brand-dark mb-2">
+              <h2 className="text-3xl font-bold text-black mb-2">
                 Review Complete! 🎯
               </h2>
-              <p className="text-lg text-brand-dark/70">
+              <p className="text-lg text-gray-600">
                 Great job reviewing all items!
               </p>
             </div>
             
-            <div className="bg-brand-accentLight/20 rounded-2xl p-6 mb-6">
-              <div className="text-4xl font-bold text-brand-accent mb-2">
+            <div className="bg-primary-100 rounded-2xl p-6 mb-6">
+              <div className="text-4xl font-bold text-primary-600 mb-2">
                 {completed}/{items.length}
               </div>
-              <div className="text-lg text-brand-dark/70">
+              <div className="text-lg text-gray-700">
                 All items reviewed successfully!
               </div>
             </div>
             
             <Button 
               onClick={handleRestart}
-              className="bg-brand-accent hover:bg-brand-accentLight text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+              className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
               Review Again
@@ -109,13 +109,13 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
   }
 
   return (
-    <div className="bg-brand-background rounded-lg shadow-lg p-8">
-      <Card className="max-w-4xl mx-auto border-0 shadow-none bg-brand-background">
+    <div className="bg-white rounded-lg shadow-lg p-8">
+      <Card className="max-w-4xl mx-auto border-0 shadow-none bg-white">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-brand-dark">
+          <CardTitle className="text-2xl font-bold text-black">
             Spaced Repetition Review 🔄
           </CardTitle>
-          <p className="text-brand-dark/70">
+          <p className="text-gray-600">
             Review {currentIndex + 1} of {items.length}
           </p>
         </CardHeader>
@@ -124,10 +124,10 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
             <div className="space-y-8">
               {/* Arabic Text */}
               <div className="text-center mb-8">
-                <h3 className="text-5xl font-bold text-brand-dark mb-4 leading-tight">
+                <h3 className="text-5xl font-bold text-black mb-4 leading-tight">
                   {currentItem.arabic}
                 </h3>
-                <p className="text-xl text-brand-dark/70 italic mb-4">
+                <p className="text-xl text-gray-600 italic mb-4">
                   {currentItem.transliteration}
                 </p>
                 
@@ -135,7 +135,7 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
                 <Button
                   onClick={handleAudioPlay}
                   disabled={isPlaying}
-                  className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
+                  className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
                 >
                   <Volume2 className="w-5 h-5 mr-2" />
                   {isPlaying ? 'Playing...' : 'Play Audio'}
@@ -147,7 +147,7 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
                 <div className="text-center">
                   <Button
                     onClick={handleShowAnswer}
-                    className="bg-brand-primary hover:bg-brand-primary/90 text-white px-8 py-4 text-lg font-medium rounded-xl hover:scale-105 transition-all duration-200"
+                    className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 text-lg font-medium rounded-xl hover:scale-105 transition-all duration-200"
                   >
                     Show Answer
                   </Button>
@@ -158,12 +158,12 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
               {showAnswer && (
                 <div className="space-y-6">
                   <div className="text-center">
-                    <h4 className="text-2xl font-bold text-brand-dark mb-2">English Translation</h4>
-                    <p className="text-xl text-brand-dark/80">{currentItem.english}</p>
+                    <h4 className="text-2xl font-bold text-black mb-2">English Translation</h4>
+                    <p className="text-xl text-gray-700">{currentItem.english}</p>
                   </div>
 
                   <div className="text-center">
-                    <p className="text-lg text-brand-dark/70 mb-4">How well did you know this?</p>
+                    <p className="text-lg text-gray-600 mb-4">How well did you know this?</p>
                     <div className="flex justify-center space-x-4">
                       <Button
                         onClick={() => handleDifficultySelect('easy')}
@@ -192,11 +192,11 @@ export default function Review({ lessonId, items, onProgressUpdate }: ReviewProp
               <div className="text-center">
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div 
-                    className="h-full bg-brand-primary rounded-full transition-all duration-500"
+                    className="h-full bg-primary-500 rounded-full transition-all duration-500"
                     style={{ width: `${(completed / items.length) * 100}%` }}
                   />
                 </div>
-                <p className="text-sm text-brand-dark/60 mt-2">
+                <p className="text-sm text-gray-600 mt-2">
                   {completed} of {items.length} items reviewed
                 </p>
               </div>

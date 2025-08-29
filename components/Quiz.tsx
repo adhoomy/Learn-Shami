@@ -20,16 +20,35 @@ export default function Quiz({ lessonId, items, onProgressUpdate }: QuizProps) {
 
   const currentItem = items[currentQuestionIndex];
   
-  // Create quiz question from current item
+  // Create quiz question from current item with realistic incorrect answers
+  const generateQuizOptions = () => {
+    const correctAnswer = currentItem?.english;
+    const incorrectOptions = items
+      .filter(item => item.id !== currentItem.id) // Exclude current item
+      .map(item => item.english) // Get English translations from other items
+      .slice(0, 3); // Take first 3 incorrect options
+    
+    // If we don't have enough other items, add some generic but realistic options
+    while (incorrectOptions.length < 3) {
+      const genericOptions = [
+        "Hello", "Goodbye", "Thank you", "Please", "Yes", "No", 
+        "Water", "Food", "House", "Car", "Book", "Friend"
+      ];
+      const randomOption = genericOptions[Math.floor(Math.random() * genericOptions.length)];
+      if (!incorrectOptions.includes(randomOption) && randomOption !== correctAnswer) {
+        incorrectOptions.push(randomOption);
+      }
+    }
+    
+    // Combine correct and incorrect answers, then shuffle
+    const allOptions = [correctAnswer, ...incorrectOptions];
+    return allOptions.sort(() => Math.random() - 0.5);
+  };
+  
   const question = {
     question: `What does "${currentItem?.arabic}" mean?`,
     correctAnswer: currentItem?.english,
-    options: [
-      currentItem?.english,
-      "Incorrect option 1",
-      "Incorrect option 2", 
-      "Incorrect option 3"
-    ].sort(() => Math.random() - 0.5) // Shuffle options
+    options: generateQuizOptions()
   };
 
   const handleAnswerSelect = async (answer: string) => {
