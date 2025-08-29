@@ -31,6 +31,7 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  // Don't show navbar on landing page for unauthenticated users
   if (!session) return null;
 
   return (

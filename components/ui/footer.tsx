@@ -1,7 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { BookOpen, Heart } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 export default function Footer() {
+  const { data: session } = useSession();
   const currentYear = new Date().getFullYear();
   
   const quickLinks = [
@@ -10,6 +14,9 @@ export default function Footer() {
     { name: 'Privacy', href: '/privacy' },
     { name: 'Terms', href: '/terms' },
   ];
+
+  // Don't show footer on landing page for unauthenticated users
+  if (!session) return null;
 
   return (
     <footer className="bg-white border-t border-neutral-200 mt-auto">
