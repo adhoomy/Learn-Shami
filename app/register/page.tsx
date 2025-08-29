@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BookOpen, Eye, EyeOff, User, Mail, Lock } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 function RegisterForm() {
   const router = useRouter();
@@ -46,10 +47,36 @@ function RegisterForm() {
       });
 
       if (response.ok) {
-        setMessage("Registration successful! Redirecting to login...");
-        setTimeout(() => {
-          router.push('/login?message=Registration successful! Please sign in.');
-        }, 2000);
+        setMessage("Account created successfully! Signing you in...");
+        
+        // Clear form
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+        
+        // Automatically sign in the user
+        const signInResult = await signIn("credentials", {
+          email: formData.email,
+          password: formData.password,
+          redirect: false,
+        });
+
+        if (signInResult?.error) {
+          setMessage('Account created but sign in failed. Please sign in manually.');
+          // Fallback to manual sign-in flow
+          setTimeout(() => {
+            router.push('/login?message=Registration successful! Please sign in.');
+          }, 3000);
+        } else {
+          setMessage(`Welcome, ${formData.name}! Redirecting to your dashboard...`);
+          // Redirect to dashboard after successful sign-in
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
+        }
       } else {
         const error = await response.json();
         setMessage(error.error || 'Registration failed');

@@ -81,7 +81,10 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
           }, 3000);
         } else {
           setMessage(`Welcome, ${formData.name}! Redirecting to your dashboard...`);
-          // The session will update automatically and redirect to home
+          // Redirect to dashboard after successful sign-in
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
         }
       } else {
         setMessage(data.error || 'Registration failed');
