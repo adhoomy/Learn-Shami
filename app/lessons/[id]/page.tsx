@@ -107,7 +107,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-brand-background p-8">
+      <div className="min-h-screen bg-white p-8">
         <div className="max-w-6xl mx-auto">
           {/* User Header */}
           <UserHeader />
@@ -117,8 +117,8 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
             <button
               className={`px-4 py-2 rounded border transition-all duration-200 ${
                 tab === 'cards'
-                  ? 'bg-brand-primary text-white border-brand-primary shadow-lg'
-                  : 'bg-brand-background text-brand-dark border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
+                  ? 'bg-primary-600 text-white border-primary-600 shadow-lg'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-primary-500'
               }`}
               onClick={() => router.push(`/lessons/${lessonId}?view=cards`)}
             >
@@ -127,8 +127,8 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
             <button
               className={`px-4 py-2 rounded border transition-all duration-200 ${
                 tab === 'quiz'
-                  ? 'bg-brand-primary text-white border-brand-primary shadow-lg'
-                  : 'bg-brand-background text-brand-dark border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
+                  ? 'bg-primary-600 text-white border-primary-600 shadow-lg'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-primary-500'
               }`}
               onClick={() => router.push(`/lessons/${lessonId}?view=quiz`)}
             >
@@ -137,8 +137,8 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
             <button
               className={`px-4 py-2 rounded border transition-all duration-200 ${
                 tab === 'review'
-                  ? 'bg-brand-primary text-white border-brand-primary shadow-lg'
-                  : 'bg-brand-background text-brand-dark border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
+                  ? 'bg-primary-600 text-white border-primary-600 shadow-lg'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-primary-500'
               }`}
               onClick={() => router.push(`/lessons/${lessonId}?view=review`)}
             >

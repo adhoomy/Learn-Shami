@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, Volume2, CheckCircle, XCircle, RotateCcw, TrendingUp } from "lucide-react";
+import { Play, Volume2, CheckCircle, XCircle, RotateCcw, TrendingUp, Eye, Minus } from "lucide-react";
 import { useAudio } from "@/lib/useAudio";
+import { AudioPlayer } from '@/components/ui/audio-player';
 
 interface ReviewProps {
   lessonId: string;

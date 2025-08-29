@@ -121,33 +121,29 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
   }
 
   return (
-    <div className="min-h-screen bg-brand-background py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-brand-dark mb-2">
-            Lesson {lessonId}
-          </h1>
-          <p className="text-lg text-brand-dark/70">
-            Master the Shami dialect one phrase at a time
-          </p>
+          <h1 className="text-3xl font-display text-black mb-4">Lesson {lessonId}</h1>
+          <div className="flex items-center justify-center space-x-4 text-gray-600">
+            <span>{items.length} items</span>
+            <span>•</span>
+            <span>{completedItems.size} completed</span>
+          </div>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-brand-dark/70">
-              Progress: {completedItems.size} / {items.length}
-            </span>
-            <span className="text-sm font-medium text-brand-dark/70">
-              {Math.round(progress)}%
-            </span>
+          <div className="flex justify-between text-sm mb-2">
+            <span className="text-gray-600">Progress</span>
+            <span className="font-medium text-black">{Math.round(progress)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+          <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
-              className="h-full bg-brand-primary rounded-full transition-all duration-1000 ease-out"
+              className="bg-primary-500 h-3 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
-            />
+            ></div>
           </div>
         </div>
 
@@ -159,8 +155,8 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
               onClick={() => setActiveTab(tab.id)}
               className={`px-6 py-3 mx-2 rounded-xl font-medium transition-all duration-200 ${
                 activeTab === tab.id
-                  ? 'bg-brand-primary text-white shadow-lg'
-                  : 'bg-brand-background text-brand-dark border border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
+                  ? 'bg-primary-600 text-white shadow-lg'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:border-primary-500'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -173,21 +169,21 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
         {activeTab === 'cards' && (
           <div className="space-y-6">
             {currentItem && (
-              <Card className="text-center p-8 bg-brand-background border-brand-accentLight shadow-lg">
+              <Card className="text-center p-8 bg-white border-gray-200 shadow-lg">
                 <CardContent className="space-y-6">
                   {/* Arabic Text */}
                   <div className="mb-6">
-                    <h2 className="text-6xl font-bold text-brand-dark mb-4 leading-tight">
+                    <h2 className="text-6xl font-display text-black mb-4 leading-tight">
                       {currentItem.arabic}
                     </h2>
-                    <p className="text-xl text-brand-dark/70 italic">
+                    <p className="text-xl text-gray-600 italic">
                       {currentItem.transliteration}
                     </p>
                   </div>
 
                   {/* English Translation */}
                   <div className="mb-6">
-                    <p className="text-2xl text-brand-dark/80 font-medium">
+                    <p className="text-2xl text-gray-700 font-medium">
                       {currentItem.english}
                     </p>
                   </div>
@@ -197,7 +193,7 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
                     <Button
                       onClick={handleAudioPlay}
                       disabled={isPlaying}
-                      className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
+                      className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
                     >
                       <Play className="w-5 h-5 mr-2" />
                       {isPlaying ? 'Playing...' : 'Play Audio'}
@@ -210,7 +206,7 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
                       onClick={handlePrevious}
                       disabled={isFirstItem}
                       variant="outline"
-                      className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="text-primary-600 border-primary-200 hover:bg-primary-50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <ArrowLeft className="w-4 h-4 mr-2" />
                       Previous
@@ -219,7 +215,7 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
                     <div className="flex space-x-2">
                       <Button
                         onClick={handleComplete}
-                        className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
+                        className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
                       >
                         <CheckCircle className="w-4 h-4 mr-2" />
                         Mark as Done
@@ -230,7 +226,7 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
                       onClick={handleNext}
                       disabled={isLastItem}
                       variant="outline"
-                      className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="text-primary-600 border-primary-200 hover:bg-primary-50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Next
                       <ArrowRight className="w-4 h-4 ml-2" />
@@ -243,11 +239,11 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
         )}
 
         {activeTab === 'quiz' && (
-          <Quiz lessonId={lessonId} items={items} />
+          <Quiz lessonId={lessonId} items={items} onProgressUpdate={onProgressUpdate} />
         )}
 
         {activeTab === 'review' && (
-          <Review lessonId={lessonId} items={items} />
+          <Review lessonId={lessonId} items={items} onProgressUpdate={onProgressUpdate} />
         )}
       </div>
     </div>

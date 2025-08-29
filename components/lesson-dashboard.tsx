@@ -127,41 +127,41 @@ export default function LessonDashboard() {
   }
 
   return (
-    <Card className="mb-8 bg-brand-background border-brand-accentLight">
+    <Card className="mb-8 bg-white border-gray-200">
       <CardContent>
         <div className="space-y-4">
           {/* Stats Summary */}
           {stats ? (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
-                <div className="text-sm text-brand-dark/60">📚 Items Learned</div>
-                <div className="text-2xl font-semibold text-brand-dark">{stats.totalLearned}</div>
+              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
+                <div className="text-sm text-gray-600">📚 Items Learned</div>
+                <div className="text-2xl font-semibold text-black">{stats.totalLearned}</div>
               </div>
-              <div className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
-                <div className="text-sm text-brand-dark/60">⏳ Reviews Due Today</div>
-                <div className="text-2xl font-semibold text-brand-dark">{stats.dueToday}</div>
+              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
+                <div className="text-sm text-gray-600">⏳ Reviews Due Today</div>
+                <div className="text-2xl font-semibold text-black">{stats.dueToday}</div>
               </div>
-              <div className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
-                <div className="text-sm text-brand-dark/60">🔥 Streak</div>
-                <div className="text-2xl font-semibold text-brand-dark">{stats.streak} days</div>
+              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
+                <div className="text-sm text-gray-600">🔥 Streak</div>
+                <div className="text-2xl font-semibold text-black">{stats.streak} days</div>
               </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {['Items Learned','Reviews Due Today','Streak'].map((label, i) => (
-                <div key={i} className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
-                  <div className="text-sm text-brand-dark/60">{label}</div>
-                  <div className="h-7 mt-1 bg-brand-accentLight/30 rounded animate-pulse" />
+                <div key={i} className="p-4 rounded-lg border border-gray-200 bg-gray-50">
+                  <div className="text-sm text-gray-600">{label}</div>
+                  <div className="h-7 mt-1 bg-gray-300 rounded animate-pulse" />
                 </div>
               ))}
             </div>
           )}
           
-          <div className="flex items-center justify-between p-4 border border-brand-accentLight rounded-lg bg-brand-background">
-            <div className="text-brand-dark/70">
+          <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <div className="text-gray-700">
               <span className="font-medium">{dueCount}</span> items due for review today
             </div>
-            <Button variant="outline" onClick={() => router.push('/review')} className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20">
+            <Button variant="outline" onClick={() => router.push('/review')} className="text-primary-600 border-primary-200 hover:bg-primary-50">
               Review Now
             </Button>
           </div>
@@ -174,33 +174,33 @@ export default function LessonDashboard() {
             return (
               <div 
                 key={lesson.lessonId}
-                className="flex items-center justify-between p-4 border border-brand-accentLight rounded-lg hover:bg-brand-accentLight/10 transition-colors bg-brand-background"
+                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-brand-dark">
+                    <h3 className="text-lg font-semibold text-black">
                       Lesson {lesson.lessonId}: {lesson.title}
                       {progress && (
-                        <span className="ml-2 text-sm text-brand-dark/60">— {completionPercentage}% complete</span>
+                        <span className="ml-2 text-sm text-gray-600">— {completionPercentage}% complete</span>
                       )}
                     </h3>
                     {lessonDue > 0 && (
-                      <span className="px-2 py-1 bg-brand-accent/20 text-brand-accent text-xs font-medium rounded-full">
+                      <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                         {lessonDue} due
                       </span>
                     )}
                     {progress && (
-                      <span className="px-2 py-1 bg-brand-accentLight/20 text-brand-accent text-xs font-medium rounded-full">
+                      <span className="px-2 py-1 bg-primary-100 text-primary-700 text-xs font-medium rounded-full">
                         {completionPercentage}% Complete
                       </span>
                     )}
                   </div>
                   
-                  <p className="text-brand-dark/70 mb-2">
+                  <p className="text-gray-600 mb-2">
                     {lesson.description}
                   </p>
                   
-                  <div className="flex items-center gap-4 text-sm text-brand-dark/60">
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
                     <span>{lesson.totalItems} items</span>
                     <span>•</span>
                     <span>~{Math.ceil(lesson.totalItems / 5)} min</span>
@@ -210,10 +210,10 @@ export default function LessonDashboard() {
                 <div className="flex items-center gap-3">
                   {progress && progress.completedItems.length > 0 && (
                     <div className="text-right">
-                      <div className="text-sm text-brand-dark/60 mb-1">Progress</div>
-                      <div className="w-20 bg-brand-accentLight/30 rounded-full h-2">
+                      <div className="text-sm text-gray-600 mb-1">Progress</div>
+                      <div className="w-20 bg-gray-200 rounded-full h-2">
                         <div 
-                          className="bg-brand-accent h-2 rounded-full transition-all duration-500"
+                          className="bg-primary-500 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${completionPercentage}%` }}
                         />
                       </div>
@@ -222,7 +222,7 @@ export default function LessonDashboard() {
                   
                   <Button 
                     onClick={() => router.push(`/lessons/${lesson.lessonId}`)}
-                    className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200"
+                    className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200"
                   >
                     {progress && progress.completedItems.length > 0 ? 'Continue' : 'Start'}
                   </Button>

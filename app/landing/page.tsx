@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Globe, Brain, Users } from "lucide-react";
+import { BookOpen, Globe, Brain, Users, Heart, Mail, Shield, FileText } from "lucide-react";
 import Link from "next/link";
 
 export default function LandingPage() {
@@ -34,95 +34,185 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-6">
-            <BookOpen className="w-12 h-12 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
+      <div className="flex-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <BookOpen className="w-12 h-12 text-white" />
+            </div>
+            <h1 className="text-5xl font-display text-black mb-6">
+              Welcome to ShamiLearn
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Master the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning. 
+              Start your journey to fluency today.
+            </p>
           </div>
-          <h1 className="text-5xl font-display text-black mb-6">
-            Welcome to ShamiLearn
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Master the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning. 
-            Start your journey to fluency today.
-          </p>
-        </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <BookOpen className="w-8 h-8 text-primary-600" />
-            </div>
-            <h3 className="text-xl font-display text-black mb-3">Interactive Lessons</h3>
-            <p className="text-gray-600">
-              Learn through engaging flashcards, audio pronunciation, and interactive exercises
-            </p>
-          </Card>
-
-          <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
-            <div className="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Brain className="w-8 h-8 text-accent-600" />
-            </div>
-            <h3 className="text-xl font-display text-black mb-3">Smart Review</h3>
-            <p className="text-gray-600">
-              AI-powered spaced repetition ensures long-term retention of what you learn
-            </p>
-          </Card>
-
-          <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Users className="w-8 h-8 text-green-600" />
-            </div>
-            <h3 className="text-xl font-display text-black mb-3">Community</h3>
-            <p className="text-gray-600">
-              Join a community of learners and track your progress with detailed analytics
-            </p>
-          </Card>
-        </div>
-
-        {/* CTA Section */}
-        <Card className="bg-gradient-to-r from-primary-500 to-accent-500 text-white border-0 shadow-lg">
-          <CardContent className="p-12 text-center">
-            <div className="max-w-2xl mx-auto">
-              <h2 className="text-4xl font-display mb-6">
-                Ready to start learning? 🚀
-              </h2>
-              <p className="text-primary-100 text-xl mb-8">
-                Join thousands of learners mastering Shami Arabic. Create your account and begin your journey today.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/login">
-                  <Button 
-                    size="lg" 
-                    className="bg-white text-primary-600 hover:bg-gray-100 hover:scale-105 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl shadow-lg"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button 
-                    size="lg" 
-                    variant="outline"
-                    className="border-white text-white hover:bg-white hover:text-primary-600 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl"
-                  >
-                    Create Account
-                  </Button>
-                </Link>
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
+              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="w-8 h-8 text-primary-600" />
               </div>
-            </div>
-          </CardContent>
-        </Card>
+              <h3 className="text-xl font-display text-black mb-3">Interactive Lessons</h3>
+              <p className="text-gray-600">
+                Learn through engaging flashcards, audio pronunciation, and interactive exercises
+              </p>
+            </Card>
 
-        {/* Footer Info */}
-        <div className="text-center mt-16">
-          <p className="text-gray-500 text-sm">
-            Already have an account? <Link href="/login" className="text-primary-600 hover:underline">Sign in here</Link>
-          </p>
+            <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
+              <div className="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Brain className="w-8 h-8 text-accent-600" />
+              </div>
+              <h3 className="text-xl font-display text-black mb-3">Smart Review</h3>
+              <p className="text-gray-600">
+                AI-powered spaced repetition ensures long-term retention of what you learn
+              </p>
+            </Card>
+
+            <Card className="text-center p-8 hover:scale-105 transition-all duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-display text-black mb-3">Community</h3>
+              <p className="text-gray-600">
+                Join a community of learners and track your progress with detailed analytics
+              </p>
+            </Card>
+          </div>
+
+          {/* CTA Section */}
+          <Card className="bg-gradient-to-r from-primary-500 to-accent-500 text-white border-0 shadow-lg">
+            <CardContent className="p-12 text-center">
+              <div className="max-w-2xl mx-auto">
+                <h2 className="text-4xl font-display mb-6">
+                  Ready to start learning? 🚀
+                </h2>
+                <p className="text-primary-100 text-xl mb-8">
+                  Join thousands of learners mastering Shami Arabic. Create your account and begin your journey today.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link href="/login">
+                    <Button 
+                      size="lg" 
+                      className="bg-white text-primary-600 hover:bg-gray-100 hover:scale-105 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl shadow-lg"
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button 
+                      size="lg" 
+                      variant="outline"
+                      className="border-white text-white hover:bg-white hover:text-primary-600 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl"
+                    >
+                      Create Account
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Footer Info */}
+          <div className="text-center mt-16">
+            <p className="text-gray-500 text-sm">
+              Already have an account? <Link href="/login" className="text-primary-600 hover:underline">Sign in here</Link>
+            </p>
+          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-neutral-200 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Brand Section */}
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-xl font-display text-neutral-900">ShamiLearn</span>
+              </div>
+              <p className="text-neutral-600 max-w-md mb-4">
+                Master the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.
+              </p>
+              <div className="flex items-center space-x-1 text-sm text-neutral-500">
+                <span>Made with</span>
+                <Heart className="w-4 h-4 text-red-500" />
+                <span>for Arabic learners</span>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-sm font-semibold text-neutral-900 uppercase tracking-wider mb-3">
+                Get Started
+              </h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/login" className="text-neutral-600 hover:text-primary-600 transition-colors duration-200 text-sm">
+                    Sign In
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/register" className="text-neutral-600 hover:text-primary-600 transition-colors duration-200 text-sm">
+                    Create Account
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/lessons" className="text-neutral-600 hover:text-primary-600 transition-colors duration-200 text-sm">
+                    Browse Lessons
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal & Support */}
+            <div>
+              <h3 className="text-sm font-semibold text-neutral-900 uppercase tracking-wider mb-3">
+                Legal & Support
+              </h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/privacy" className="text-neutral-600 hover:text-primary-600 transition-colors duration-200 text-sm flex items-center">
+                    <Shield className="w-3 h-3 mr-2" />
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-neutral-600 hover:text-primary-600 transition-colors duration-200 text-sm flex items-center">
+                    <FileText className="w-3 h-3 mr-2" />
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-neutral-600 hover:text-primary-600 transition-colors duration-200 text-sm flex items-center">
+                    <Mail className="w-3 h-3 mr-2" />
+                    Contact Us
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="mt-8 pt-8 border-t border-neutral-200">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+              <p className="text-sm text-neutral-500">
+                © {new Date().getFullYear()} ShamiLearn. All rights reserved.
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-neutral-500">
+                <span>Built with Next.js & Tailwind CSS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
