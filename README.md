@@ -1,4 +1,4 @@
-# ShamiLearn
+# Lean to Falasteen
 
 Fullstack app to learn Palestinian Arabic with SM-2 spaced repetition.
 

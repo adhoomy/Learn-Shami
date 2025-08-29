@@ -99,7 +99,7 @@ function RegisterForm() {
             </div>
           </div>
           <h1 className="text-3xl font-display text-neutral-900 mb-2">
-            Join ShamiLearn
+            Join Lean to Falasteen
           </h1>
           <p className="text-lg text-neutral-600">
             Start your journey to master Palestinian Arabic

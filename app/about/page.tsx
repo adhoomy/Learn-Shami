@@ -21,7 +21,7 @@ export default function AboutPage() {
             <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <BookOpen className="w-8 h-8 text-primary-600" />
             </div>
-            <h1 className="text-4xl font-display text-black mb-4">About ShamiLearn</h1>
+            <h1 className="text-4xl font-display text-black mb-4">About Lean to Falasteen</h1>
             <p className="text-lg text-gray-600">Empowering learners to master Palestinian Arabic</p>
           </div>
         </div>
@@ -33,7 +33,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-gray-700 text-lg leading-relaxed">
-              ShamiLearn is dedicated to making Palestinian Arabic accessible to learners worldwide. 
+              Lean to Falasteen is dedicated to making Palestinian Arabic accessible to learners worldwide. 
               We believe that language is a bridge to understanding culture, history, and people. 
               Our platform combines traditional learning methods with modern technology to create 
               an engaging and effective learning experience.
@@ -110,10 +110,10 @@ export default function AboutPage() {
           </Card>
         </div>
 
-        {/* Why Choose ShamiLearn */}
+        {/* Why Choose Lean to Falasteen */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="text-2xl font-display text-black">Why Choose ShamiLearn?</CardTitle>
+            <CardTitle className="text-2xl font-display text-black">Why Choose Lean to Falasteen?</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -158,7 +158,7 @@ export default function AboutPage() {
                 Ready to Start Learning? 🚀
               </h2>
               <p className="text-primary-100 text-lg mb-6">
-                Join thousands of learners who are already mastering Palestinian Arabic with ShamiLearn.
+                Join thousands of learners who are already mastering Palestinian Arabic with Lean to Falasteen.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/register">

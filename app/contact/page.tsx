@@ -65,7 +65,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-black">Email</h3>
-                    <p className="text-gray-600">support@shamilearn.com</p>
+                    <p className="text-gray-600">support@leantofalasteen.com</p>
                   </div>
                 </div>
 
@@ -199,7 +199,7 @@ export default function ContactPage() {
               
               <div>
                 <h3 className="font-semibold text-black">Is there a mobile app available?</h3>
-                <p className="text-gray-600">Currently, ShamiLearn is web-based and works great on mobile browsers. We're working on native mobile apps for iOS and Android.</p>
+                <p className="text-gray-600">Currently, Lean to Falasteen is web-based and works great on mobile browsers. We're working on native mobile apps for iOS and Android.</p>
               </div>
             </div>
           </CardContent>

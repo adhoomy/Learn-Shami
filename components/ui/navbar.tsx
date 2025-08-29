@@ -43,7 +43,7 @@ export default function Navbar() {
             <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-display text-neutral-900">ShamiLearn</span>
+                            <span className="text-xl font-display text-neutral-900">Lean to Falasteen</span>
           </Link>
 
           {/* Desktop Navigation */}

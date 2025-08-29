@@ -42,8 +42,8 @@ export default function LandingPage() {
             <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-6">
               <BookOpen className="w-12 h-12 text-white" />
             </div>
-            <h1 className="text-5xl font-display text-black mb-6">
-              Welcome to ShamiLearn
+            <h1 className="text-4xl font-display text-neutral-900 mb-4">
+              Welcome to Lean to Falasteen
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Master the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning. 
@@ -136,7 +136,7 @@ export default function LandingPage() {
                 <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
                   <BookOpen className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-display text-neutral-900">ShamiLearn</span>
+                <span className="text-xl font-display text-neutral-900">Lean to Falasteen</span>
               </div>
               <p className="text-neutral-600 max-w-md mb-4">
                 Master the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.
@@ -204,7 +204,7 @@ export default function LandingPage() {
           <div className="mt-8 pt-8 border-t border-neutral-200">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
               <p className="text-sm text-neutral-500">
-                © {new Date().getFullYear()} ShamiLearn. All rights reserved.
+                © {new Date().getFullYear()} Lean to Falasteen. All rights reserved.
               </p>
               <div className="flex items-center space-x-4 text-sm text-neutral-500">
                 <span>Built with Next.js & Tailwind CSS</span>
