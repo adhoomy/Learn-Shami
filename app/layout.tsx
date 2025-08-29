@@ -11,12 +11,8 @@ export const metadata: Metadata = {
   title: "Lean to Falasteen - Master Palestinian Arabic",
   description: "Learn the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo.png", sizes: "16x16", type: "image/png" },
-    ],
-    shortcut: "/logo.png",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
     apple: "/logo.png",
   },
 };
@@ -28,6 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+      </head>
       <body className={inter.className}>
         <AuthSessionProvider>
           <div className="min-h-screen flex flex-col">
