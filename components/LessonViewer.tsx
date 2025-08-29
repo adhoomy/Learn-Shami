@@ -121,14 +121,14 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+    <div className="min-h-screen bg-brand-background py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-display text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-brand-dark mb-2">
             Lesson {lessonId}
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-brand-dark/70">
             Master the Shami dialect one phrase at a time
           </p>
         </div>
@@ -136,16 +136,16 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-brand-dark/70">
               Progress: {completedItems.size} / {items.length}
             </span>
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-brand-dark/70">
               {Math.round(progress)}%
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
             <div 
-              className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000 ease-out"
+              className="h-full bg-brand-primary rounded-full transition-all duration-1000 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -159,8 +159,8 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
               onClick={() => setActiveTab(tab.id)}
               className={`px-6 py-3 mx-2 rounded-xl font-medium transition-all duration-200 ${
                 activeTab === tab.id
-                  ? 'bg-primary-500 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-brand-primary text-white shadow-lg'
+                  : 'bg-brand-background text-brand-dark border border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -173,37 +173,34 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
         {activeTab === 'cards' && (
           <div className="space-y-6">
             {currentItem && (
-              <Card className="text-center p-8">
+              <Card className="text-center p-8 bg-brand-background border-brand-accentLight shadow-lg">
                 <CardContent className="space-y-6">
                   {/* Arabic Text */}
                   <div className="mb-6">
-                    <h2 className="text-6xl font-display text-gray-900 mb-4 leading-tight">
+                    <h2 className="text-6xl font-bold text-brand-dark mb-4 leading-tight">
                       {currentItem.arabic}
                     </h2>
-                    <p className="text-xl text-gray-600 italic">
+                    <p className="text-xl text-brand-dark/70 italic">
                       {currentItem.transliteration}
                     </p>
                   </div>
 
                   {/* English Translation */}
                   <div className="mb-6">
-                    <p className="text-2xl text-gray-700 font-medium">
+                    <p className="text-2xl text-brand-dark/80 font-medium">
                       {currentItem.english}
                     </p>
                   </div>
 
-                  {/* Audio Player */}
-                  <div className="flex justify-center">
+                  {/* Audio Controls */}
+                  <div className="flex justify-center space-x-4">
                     <Button
                       onClick={handleAudioPlay}
                       disabled={isPlaying}
-                      className="w-16 h-16 rounded-full bg-primary-500 hover:bg-primary-600 p-0"
+                      className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
                     >
-                      {isPlaying ? (
-                        <Volume2 className="w-8 h-8" />
-                      ) : (
-                        <Play className="w-8 h-8 ml-1" />
-                      )}
+                      <Play className="w-5 h-5 mr-2" />
+                      {isPlaying ? 'Playing...' : 'Play Audio'}
                     </Button>
                   </div>
 
@@ -213,34 +210,30 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
                       onClick={handlePrevious}
                       disabled={isFirstItem}
                       variant="outline"
-                      className="flex items-center space-x-2"
+                      className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <ArrowLeft className="w-4 h-4" />
+                      <ArrowLeft className="w-4 h-4 mr-2" />
                       Previous
                     </Button>
 
-                    <div className="text-sm text-gray-500">
-                      {currentIndex + 1} of {items.length}
+                    <div className="flex space-x-2">
+                      <Button
+                        onClick={handleComplete}
+                        className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
+                      >
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Mark as Done
+                      </Button>
                     </div>
 
                     <Button
                       onClick={handleNext}
                       disabled={isLastItem}
-                      className="flex items-center space-x-2"
+                      variant="outline"
+                      className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Next
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-
-                  {/* Complete Button */}
-                  <div className="pt-4">
-                    <Button
-                      onClick={handleComplete}
-                      className="bg-green-500 hover:bg-green-600"
-                    >
-                      <CheckCircle className="w-4 h-4 mr-2" />
-                      Mark as Complete
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </div>
                 </CardContent>

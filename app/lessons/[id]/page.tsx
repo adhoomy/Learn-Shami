@@ -107,7 +107,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-white p-8">
+      <div className="min-h-screen bg-brand-background p-8">
         <div className="max-w-6xl mx-auto">
           {/* User Header */}
           <UserHeader />
@@ -115,30 +115,30 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
           {/* Tabs */}
           <div className="mt-4 mb-6 flex gap-2">
             <button
-              className={`px-4 py-2 rounded border ${
+              className={`px-4 py-2 rounded border transition-all duration-200 ${
                 tab === 'cards'
-                  ? 'bg-black text-white border-black'
-                  : 'bg-transparent text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'bg-brand-primary text-white border-brand-primary shadow-lg'
+                  : 'bg-brand-background text-brand-dark border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
               }`}
               onClick={() => router.push(`/lessons/${lessonId}?view=cards`)}
             >
               Cards
             </button>
             <button
-              className={`px-4 py-2 rounded border ${
+              className={`px-4 py-2 rounded border transition-all duration-200 ${
                 tab === 'quiz'
-                  ? 'bg-black text-white border-black'
-                  : 'bg-transparent text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'bg-brand-primary text-white border-brand-primary shadow-lg'
+                  : 'bg-brand-background text-brand-dark border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
               }`}
               onClick={() => router.push(`/lessons/${lessonId}?view=quiz`)}
             >
               Quiz
             </button>
             <button
-              className={`px-4 py-2 rounded border ${
+              className={`px-4 py-2 rounded border transition-all duration-200 ${
                 tab === 'review'
-                  ? 'bg-black text-white border-black'
-                  : 'bg-transparent text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'bg-brand-primary text-white border-brand-primary shadow-lg'
+                  : 'bg-brand-background text-brand-dark border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent'
               }`}
               onClick={() => router.push(`/lessons/${lessonId}?view=review`)}
             >

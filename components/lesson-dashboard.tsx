@@ -127,41 +127,43 @@ export default function LessonDashboard() {
   }
 
   return (
-    <Card className="mb-8">
+    <Card className="mb-8 bg-brand-background border-brand-accentLight">
       <CardContent>
         <div className="space-y-4">
           {/* Stats Summary */}
           {stats ? (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-                <div className="text-sm text-slate-500 dark:text-slate-400">📚 Items Learned</div>
-                <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.totalLearned}</div>
+              <div className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
+                <div className="text-sm text-brand-dark/60">📚 Items Learned</div>
+                <div className="text-2xl font-semibold text-brand-dark">{stats.totalLearned}</div>
               </div>
-              <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-                <div className="text-sm text-slate-500 dark:text-slate-400">⏳ Reviews Due Today</div>
-                <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.dueToday}</div>
+              <div className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
+                <div className="text-sm text-brand-dark/60">⏳ Reviews Due Today</div>
+                <div className="text-2xl font-semibold text-brand-dark">{stats.dueToday}</div>
               </div>
-              <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-                <div className="text-sm text-slate-500 dark:text-slate-400">🔥 Streak</div>
-                <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{stats.streak} days</div>
+              <div className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
+                <div className="text-sm text-brand-dark/60">🔥 Streak</div>
+                <div className="text-2xl font-semibold text-brand-dark">{stats.streak} days</div>
               </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {['Items Learned','Reviews Due Today','Streak'].map((label, i) => (
-                <div key={i} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-                  <div className="text-sm text-slate-500 dark:text-slate-400">{label}</div>
-                  <div className="h-7 mt-1 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                <div key={i} className="p-4 rounded-lg border border-brand-accentLight bg-brand-background">
+                  <div className="text-sm text-brand-dark/60">{label}</div>
+                  <div className="h-7 mt-1 bg-brand-accentLight/30 rounded animate-pulse" />
                 </div>
               ))}
             </div>
           )}
           
-          <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
-            <div className="text-slate-700 dark:text-slate-300">
+          <div className="flex items-center justify-between p-4 border border-brand-accentLight rounded-lg bg-brand-background">
+            <div className="text-brand-dark/70">
               <span className="font-medium">{dueCount}</span> items due for review today
             </div>
-            <Button variant="outline" onClick={() => router.push('/review')}>Review Now</Button>
+            <Button variant="outline" onClick={() => router.push('/review')} className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20">
+              Review Now
+            </Button>
           </div>
           
           {lessons.map((lesson) => {
@@ -172,89 +174,62 @@ export default function LessonDashboard() {
             return (
               <div 
                 key={lesson.lessonId}
-                className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                className="flex items-center justify-between p-4 border border-brand-accentLight rounded-lg hover:bg-brand-accentLight/10 transition-colors bg-brand-background"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                    <h3 className="text-lg font-semibold text-brand-dark">
                       Lesson {lesson.lessonId}: {lesson.title}
                       {progress && (
-                        <span className="ml-2 text-sm text-slate-500 dark:text-slate-400">— {completionPercentage}% complete</span>
+                        <span className="ml-2 text-sm text-brand-dark/60">— {completionPercentage}% complete</span>
                       )}
                     </h3>
                     {lessonDue > 0 && (
-                      <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full">
+                      <span className="px-2 py-1 bg-brand-accent/20 text-brand-accent text-xs font-medium rounded-full">
                         {lessonDue} due
                       </span>
                     )}
                     {progress && (
-                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">
+                      <span className="px-2 py-1 bg-brand-accentLight/20 text-brand-accent text-xs font-medium rounded-full">
                         {completionPercentage}% Complete
                       </span>
                     )}
                   </div>
                   
-                  <p className="text-slate-600 dark:text-slate-400 mb-2">
+                  <p className="text-brand-dark/70 mb-2">
                     {lesson.description}
                   </p>
                   
-                  {/* Progress Bar */}
-                  {progress && (
-                    <div className="mb-3">
-                      <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
-                        <span>Progress</span>
-                        <span>{progress.completedItems.length} / {lesson.totalItems} items complete ({completionPercentage}%)</span>
-                      </div>
-                      <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                        <div 
-                          className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${completionPercentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                    <span className="flex items-center gap-1">
-                      <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                      {lesson.difficulty}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      {lesson.estimatedTime}
-                    </span>
+                  <div className="flex items-center gap-4 text-sm text-brand-dark/60">
+                    <span>{lesson.totalItems} items</span>
+                    <span>•</span>
+                    <span>~{Math.ceil(lesson.totalItems / 5)} min</span>
                   </div>
-                  
-                  {lesson.tags && lesson.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {lesson.tags.map((tag, index) => (
-                        <span 
-                          key={index}
-                          className="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
                 
-                <Button 
-                  onClick={() => goToLesson(lesson.lessonId)}
-                  className="ml-4"
-                  variant={progress && completionPercentage > 0 ? "default" : "outline"}
-                >
-                  {progress && completionPercentage > 0 ? 'Continue' : 'Start'} Lesson
-                </Button>
+                <div className="flex items-center gap-3">
+                  {progress && progress.completedItems.length > 0 && (
+                    <div className="text-right">
+                      <div className="text-sm text-brand-dark/60 mb-1">Progress</div>
+                      <div className="w-20 bg-brand-accentLight/30 rounded-full h-2">
+                        <div 
+                          className="bg-brand-accent h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${completionPercentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
+                  <Button 
+                    onClick={() => router.push(`/lessons/${lesson.lessonId}`)}
+                    className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200"
+                  >
+                    {progress && progress.completedItems.length > 0 ? 'Continue' : 'Start'}
+                  </Button>
+                </div>
               </div>
             );
           })}
-          
-          {lessons.length === 0 && (
-            <div className="text-center py-8 text-slate-500 dark:text-slate-400">
-              <p>No lessons available yet. Check back soon!</p>
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>

@@ -119,7 +119,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-brand-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -127,17 +127,17 @@ export default function Dashboard() {
             const Icon = stat.icon;
             return (
               <AnimatedStatsCard key={stat.title} delay={index + 1}>
-                <Card className="group hover:scale-105 transition-all duration-300">
+                <Card className="group hover:scale-105 transition-all duration-300 bg-brand-background border-brand-accentLight shadow-lg hover:shadow-xl">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-600 mb-1">
+                        <p className="text-sm font-medium text-brand-dark/70 mb-1">
                           {stat.title}
                         </p>
-                        <p className="text-3xl font-display text-black mb-2">
+                        <p className="text-3xl font-bold text-brand-dark mb-2">
                           {stat.value}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-brand-dark/50">
                           {stat.change}
                         </p>
                       </div>
@@ -154,19 +154,19 @@ export default function Dashboard() {
 
         {/* Continue Learning CTA */}
         <AnimatedCard delay={4}>
-          <Card className="mb-8 bg-gradient-to-r from-primary-500 to-accent-500 text-white border-0 shadow-lg">
+          <Card className="mb-8 bg-gradient-to-r from-brand-primary to-brand-accent text-white border-0 shadow-lg">
             <CardContent className="p-8 text-center">
               <div className="max-w-2xl mx-auto">
-                <h2 className="text-3xl font-display mb-4">
+                <h2 className="text-3xl font-bold mb-4">
                   Ready for your next lesson? 🚀
                 </h2>
-                <p className="text-primary-100 text-lg mb-6">
+                <p className="text-white/90 text-lg mb-6">
                   Keep your streak alive and master new Shami phrases today!
                 </p>
                 <Link href="/lessons">
                   <Button 
                     size="lg" 
-                    className="bg-white text-primary-600 hover:bg-gray-100 hover:scale-105 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl shadow-lg"
+                    className="bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200 px-8 py-4 text-lg font-medium rounded-2xl shadow-lg"
                   >
                     <Play className="w-5 h-5 mr-2" />
                     Continue Learning
@@ -181,11 +181,11 @@ export default function Dashboard() {
         <div className="mb-8">
           <AnimatedCard delay={5} whileHover={false}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-display text-black">
+              <h2 className="text-2xl font-bold text-brand-dark">
                 Your Lessons
               </h2>
               <Link href="/lessons">
-                <Button variant="outline" className="text-primary-600 border-primary-200 hover:bg-primary-50">
+                <Button variant="outline" className="text-brand-primary border-brand-accentLight hover:bg-brand-accentLight/20">
                   View All
                 </Button>
               </Link>
@@ -195,27 +195,27 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayLessons.map((lesson, index) => (
               <AnimatedCard key={lesson.id} delay={6 + index}>
-                <Card className="group hover:scale-105 transition-all duration-300 cursor-pointer">
+                <Card className="group hover:scale-105 transition-all duration-300 cursor-pointer bg-brand-background border-brand-accentLight shadow-lg hover:shadow-xl">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className="font-medium text-black mb-2">
+                        <h3 className="font-medium text-brand-dark mb-2">
                           {lesson.title}
                         </h3>
                         <div className="flex items-center space-x-2 mb-3">
                           {lesson.completed ? (
-                            <CheckCircle className="w-4 h-4 text-primary-500" />
+                            <CheckCircle className="w-4 h-4 text-brand-accent" />
                           ) : (
-                            <Target className="w-4 h-4 text-gray-400" />
+                            <Target className="w-4 h-4 text-brand-dark/40" />
                           )}
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-brand-dark/60">
                             {lesson.completed ? 'Completed' : 'In Progress'}
                           </span>
                         </div>
                       </div>
                       {lesson.completed && (
-                        <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                          <CheckCircle className="w-5 h-5 text-primary-600" />
+                        <div className="w-8 h-8 bg-brand-accentLight/20 rounded-full flex items-center justify-center">
+                          <CheckCircle className="w-5 h-5 text-brand-accent" />
                         </div>
                       )}
                     </div>
@@ -223,8 +223,8 @@ export default function Dashboard() {
                     {/* Progress Bar */}
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Progress</span>
-                        <span className="font-medium text-black">{lesson.progress}%</span>
+                        <span className="text-brand-dark/70">Progress</span>
+                        <span className="font-medium text-brand-dark">{lesson.progress}%</span>
                       </div>
                       <AnimatedProgressBar progress={lesson.progress} />
                     </div>
@@ -234,19 +234,15 @@ export default function Dashboard() {
                       {lesson.completed ? (
                         <Button 
                           variant="outline" 
-                          className="w-full text-primary-600 border-primary-200 hover:bg-primary-50"
-                          onClick={() => window.location.href = `/lessons/${lesson.id}`}
+                          className="w-full text-brand-accent border-brand-accentLight hover:bg-brand-accentLight/20"
                         >
-                          <BookOpen className="w-4 h-4 mr-2" />
                           Review
                         </Button>
                       ) : (
                         <Button 
-                          className="w-full bg-primary-500 hover:bg-primary-600"
-                          onClick={() => window.location.href = `/lessons/${lesson.id}`}
+                          className="w-full bg-brand-accent hover:bg-brand-accentLight text-white hover:scale-105 transition-all duration-200"
                         >
-                          <Play className="w-4 h-4 mr-2" />
-                          {lesson.progress > 0 ? 'Continue' : 'Start'}
+                          Continue
                         </Button>
                       )}
                     </div>

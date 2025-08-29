@@ -80,29 +80,29 @@ export default function Quiz({ lessonId, items, onProgressUpdate }: QuizProps) {
 
   if (showResults) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <Card className="max-w-2xl mx-auto border-0 shadow-none">
+      <div className="bg-brand-background rounded-lg shadow-lg p-8">
+        <Card className="max-w-2xl mx-auto border-0 shadow-none bg-brand-background">
           <CardContent className="p-8 text-center">
             <div className="mb-6">
-              <h2 className="text-3xl font-display text-neutral-900 mb-2">
+              <h2 className="text-3xl font-bold text-brand-dark mb-2">
                 Quiz Complete! 🎉
               </h2>
-              <p className="text-lg text-neutral-600">
+              <p className="text-lg text-brand-dark/70">
                 Great job completing the quiz!
               </p>
             </div>
             
-            <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl p-6 mb-6">
-              <div className="text-4xl font-display text-primary-600 mb-2">
+            <div className="bg-brand-accentLight/20 rounded-2xl p-6 mb-6">
+              <div className="text-4xl font-bold text-brand-accent mb-2">
                 {score}/{items.length}
               </div>
-              <div className="text-lg text-neutral-600">
+              <div className="text-lg text-brand-dark/70">
                 {score === items.length ? 'Perfect Score!' : 'Keep practicing!'}
               </div>
               <div className="mt-4">
-                <div className="w-full bg-neutral-200 rounded-full h-3">
+                <div className="w-full bg-gray-200 rounded-full h-3">
                   <div 
-                    className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000"
+                    className="h-full bg-brand-primary rounded-full transition-all duration-1000"
                     style={{ width: `${(score / items.length) * 100}%` }}
                   />
                 </div>
@@ -111,7 +111,7 @@ export default function Quiz({ lessonId, items, onProgressUpdate }: QuizProps) {
             
             <Button 
               onClick={handleRestart}
-              className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+              className="bg-brand-accent hover:bg-brand-accentLight text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
               Try Again
@@ -123,83 +123,70 @@ export default function Quiz({ lessonId, items, onProgressUpdate }: QuizProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
-      <Card className="max-w-4xl mx-auto border-0 shadow-none">
+    <div className="bg-brand-background rounded-lg shadow-lg p-8">
+      <Card className="max-w-4xl mx-auto border-0 shadow-none bg-brand-background">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-display text-neutral-900">
-            Quiz Time! 🧠
+          <CardTitle className="text-2xl font-bold text-brand-dark">
+            Quiz Mode 🧠
           </CardTitle>
-          <p className="text-neutral-600">
+          <p className="text-brand-dark/70">
             Question {currentQuestionIndex + 1} of {items.length}
           </p>
-          <div className="w-full bg-neutral-200 rounded-full h-2 mt-4">
-            <div 
-              className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000"
-              style={{ width: `${((currentQuestionIndex + 1) / items.length) * 100}%` }}
-            />
-          </div>
         </CardHeader>
-        
         <CardContent className="p-8">
-          <div className="mb-8">
-            <h3 className="text-2xl font-display text-neutral-900 mb-6 text-center">
-              {question.question}
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {question.options.map((option, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className={`h-16 text-lg font-medium transition-all duration-200 ${
-                    selectedAnswer === option
-                      ? isCorrect
-                        ? 'border-green-500 bg-green-50 text-green-700'
-                        : 'border-red-500 bg-red-50 text-red-700'
-                      : 'border-gray-300 hover:border-primary-300 hover:bg-primary-50'
-                  }`}
-                  onClick={() => handleAnswerSelect(option)}
-                  disabled={selectedAnswer !== null}
-                >
-                  {option}
-                </Button>
-              ))}
-            </div>
-          </div>
-          
-          {selectedAnswer && (
-            <div className="text-center">
-              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 ${
-                isCorrect 
-                  ? 'bg-green-100 text-green-700' 
-                  : 'bg-red-100 text-red-700'
-              }`}>
-                {isCorrect ? (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    Correct!
-                  </>
-                ) : (
-                  <>
-                    <XCircle className="w-5 h-5" />
-                    Incorrect. The answer is: {question.correctAnswer}
-                  </>
-                )}
+          {currentItem && (
+            <div className="space-y-8">
+              {/* Question */}
+              <div className="text-center">
+                <h3 className="text-3xl font-bold text-brand-dark mb-4">
+                  {question.question}
+                </h3>
               </div>
-              
-              <Button 
-                onClick={handleNext}
-                className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
-              >
-                {currentQuestionIndex < items.length - 1 ? (
-                  <>
-                    Next Question
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </>
-                ) : (
-                  'See Results'
-                )}
-              </Button>
+
+              {/* Answer Options */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {question.options.map((option, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => handleAnswerSelect(option)}
+                    disabled={selectedAnswer !== null}
+                    className={`w-full p-6 text-left text-lg font-medium rounded-xl transition-all duration-200 ${
+                      selectedAnswer === option
+                        ? option === question.correctAnswer
+                          ? 'bg-brand-accent text-white shadow-lg scale-105'
+                          : 'bg-red-500 text-white shadow-lg scale-105'
+                        : 'bg-brand-background text-brand-dark border border-brand-accentLight hover:bg-brand-accentLight/20 hover:border-brand-accent hover:scale-105'
+                    }`}
+                  >
+                    {option}
+                  </Button>
+                ))}
+              </div>
+
+              {/* Feedback */}
+              {selectedAnswer && (
+                <div className="text-center">
+                  {isCorrect ? (
+                    <div className="flex items-center justify-center space-x-2 text-brand-accent text-lg">
+                      <CheckCircle className="w-6 h-6" />
+                      <span>Correct! Well done!</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center space-x-2 text-red-500 text-lg">
+                      <XCircle className="w-6 h-6" />
+                      <span>Incorrect. The correct answer is: {question.correctAnswer}</span>
+                    </div>
+                  )}
+                  
+                  <Button
+                    onClick={handleNext}
+                    className="mt-4 bg-brand-accent hover:bg-brand-accentLight text-white px-6 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+                  >
+                    {currentQuestionIndex < items.length - 1 ? 'Next Question' : 'See Results'}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              )}
             </div>
           )}
         </CardContent>
