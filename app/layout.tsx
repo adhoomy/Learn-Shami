@@ -24,10 +24,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
-      </head>
       <body className={inter.className}>
         <AuthSessionProvider>
           <div className="min-h-screen flex flex-col">
