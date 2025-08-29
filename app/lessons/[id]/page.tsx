@@ -104,7 +104,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-8">
+      <div className="min-h-screen bg-white p-8">
         <div className="max-w-6xl mx-auto">
           {/* User Header */}
           <UserHeader />

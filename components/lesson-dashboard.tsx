@@ -46,27 +46,37 @@ export default function LessonDashboard() {
   useEffect(() => {
     const fetchLessonsAndProgress = async () => {
       try {
-        // Fetch lesson data
+        // Fetch lesson data from the lessons collection
         const lessonResponse = await fetch('/api/lessons/1');
         if (lessonResponse.ok) {
           const lessonData = await lessonResponse.json();
+          console.log('Lesson data loaded:', lessonData);
           setLessons([lessonData]);
+        } else {
+          console.error('Failed to load lesson:', lessonResponse.status);
         }
 
-        // Fetch progress for all lessons (for now just lesson 1)
+        // Fetch progress for lesson 1 using the correct endpoint
         if (session?.user?.email) {
           const progressResponse = await fetch('/api/progress/1');
           if (progressResponse.ok) {
             const progress = await progressResponse.json();
+            console.log('Progress data loaded:', progress);
             setProgressData([progress]);
+          } else {
+            console.error('Failed to load progress:', progressResponse.status);
           }
         }
-        // Fetch stats (includes dueToday, streak, totals, per-lesson due)
+
+        // Fetch stats
         const statsRes = await fetch('/api/stats');
         if (statsRes.ok) {
           const s = await statsRes.json();
+          console.log('Stats loaded:', s);
           setStats(s);
           setDueCount(s.dueToday ?? 0);
+        } else {
+          console.error('Failed to load stats:', statsRes.status);
         }
       } catch (error) {
         console.error('Failed to fetch lessons or progress:', error);
@@ -154,12 +164,14 @@ export default function LessonDashboard() {
               ))}
             </div>
           )}
+          
           <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
             <div className="text-slate-700 dark:text-slate-300">
               <span className="font-medium">{dueCount}</span> items due for review today
             </div>
             <Button variant="outline" onClick={() => router.push('/review')}>Review Now</Button>
           </div>
+          
           {lessons.map((lesson) => {
             const progress = getProgressForLesson(lesson.lessonId);
             const completionPercentage = getCompletionPercentage(lesson.lessonId);

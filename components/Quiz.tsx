@@ -61,131 +61,131 @@ export default function Quiz({ lessonId, items }: QuizProps) {
 
   if (showResults) {
     return (
-      <Card className="max-w-2xl mx-auto">
-        <CardContent className="p-8 text-center">
-          <div className="mb-6">
-            <h2 className="text-3xl font-display text-neutral-900 mb-2">
-              Quiz Complete! 🎉
-            </h2>
-            <p className="text-lg text-neutral-600">
-              Great job completing the quiz!
-            </p>
-          </div>
-          
-          <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl p-6 mb-6">
-            <div className="text-4xl font-display text-primary-600 mb-2">
-              {score}/{items.length}
+      <div className="bg-white rounded-lg shadow-lg p-8">
+        <Card className="max-w-2xl mx-auto border-0 shadow-none">
+          <CardContent className="p-8 text-center">
+            <div className="mb-6">
+              <h2 className="text-3xl font-display text-neutral-900 mb-2">
+                Quiz Complete! 🎉
+              </h2>
+              <p className="text-lg text-neutral-600">
+                Great job completing the quiz!
+              </p>
             </div>
-            <div className="text-lg text-neutral-600">
-              {score === items.length ? 'Perfect Score!' : 'Keep practicing!'}
-            </div>
-            <div className="mt-4">
-              <div className="w-full bg-neutral-200 rounded-full h-3">
-                <div 
-                  className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${(score / items.length) * 100}%` }}
-                />
+            
+            <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl p-6 mb-6">
+              <div className="text-4xl font-display text-primary-600 mb-2">
+                {score}/{items.length}
+              </div>
+              <div className="text-lg text-neutral-600">
+                {score === items.length ? 'Perfect Score!' : 'Keep practicing!'}
+              </div>
+              <div className="mt-4">
+                <div className="w-full bg-neutral-200 rounded-full h-3">
+                  <div 
+                    className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000"
+                    style={{ width: `${(score / items.length) * 100}%` }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          
-          <Button 
-            onClick={handleRestart}
-            className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
-          >
-            <RotateCcw className="w-5 h-5 mr-2" />
-            Try Again
-          </Button>
-        </CardContent>
-      </Card>
+            
+            <Button 
+              onClick={handleRestart}
+              className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+            >
+              <RotateCcw className="w-5 h-5 mr-2" />
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <Card className="max-w-4xl mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-display text-neutral-900">
-          Quiz Time! 🧠
-        </CardTitle>
-        <p className="text-neutral-600">
-          Question {currentQuestionIndex + 1} of {items.length}
-        </p>
-      </CardHeader>
-      <CardContent className="p-8">
-        {/* Question */}
-        <div className="text-center mb-8">
-          <h3 className="text-2xl font-medium text-neutral-800 mb-4">
-            {question.question}
-          </h3>
-          <div className="text-4xl font-display text-neutral-900 mb-2">
-            {currentItem?.arabic}
-          </div>
-          <p className="text-lg text-neutral-600 italic">
-            {currentItem?.transliteration}
+    <div className="bg-white rounded-lg shadow-lg p-8">
+      <Card className="max-w-4xl mx-auto border-0 shadow-none">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl font-display text-neutral-900">
+            Quiz Time! 🧠
+          </CardTitle>
+          <p className="text-neutral-600">
+            Question {currentQuestionIndex + 1} of {items.length}
           </p>
-        </div>
-
-        {/* Answer Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {question.options.map((option, index) => (
-            <Button
-              key={index}
-              onClick={() => handleAnswerSelect(option)}
-              disabled={selectedAnswer !== null}
-              variant="outline"
-              className={`h-16 text-lg font-medium rounded-2xl transition-all duration-200 hover:scale-105 ${
-                selectedAnswer === option
-                  ? isCorrect
-                    ? 'bg-green-100 border-green-500 text-green-700 hover:bg-green-100'
-                    : 'bg-red-100 border-red-500 text-red-700 hover:bg-red-100'
-                  : 'border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50'
-              }`}
-            >
-              {option}
-            </Button>
-          ))}
-        </div>
-
-        {/* Feedback */}
-        {selectedAnswer && (
-          <div className={`text-center p-4 rounded-xl mb-6 ${
-            isCorrect 
-              ? 'bg-green-50 border border-green-200' 
-              : 'bg-red-50 border border-red-200'
-          }`}>
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              {isCorrect ? (
-                <CheckCircle className="w-6 h-6 text-green-600" />
-              ) : (
-                <XCircle className="w-6 h-6 text-red-600" />
-              )}
-              <span className={`text-lg font-medium ${
-                isCorrect ? 'text-green-700' : 'text-red-700'
-              }`}>
-                {isCorrect ? 'Correct!' : 'Incorrect!'}
-              </span>
-            </div>
-            {!isCorrect && (
-              <p className="text-red-600">
-                The correct answer is: <strong>{question.correctAnswer}</strong>
-              </p>
-            )}
+          <div className="w-full bg-neutral-200 rounded-full h-2 mt-4">
+            <div 
+              className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full transition-all duration-1000"
+              style={{ width: `${((currentQuestionIndex + 1) / items.length) * 100}%` }}
+            />
           </div>
-        )}
-
-        {/* Navigation */}
-        <div className="flex justify-center">
-          <Button
-            onClick={handleNext}
-            disabled={selectedAnswer === null}
-            className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
-          >
-            {currentQuestionIndex === items.length - 1 ? 'Finish Quiz' : 'Next Question'}
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+        </CardHeader>
+        
+        <CardContent className="p-8">
+          <div className="mb-8">
+            <h3 className="text-2xl font-display text-neutral-900 mb-6 text-center">
+              {question.question}
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {question.options.map((option, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className={`h-16 text-lg font-medium transition-all duration-200 ${
+                    selectedAnswer === option
+                      ? isCorrect
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-red-500 bg-red-50 text-red-700'
+                      : 'border-gray-300 hover:border-primary-300 hover:bg-primary-50'
+                  }`}
+                  onClick={() => handleAnswerSelect(option)}
+                  disabled={selectedAnswer !== null}
+                >
+                  {option}
+                </Button>
+              ))}
+            </div>
+          </div>
+          
+          {selectedAnswer && (
+            <div className="text-center">
+              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 ${
+                isCorrect 
+                  ? 'bg-green-100 text-green-700' 
+                  : 'bg-red-100 text-red-700'
+              }`}>
+                {isCorrect ? (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    Correct!
+                  </>
+                ) : (
+                  <>
+                    <XCircle className="w-5 h-5" />
+                    Incorrect. The answer is: {question.correctAnswer}
+                  </>
+                )}
+              </div>
+              
+              <Button 
+                onClick={handleNext}
+                className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-200"
+              >
+                {currentQuestionIndex < items.length - 1 ? (
+                  <>
+                    Next Question
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </>
+                ) : (
+                  'See Results'
+                )}
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
