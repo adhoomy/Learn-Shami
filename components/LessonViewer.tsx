@@ -95,6 +95,33 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
     }
   };
 
+  const handleUnlearn = async () => {
+    if (currentItem) {
+      try {
+        // Remove progress from database
+        const response = await fetch(`/api/progress/${lessonId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ itemId: currentItem.id }),
+        });
+
+        if (response.ok) {
+          // Update local state
+          setCompletedItems(prev => new Set([...prev].filter(id => id !== currentItem.id)));
+          
+          // Notify parent component about progress update
+          if (onProgressUpdate) {
+            onProgressUpdate();
+          }
+        }
+      } catch (error) {
+        console.error('Error unlearning progress:', error);
+      }
+    }
+  };
+
   const handleAudioPlay = () => {
     if (currentItem?.audioUrl) {
       play(currentItem.audioUrl);
@@ -213,13 +240,23 @@ export default function LessonViewer({ lessonId, items, onProgressUpdate }: Less
                     </Button>
 
                     <div className="flex space-x-2">
-                      <Button
-                        onClick={handleComplete}
-                        className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
-                      >
-                        <CheckCircle className="w-4 h-4 mr-2" />
-                        Mark as Done
-                      </Button>
+                      {completedItems.has(currentItem.id) ? (
+                        <Button
+                          onClick={handleUnlearn}
+                          className="bg-red-500 hover:bg-red-600 text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
+                        >
+                          <XCircle className="w-4 h-4 mr-2" />
+                          Unlearn
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={handleComplete}
+                          className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200 px-6 py-3 rounded-xl"
+                        >
+                          <CheckCircle className="w-4 h-4 mr-2" />
+                          Mark as Done
+                        </Button>
+                      )}
                     </div>
 
                     <Button

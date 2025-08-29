@@ -171,3 +171,87 @@ export async function POST(
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ lessonId: string }> }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.email) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const { lessonId } = await params;
+    const { itemId } = await request.json();
+    
+    // Validate input
+    if (!itemId) {
+      return NextResponse.json(
+        { error: 'Missing itemId' },
+        { status: 400 }
+      );
+    }
+
+    if (typeof itemId !== 'string') {
+      return NextResponse.json(
+        { error: 'Invalid itemId type' },
+        { status: 400 }
+      );
+    }
+
+    const progressCollection = await getCollection('progress');
+    
+    // Find existing progress for this user and lesson
+    const existingProgress = await progressCollection.findOne({
+      userId: session.user.email,
+      lessonId: parseInt(lessonId)
+    });
+
+    if (existingProgress) {
+      // Remove itemId from completedItems array using a simpler approach
+      const newCompletedItems = existingProgress.completedItems.filter((id: string) => id !== itemId);
+      const updatedProgress = await progressCollection.findOneAndUpdate(
+        {
+          userId: session.user.email,
+          lessonId: parseInt(lessonId)
+        },
+        {
+          $set: { 
+            completedItems: newCompletedItems,
+            updatedAt: new Date() 
+          }
+        },
+        { returnDocument: 'after' }
+      );
+      
+      // Remove spaced-repetition review record for this item
+      const reviewsCollection = await getCollection('reviews');
+      await reviewsCollection.deleteOne({ 
+        userId: session.user.email, 
+        itemId 
+      });
+
+      return NextResponse.json(updatedProgress);
+    } else {
+      // No progress exists, return empty progress
+      return NextResponse.json({
+        userId: session.user.email,
+        lessonId: parseInt(lessonId),
+        completedItems: [],
+        updatedAt: new Date()
+      });
+    }
+
+  } catch (error) {
+    console.error('Error removing progress:', error);
+    return NextResponse.json(
+      { error: 'Internal server error.' },
+      { status: 500 }
+    );
+  }
+}

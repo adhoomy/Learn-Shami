@@ -19,8 +19,8 @@ export function useAudio(): UseAudioReturn {
       audioRef.current.currentTime = 0;
     }
 
-    // Create new audio element
-    const audio = new Audio(audioUrl);
+    // Create new audio element with proper path
+    const audio = new Audio(`/audio/${audioUrl}`);
     audioRef.current = audio;
     
     audio.addEventListener('ended', () => {
@@ -28,8 +28,8 @@ export function useAudio(): UseAudioReturn {
       setCurrentAudio(null);
     });
 
-    audio.addEventListener('error', () => {
-      console.error('Audio playback error:', audioUrl);
+    audio.addEventListener('error', (e) => {
+      console.error('Audio playback error:', e, 'URL:', audioUrl);
       setIsPlaying(false);
       setCurrentAudio(null);
     });
@@ -38,7 +38,7 @@ export function useAudio(): UseAudioReturn {
       setIsPlaying(true);
       setCurrentAudio(audioUrl);
     }).catch((error) => {
-      console.error('Failed to play audio:', error);
+      console.error('Failed to play audio:', error, 'URL:', audioUrl);
       setIsPlaying(false);
       setCurrentAudio(null);
     });
