@@ -8,9 +8,10 @@ import { CheckCircle, XCircle, ArrowRight, RotateCcw } from "lucide-react";
 interface QuizProps {
   lessonId: string;
   items: any[];
+  onProgressUpdate?: () => void;
 }
 
-export default function Quiz({ lessonId, items }: QuizProps) {
+export default function Quiz({ lessonId, items, onProgressUpdate }: QuizProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -31,13 +32,31 @@ export default function Quiz({ lessonId, items }: QuizProps) {
     ].sort(() => Math.random() - 0.5) // Shuffle options
   };
 
-  const handleAnswerSelect = (answer: string) => {
+  const handleAnswerSelect = async (answer: string) => {
     setSelectedAnswer(answer);
     const correct = answer === question.correctAnswer;
     setIsCorrect(correct);
     
     if (correct) {
       setScore(score + 1);
+      
+      // Save progress when answer is correct
+      try {
+        await fetch(`/api/progress/${lessonId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ itemId: currentItem.id }),
+        });
+        
+        // Notify parent component about progress update
+        if (onProgressUpdate) {
+          onProgressUpdate();
+        }
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
     }
   };
 

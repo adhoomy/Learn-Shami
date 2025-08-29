@@ -99,6 +99,12 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
     audioUrl: item.audioUrl || `/audio/${item.id}.wav`
   })) || [];
 
+  const handleProgressUpdate = () => {
+    console.log('Progress updated');
+    // This will trigger a refresh of the lesson dashboard when progress changes
+    // The lesson dashboard will automatically pick up the new progress
+  };
+
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-white p-8">
@@ -141,9 +147,9 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
           </div>
 
           {/* Content */}
-          {tab === 'cards' && <LessonViewer lessonId={lessonId} items={lessonItems} />}
-          {tab === 'quiz' && <Quiz lessonId={lessonId} items={lessonItems} />}
-          {tab === 'review' && <Review lessonId={lessonId} items={lessonItems} />}
+          {tab === 'cards' && <LessonViewer lessonId={lessonId} items={lessonItems} onProgressUpdate={handleProgressUpdate} />}
+          {tab === 'quiz' && <Quiz lessonId={lessonId} items={lessonItems} onProgressUpdate={handleProgressUpdate} />}
+          {tab === 'review' && <Review lessonId={lessonId} items={lessonItems} onProgressUpdate={handleProgressUpdate} />}
         </div>
       </div>
     </ProtectedRoute>

@@ -9,9 +9,10 @@ import { useAudio } from "@/lib/useAudio";
 interface ReviewProps {
   lessonId: string;
   items: any[];
+  onProgressUpdate?: () => void;
 }
 
-export default function Review({ lessonId, items }: ReviewProps) {
+export default function Review({ lessonId, items, onProgressUpdate }: ReviewProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard' | null>(null);
@@ -25,9 +26,27 @@ export default function Review({ lessonId, items }: ReviewProps) {
     setShowAnswer(true);
   };
 
-  const handleDifficultySelect = (selectedDifficulty: 'easy' | 'medium' | 'hard') => {
+  const handleDifficultySelect = async (selectedDifficulty: 'easy' | 'medium' | 'hard') => {
     setDifficulty(selectedDifficulty);
     setCompleted(completed + 1);
+    
+    // Save progress when item is reviewed
+    try {
+      await fetch(`/api/progress/${lessonId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ itemId: currentItem.id }),
+      });
+      
+      // Notify parent component about progress update
+      if (onProgressUpdate) {
+        onProgressUpdate();
+      }
+    } catch (error) {
+      console.error('Error saving progress:', error);
+    }
     
     // Simulate spaced repetition logic
     setTimeout(() => {
