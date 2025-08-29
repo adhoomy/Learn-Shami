@@ -117,12 +117,7 @@ export default function LandingPage() {
             </CardContent>
           </Card>
 
-          {/* Footer Info */}
-          <div className="text-center mt-16">
-            <p className="text-gray-500 text-sm">
-              Already have an account? <Link href="/login" className="text-primary-600 hover:underline">Sign in here</Link>
-            </p>
-          </div>
+
         </div>
       </div>
 
@@ -206,9 +201,7 @@ export default function LandingPage() {
               <p className="text-sm text-neutral-500">
                 © {new Date().getFullYear()} Lean to Falasteen. All rights reserved.
               </p>
-              <div className="flex items-center space-x-4 text-sm text-neutral-500">
-                <span>Built with Next.js & Tailwind CSS</span>
-              </div>
+              
             </div>
           </div>
         </div>
