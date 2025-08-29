@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProtectedRoute from '@/components/auth/protected-route';
-import UserHeader from '@/components/auth/user-header';
 import LessonViewer from '@/components/LessonViewer';
 import Quiz from '@/components/Quiz';
 import Review from '@/components/Review';
@@ -110,8 +109,6 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
       <div className="min-h-screen bg-white p-8">
         <div className="max-w-6xl mx-auto">
           {/* User Header */}
-          <UserHeader />
-
           {/* Tabs */}
           <div className="mt-4 mb-6 flex gap-2">
             <button
