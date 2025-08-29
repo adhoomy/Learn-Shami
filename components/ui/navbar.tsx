@@ -34,7 +34,7 @@ export default function Navbar() {
   if (!session) return null;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-neutral-200">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -53,8 +53,8 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link flex items-center space-x-2 py-2 ${
-                    isActive(item.href) ? 'text-primary-600' : ''
+                  className={`flex items-center space-x-2 py-2 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-primary-50 ${
+                    isActive(item.href) ? 'text-primary-600 bg-primary-50' : 'text-neutral-700 hover:text-primary-600'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
