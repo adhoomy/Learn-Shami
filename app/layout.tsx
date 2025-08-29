@@ -11,7 +11,13 @@ export const metadata: Metadata = {
   title: "Lean to Falasteen - Master Palestinian Arabic",
   description: "Learn the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.",
   icons: {
-    icon: "/logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
