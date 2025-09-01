@@ -3,6 +3,63 @@ import { getServerSession } from 'next-auth';
 import { getCollection } from '@/lib/mongodb';
 import { authOptions } from '@/lib/auth';
 
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.email) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const progressCollection = await getCollection('progress');
+    const lessonsCollection = await getCollection('lessons');
+    
+    // Get all lessons
+    const lessons = await lessonsCollection.find({}).sort({ order: 1 }).toArray();
+    
+    // Get all progress for this user
+    const userProgress = await progressCollection.find({
+      userId: session.user.email
+    }).toArray();
+    
+    // Create a map of lessonId to progress for quick lookup
+    const progressMap = new Map();
+    userProgress.forEach(progress => {
+      progressMap.set(progress.lessonId, progress);
+    });
+    
+    // Combine lessons with progress data
+    const lessonsWithProgress = lessons.map(lesson => {
+      const progress = progressMap.get(lesson.id);
+      return {
+        lessonId: lesson.id,
+        title: lesson.title,
+        description: lesson.description,
+        totalItems: lesson.data?.length || 0,
+        completedItems: progress?.completedItems || [],
+        progress: progress || {
+          userId: session.user.email,
+          lessonId: lesson.id,
+          completedItems: [],
+          updatedAt: new Date()
+        }
+      };
+    });
+
+    return NextResponse.json(lessonsWithProgress);
+
+  } catch (error) {
+    console.error('Error fetching progress:', error);
+    return NextResponse.json(
+      { error: 'Internal server error.' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

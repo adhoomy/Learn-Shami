@@ -1,0 +1,14 @@
+{
+  "lessonId": 3,
+  "title": "Numbers",
+  "description": "Learn Palestinian Arabic numbers from 1 to 10 and how to ask 'How much?'.",
+  "difficulty": "Beginner",
+  "tags": [
+    "palestinian",
+    "arabic",
+    "numbers"
+  ],
+  "unit": 1,
+  "order": 3,
+  "estimatedTime": "6 minutes"
+}

@@ -34,52 +34,18 @@ export async function GET(
       );
     }
 
-    // Load the corresponding CSV file from lessons/
-    const csvFileName = lessonMetadata.csv;
-    const filePath = path.join(process.cwd(), 'lessons', csvFileName);
-    
-    // Check if CSV file exists
-    try {
-      await fs.access(filePath);
-    } catch (error) {
-      return NextResponse.json(
-        { error: `CSV file for lesson ${lessonId} not found.` },
-        { status: 404 }
-      );
-    }
+    // Use data from MongoDB (already parsed from CSV during seeding)
+    const lessonData = lessonMetadata.data || [];
 
-    // Read the CSV file
-    const csvContent = await fs.readFile(filePath, 'utf-8');
-    
-    // Parse CSV to JSON using Papa Parse
-    const result = Papa.parse(csvContent, {
-      header: true, // Use first row as headers
-      skipEmptyLines: true, // Skip empty lines
-      transform: (value, field) => {
-        // Convert empty strings to null for optional fields
-        if (value === '') return null;
-        return value;
-      }
-    });
-
-    // Check for parsing errors
-    if (result.errors.length > 0) {
-      console.error('CSV parsing errors:', result.errors);
-      return NextResponse.json(
-        { error: 'Error parsing CSV file.' },
-        { status: 500 }
-      );
-    }
-
-    // Combine metadata + parsed CSV into one JSON response
+    // Combine metadata + data into one JSON response
     const response = {
       lessonId: parseInt(lessonId),
       title: lessonMetadata.title,
       description: lessonMetadata.description,
       difficulty: lessonMetadata.difficulty,
       tags: lessonMetadata.tags,
-      totalItems: result.data.length,
-      data: result.data,
+      totalItems: lessonData.length,
+      data: lessonData,
       // Include additional metadata
       unit: lessonMetadata.unit,
       order: lessonMetadata.order,

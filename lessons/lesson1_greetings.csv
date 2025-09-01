@@ -1,21 +1,21 @@
 ﻿id,topic,type,arabic,transliteration,english,source,notes,audioUrl
-greet_0001,greetings,word,مرحبا,marHaba,Hello,Seed,Common informal hello,greet_0001.wav
-greet_0002,greetings,word,أهلين,ahleen,Hi there,Seed,Very common Levantine,greet_0002.wav
-greet_0003,greetings,word,أهلا وسهلا,ahlan wa sahlan,Welcome,Seed,Used to warmly greet someone,greet_0003.wav
-greet_0004,greetings,word,صباح الخير,ṣabāḥ il-khēr,Good morning,Seed,,greet_0004.wav
-greet_0005,greetings,word,مسا الخير,masāʾ il-khēr,Good evening,Seed,,greet_0005.wav
-greet_0006,greetings,phrase,كيفك؟,kīfak? (m) / kīfik? (f),How are you?,Seed,Gendered forms,greet_0006.wav
-greet_0007,greetings,phrase,شو أخبارك؟,shū akhbārak? (m) / shū akhbārik? (f),How's your news? / How are you?,Seed,Common casual check-in,greet_0007.wav
-greet_0008,greetings,phrase,الحمد لله,il-ḥamdu lillāh,Thanks be to God (I'm fine),Seed,Response to "how are you",greet_0008.wav
-greet_0009,greetings,phrase,تمام,tamām,Good / Fine,Seed,Quick positive response,greet_0009.wav
-greet_0010,greetings,phrase,منيح / منيحة,mnīḥ (m) / mnīḥa (f),Good / Well,Seed,Gendered form of "fine",greet_0010.wav
-greet_0011,greetings,phrase,تشرّفنا,tsharrafna,Nice to meet you,Seed,Formal introduction,greet_0011.wav
-greet_0012,greetings,phrase,يعطيك العافية,yaʿṭīk il-ʿāfye,May God give you health,Seed,Polite greeting used all day,greet_0012.wav
-greet_0013,greetings,phrase,كيف الحال؟,kīf il-ḥāl?,How's it going?,Seed,MSA-influenced but common,greet_0013.wav
-greet_0014,greetings,phrase,مع السلامة,maʿ is-salāme,Goodbye,Seed,Very common farewell,greet_0014.wav
-greet_0015,greetings,phrase,الله معك,Allāh maʿak (m) / Allāh maʿik (f),God be with you (bye),Seed,Common farewell,greet_0015.wav
-greet_0016,greetings,phrase,نشوفك بكرا,nshūfak bukra (m) / nshūfik bukra (f),See you tomorrow,Seed,Future farewell,greet_0016.wav
-greet_0017,greetings,phrase,بشوفك قريب,bshūfak qarīb (m) / bshūfik qarīb (f),See you soon,Seed,Informal farewell,greet_0017.wav
-greet_0018,greetings,phrase,شو في ما في؟,shū fī mā fī?,What's up?,Seed,Very colloquial,greet_0018.wav
-greet_0019,greetings,phrase,أهلا فيك,ahlan fīk (m) / ahlan fīki (f),Welcome (response),Seed,Response to "ahlan wa sahlan",greet_0019.wav
-greet_0020,greetings,phrase,يلا باي,yalla bye,Okay bye,Seed,Modern mix Arabic/English,greet_0020.wav
+greet_0001,greetings,word,مرحبا,marHaba,Hello,Seed,Common informal hello,/audio/lesson1/greet_0001.wav
+greet_0002,greetings,word,أهلين,ahleen,Hi there,Seed,Very common Levantine,/audio/lesson1/greet_0002.wav
+greet_0003,greetings,word,أهلا وسهلا,ahlan wa sahlan,Welcome,Seed,Used to warmly greet someone,/audio/lesson1/greet_0003.wav
+greet_0004,greetings,word,صباح الخير,ṣabāḥ il-khēr,Good morning,Seed,,/audio/lesson1/greet_0004.wav
+greet_0005,greetings,word,مسا الخير,masāʾ il-khēr,Good evening,Seed,,/audio/lesson1/greet_0005.wav
+greet_0006,greetings,phrase,كيفك؟,kīfak? (m) / kīfik? (f),How are you?,Seed,Gendered forms,/audio/lesson1/greet_0006.wav
+greet_0007,greetings,phrase,شو أخبارك؟,shū akhbārak? (m) / shū akhbārik? (f),How's your news? / How are you?,Seed,Common casual check-in,/audio/lesson1/greet_0007.wav
+greet_0008,greetings,phrase,الحمد لله,il-ḥamdu lillāh,Thanks be to God (I'm fine),Seed,Response to "how are you",/audio/lesson1/greet_0008.wav
+greet_0009,greetings,phrase,تمام,tamām,Good / Fine,Seed,Quick positive response,/audio/lesson1/greet_0009.wav
+greet_0010,greetings,phrase,منيح / منيحة,mnīḥ (m) / mnīḥa (f),Good / Well,Seed,Gendered form of "fine",/audio/lesson1/greet_0010.wav
+greet_0011,greetings,phrase,تشرّفنا,tsharrafna,Nice to meet you,Seed,Formal introduction,/audio/lesson1/greet_0011.wav
+greet_0012,greetings,phrase,يعطيك العافية,yaʿṭīk il-ʿāfye,May God give you health,Seed,Polite greeting used all day,/audio/lesson1/greet_0012.wav
+greet_0013,greetings,phrase,كيف الحال؟,kīf il-ḥāl?,How's it going?,Seed,MSA-influenced but common,/audio/lesson1/greet_0013.wav
+greet_0014,greetings,phrase,مع السلامة,maʿ is-salāme,Goodbye,Seed,Very common farewell,/audio/lesson1/greet_0014.wav
+greet_0015,greetings,phrase,الله معك,Allāh maʿak (m) / Allāh maʿik (f),God be with you (bye),Seed,Common farewell,/audio/lesson1/greet_0015.wav
+greet_0016,greetings,phrase,نشوفك بكرا,nshūfak bukra (m) / nshūfik bukra (f),See you tomorrow,Seed,Future farewell,/audio/lesson1/greet_0016.wav
+greet_0017,greetings,phrase,بشوفك قريب,bshūfak qarīb (m) / bshūfik qarīb (f),See you soon,Seed,Informal farewell,/audio/lesson1/greet_0017.wav
+greet_0018,greetings,phrase,شو في ما في؟,shū fī mā fī?,What's up?,Seed,Very colloquial,/audio/lesson1/greet_0018.wav
+greet_0019,greetings,phrase,أهلا فيك,ahlan fīk (m) / ahlan fīki (f),Welcome (response),Seed,Response to "ahlan wa sahlan",/audio/lesson1/greet_0019.wav
+greet_0020,greetings,phrase,يلا باي,yalla bye,Okay bye,Seed,Modern mix Arabic/English,/audio/lesson1/greet_0020.wav

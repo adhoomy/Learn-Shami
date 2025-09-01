@@ -1,0 +1,7 @@
+﻿id,topic,type,arabic,transliteration,english,source,notes,audioUrl
+intro_0001,introductions,phrase,شو اسمك؟,shū ismak? (m) / shū ismik? (f),What's your name?,Seed,Gendered forms,/audio/lesson2/intro_0001.wav
+intro_0002,introductions,phrase,اسمي ...,ismī …,My name is …,Seed,Fill with name,/audio/lesson2/intro_0002.wav
+intro_0003,introductions,phrase,من وين إنتَ؟,min wēn inta?,Where are you from? (m),Seed,Masculine form,/audio/lesson2/intro_0003.wav
+intro_0004,introductions,phrase,من وين إنتِ؟,min wēn inti?,Where are you from? (f),Seed,Feminine form,/audio/lesson2/intro_0004.wav
+intro_0005,introductions,phrase,أنا من ...,ana min …,I am from …,Seed,Fill with country/place,/audio/lesson2/intro_0005.wav
+intro_0006,introductions,phrase,تشرّفنا,tsharrafna,Nice to meet you,Seed,Polite introduction,/audio/lesson2/intro_0006.wav

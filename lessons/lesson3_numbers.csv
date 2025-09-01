@@ -1,0 +1,12 @@
+﻿id,topic,type,arabic,transliteration,english,source,notes,audioUrl
+num_0001,numbers,word,واحد,wāḥid,One,Seed,,/audio/lesson3/num_0001.wav
+num_0002,numbers,word,اثنين,tnēn,Two,Seed,Common colloquial form,/audio/lesson3/num_0002.wav
+num_0003,numbers,word,ثلاثة,tlāte,Three,Seed,,/audio/lesson3/num_0003.wav
+num_0004,numbers,word,أربعة,arbʿa,Four,Seed,,/audio/lesson3/num_0004.wav
+num_0005,numbers,word,خمسة,khamse,Five,Seed,,/audio/lesson3/num_0005.wav
+num_0006,numbers,word,ستة,sitte,Six,Seed,,/audio/lesson3/num_0006.wav
+num_0007,numbers,word,سبعة,sabʿa,Seven,Seed,,/audio/lesson3/num_0007.wav
+num_0008,numbers,word,ثمانية,tmāne,Eight,Seed,,/audio/lesson3/num_0008.wav
+num_0009,numbers,word,تسعة,tisʿa,Nine,Seed,,/audio/lesson3/num_0009.wav
+num_0010,numbers,word,عشرة,ʿashra,Ten,Seed,,/audio/lesson3/num_0010.wav
+num_0011,numbers,phrase,قديش؟,addēsh?,How much?,Seed,Everyday phrase with numbers,/audio/lesson3/num_0011.wav

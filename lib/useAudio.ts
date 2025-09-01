@@ -20,7 +20,9 @@ export function useAudio(): UseAudioReturn {
     }
 
     // Create new audio element with proper path
-    const audio = new Audio(`/audio/${audioUrl}`);
+    // If audioUrl already starts with /audio/, use it as is, otherwise add /audio/ prefix
+    const fullAudioUrl = audioUrl.startsWith('/audio/') ? audioUrl : `/audio/${audioUrl}`;
+    const audio = new Audio(fullAudioUrl);
     audioRef.current = audio;
     
     audio.addEventListener('ended', () => {

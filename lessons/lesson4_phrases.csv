@@ -1,0 +1,12 @@
+﻿id,topic,type,arabic,transliteration,english,source,notes,audioUrl
+phrase_0001,phrases,word,أيوه,aywa,Yes,Seed,,/audio/lesson4/phrase_0001.wav
+phrase_0002,phrases,word,لأ,laʾ,No,Seed,,/audio/lesson4/phrase_0002.wav
+phrase_0003,phrases,phrase,لو سمحت,law samaḥt,Please (m),Seed,Masculine,/audio/lesson4/phrase_0003.wav
+phrase_0004,phrases,phrase,لو سمحتي,law samaḥti,Please (f),Seed,Feminine,/audio/lesson4/phrase_0004.wav
+phrase_0005,phrases,phrase,شكراً,shukran,Thank you,Seed,,/audio/lesson4/phrase_0005.wav
+phrase_0006,phrases,phrase,عفواً,ʿafwan,You're welcome,Seed,,/audio/lesson4/phrase_0006.wav
+phrase_0007,phrases,phrase,آسف,āsif,Sorry (m),Seed,Masculine,/audio/lesson4/phrase_0007.wav
+phrase_0008,phrases,phrase,آسفة,āsfe,Sorry (f),Seed,Feminine,/audio/lesson4/phrase_0008.wav
+phrase_0009,phrases,phrase,عن إذنك,ʿan idhnak,Excuse me (m),Seed,Masculine,/audio/lesson4/phrase_0009.wav
+phrase_0010,phrases,phrase,عن إذنكِ,ʿan idhnik,Excuse me (f),Seed,Feminine,/audio/lesson4/phrase_0010.wav
+phrase_0011,phrases,phrase,ولا يهمك,wala yhemmak (m) / wala yhemmik (f),No problem,Seed,Gendered,/audio/lesson4/phrase_0011.wav

@@ -95,7 +95,7 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
     arabic: item.arabic,
     transliteration: item.transliteration,
     english: item.english,
-    audioUrl: item.audioUrl || `/audio/${item.id}.wav`
+    audioUrl: item.audioUrl
   })) || [];
 
   const handleProgressUpdate = () => {

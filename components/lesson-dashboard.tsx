@@ -46,23 +46,28 @@ export default function LessonDashboard() {
   useEffect(() => {
     const fetchLessonsAndProgress = async () => {
       try {
-        // Fetch lesson data from the lessons collection
-        const lessonResponse = await fetch('/api/lessons/1');
-        if (lessonResponse.ok) {
-          const lessonData = await lessonResponse.json();
-          console.log('Lesson data loaded:', lessonData);
-          setLessons([lessonData]);
-        } else {
-          console.error('Failed to load lesson:', lessonResponse.status);
-        }
-
-        // Fetch progress for lesson 1 using the correct endpoint
+        // Fetch all lessons and progress data
         if (session?.user?.email) {
-          const progressResponse = await fetch('/api/progress/1');
+          const progressResponse = await fetch('/api/progress');
           if (progressResponse.ok) {
-            const progress = await progressResponse.json();
-            console.log('Progress data loaded:', progress);
-            setProgressData([progress]);
+            const progressData = await progressResponse.json();
+            console.log('Progress data loaded:', progressData);
+            
+            // Extract lessons from progress data
+            const lessonsData = progressData.map((item: any) => ({
+              lessonId: item.lessonId,
+              title: item.title,
+              description: item.description,
+              difficulty: 'Beginner', // Default for now
+              tags: ['palestinian', 'arabic'],
+              totalItems: item.totalItems,
+              unit: 1,
+              order: item.lessonId,
+              estimatedTime: '10 min'
+            }));
+            
+            setLessons(lessonsData);
+            setProgressData(progressData.map((item: any) => item.progress));
           } else {
             console.error('Failed to load progress:', progressResponse.status);
           }
@@ -127,111 +132,125 @@ export default function LessonDashboard() {
   }
 
   return (
-    <Card className="mb-8 bg-white border-gray-200">
-      <CardContent>
-        <div className="space-y-4">
-          {/* Stats Summary */}
-          {stats ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
-                <div className="text-sm text-gray-600">📚 Items Learned</div>
-                <div className="text-2xl font-semibold text-black">{stats.totalLearned}</div>
-              </div>
-              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
-                <div className="text-sm text-gray-600">⏳ Reviews Due Today</div>
-                <div className="text-2xl font-semibold text-black">{stats.dueToday}</div>
-              </div>
-              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
-                <div className="text-sm text-gray-600">🔥 Streak</div>
-                <div className="text-2xl font-semibold text-black">{stats.streak} days</div>
-              </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Stats Summary */}
+      <div className="mb-8">
+        {stats ? (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-sm text-gray-600 mb-2">📚 Items Learned</div>
+              <div className="text-3xl font-bold text-black">{stats.totalLearned}</div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {['Items Learned','Reviews Due Today','Streak'].map((label, i) => (
-                <div key={i} className="p-4 rounded-lg border border-gray-200 bg-gray-50">
-                  <div className="text-sm text-gray-600">{label}</div>
-                  <div className="h-7 mt-1 bg-gray-300 rounded animate-pulse" />
-                </div>
-              ))}
+            <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-sm text-gray-600 mb-2">⏳ Reviews Due Today</div>
+              <div className="text-3xl font-bold text-black">{stats.dueToday}</div>
             </div>
-          )}
-          
-          <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-gray-50">
-            <div className="text-gray-700">
-              <span className="font-medium">{dueCount}</span> items due for review today
+            <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-sm text-gray-600 mb-2">🔥 Streak</div>
+              <div className="text-3xl font-bold text-black">{stats.streak} days</div>
             </div>
-            <Button variant="outline" onClick={() => router.push('/review')} className="text-primary-600 border-primary-200 hover:bg-primary-50">
-              Review Now
-            </Button>
           </div>
-          
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {['Items Learned','Reviews Due Today','Streak'].map((label, i) => (
+              <div key={i} className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div className="text-sm text-gray-600 mb-2">{label}</div>
+                <div className="h-8 mt-1 bg-gray-300 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      
+      {/* Review CTA */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between p-6 border border-gray-200 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50">
+          <div className="text-gray-700">
+            <span className="font-semibold text-lg">{dueCount}</span> items due for review today
+          </div>
+          <Button variant="outline" onClick={() => router.push('/review')} className="text-primary-600 border-primary-200 hover:bg-primary-50 px-6 py-2">
+            Review Now
+          </Button>
+        </div>
+      </div>
+      
+      {/* Lessons Grid */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Lessons</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {lessons.map((lesson) => {
             const progress = getProgressForLesson(lesson.lessonId);
             const completionPercentage = getCompletionPercentage(lesson.lessonId);
             const lessonDue = getDueForLesson(lesson.lessonId);
             
             return (
-              <div 
+              <Card 
                 key={lesson.lessonId}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
+                className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-gray-200 bg-white"
+                onClick={() => router.push(`/lessons/${lesson.lessonId}`)}
               >
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-black">
-                      Lesson {lesson.lessonId}: {lesson.title}
-                      {progress && (
-                        <span className="ml-2 text-sm text-gray-600">— {completionPercentage}% complete</span>
-                      )}
-                    </h3>
+                <CardContent className="p-6">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                        Lesson {lesson.lessonId}
+                      </h3>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">
+                        {lesson.title}
+                      </h4>
+                    </div>
                     {lessonDue > 0 && (
                       <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                         {lessonDue} due
                       </span>
                     )}
-                    {progress && (
-                      <span className="px-2 py-1 bg-primary-100 text-primary-700 text-xs font-medium rounded-full">
-                        {completionPercentage}% Complete
-                      </span>
-                    )}
                   </div>
                   
-                  <p className="text-gray-600 mb-2">
+                  {/* Description */}
+                  <p className="text-gray-600 mb-4 text-sm leading-relaxed">
                     {lesson.description}
                   </p>
                   
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <span>{lesson.totalItems} items</span>
-                    <span>•</span>
-                    <span>~{Math.ceil(lesson.totalItems / 5)} min</span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3">
+                  {/* Progress */}
                   {progress && progress.completedItems.length > 0 && (
-                    <div className="text-right">
-                      <div className="text-sm text-gray-600 mb-1">Progress</div>
-                      <div className="w-20 bg-gray-200 rounded-full h-2">
+                    <div className="mb-4">
+                      <div className="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Progress</span>
+                        <span className="font-medium">{completionPercentage}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
                         <div 
-                          className="bg-primary-500 h-2 rounded-full transition-all duration-500"
+                          className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${completionPercentage}%` }}
                         />
                       </div>
                     </div>
                   )}
                   
+                  {/* Stats */}
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <span>{lesson.totalItems} items</span>
+                    <span>•</span>
+                    <span>~{Math.ceil(lesson.totalItems / 5)} min</span>
+                  </div>
+                  
+                  {/* Action Button */}
                   <Button 
-                    onClick={() => router.push(`/lessons/${lesson.lessonId}`)}
-                    className="bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 transition-all duration-200"
+                    className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-medium py-2.5 rounded-lg transition-all duration-200 group-hover:scale-105"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/lessons/${lesson.lessonId}`);
+                    }}
                   >
-                    {progress && progress.completedItems.length > 0 ? 'Continue' : 'Start'}
+                    {progress && progress.completedItems.length > 0 ? 'Continue Learning' : 'Start Lesson'}
                   </Button>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

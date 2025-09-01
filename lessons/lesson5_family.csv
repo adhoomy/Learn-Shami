@@ -1,0 +1,11 @@
+﻿id,topic,type,arabic,transliteration,english,source,notes,audioUrl
+fam_0001,family,word,أب,ab,Father,Seed,,/audio/lesson5/fam_0001.wav
+fam_0002,family,word,أم,umm,Mother,Seed,,/audio/lesson5/fam_0002.wav
+fam_0003,family,word,أخ,akh,Brother,Seed,,/audio/lesson5/fam_0003.wav
+fam_0004,family,word,أخت,ukht,Sister,Seed,,/audio/lesson5/fam_0004.wav
+fam_0005,family,word,إبن,ibn,Son,Seed,,/audio/lesson5/fam_0005.wav
+fam_0006,family,word,بنت,bint,Daughter,Seed,,/audio/lesson5/fam_0006.wav
+fam_0007,family,word,جد,jidd,Grandfather,Seed,,/audio/lesson5/fam_0007.wav
+fam_0008,family,word,جدة,jidde,Grandmother,Seed,,/audio/lesson5/fam_0008.wav
+fam_0009,family,word,صاحب,ṣāḥib,Friend (m),Seed,,/audio/lesson5/fam_0009.wav
+fam_0010,family,word,صحبة,ṣuḥba,Friend (f),Seed,,/audio/lesson5/fam_0010.wav
