@@ -1,256 +1,135 @@
-# Lean to Falasteen
+# ShamiLearn
 
-Fullstack app to learn Palestinian Arabic with SM-2 spaced repetition.
+**Learn Palestinian Arabic with flashcards, quizzes, and spaced repetition.**
 
-## 🚀 Features
+A fullstack web application designed to teach Palestinian Arabic through interactive lessons, AI-generated audio, and scientifically-proven spaced repetition learning techniques.
 
-- **Next.js 15** - Latest version with App Router and Turbopack
-- **TypeScript** - Full type safety and IntelliSense support
-- **Tailwind CSS v4** - Utility-first CSS framework with latest features
-- **shadcn/ui** - Beautiful, accessible components built with Radix UI
-- **ESLint Disabled** - Faster development without linting overhead
-- **App Router** - Modern Next.js routing system
-- **Turbopack** - Fast bundler for development
-- **Lessons with flashcards, audio, and quizzes**
-- **Progress tracking + streaks**
-- **Real SM-2 spaced repetition algorithm**
-- **Auth system with register/login**
-- **NextAuth.js** - Secure authentication with MongoDB adapter
-- **MongoDB Integration** - Persistent user data and sessions
+## ✨ Features
+
+- ✅ **User Authentication** - Secure login/registration with NextAuth + MongoDB
+- ✅ **Interactive Lessons** - Flashcards with Arabic text, transliteration, and English translations
+- ✅ **AI-Generated Audio** - High-quality pronunciation using OpenAI Text-to-Speech
+- ✅ **Multiple Learning Modes** - Flashcards, quiz mode (multiple choice & typing)
+- ✅ **Progress Tracking** - Individual user progress with visual progress bars
+- ✅ **Learning Streaks** - 🔥 Streak tracking to maintain consistent learning habits
+- ✅ **SM-2 Spaced Repetition** - Anki-style review system for optimal retention
+- ✅ **Comprehensive Dashboard** - Stats showing items learned, reviews due, streaks, and lesson completion percentages
+- ✅ **Responsive Design** - Beautiful, mobile-first interface that works on all devices
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15
-- **Language**: TypeScript 5
-- **Styling**: Tailwind CSS v4
-- **UI Components**: shadcn/ui (New York style)
-- **Icons**: Lucide React
-- **Database**: MongoDB
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, MongoDB
 - **Authentication**: NextAuth.js with MongoDB adapter
-- **Package Manager**: npm
+- **Database**: MongoDB Atlas
+- **Audio**: OpenAI Text-to-Speech API
+- **Deployment**: Vercel
+- **UI/UX**: Framer Motion animations, shadcn/ui components
 
-## 📁 Project Structure
+## 📚 Lessons
 
-```
-learn-shami/
-├── app/                    # Next.js App Router pages
-│   ├── api/               # API routes
-│   │   └── auth/          # NextAuth.js API routes
-│   ├── login/             # Login page
-│   ├── globals.css        # Global styles with Tailwind CSS
-│   ├── layout.tsx         # Root layout component
-│   └── page.tsx           # Home page (protected)
-├── components/             # Reusable components
-│   ├── auth/              # Authentication components
-│   │   ├── protected-route.tsx  # Route protection wrapper
-│   │   ├── register-form.tsx    # User registration form
-│   │   └── user-header.tsx      # User info display
-│   ├── providers/         # Context providers
-│   │   └── session-provider.tsx # NextAuth session provider
-│   └── ui/                # shadcn/ui components
-│       ├── button.tsx     # Button component
-│       └── card.tsx       # Card component
-├── lib/                    # Utility functions
-│   ├── mongodb.ts         # MongoDB connection utilities
-│   └── utils.ts           # shadcn/ui utilities
-├── scripts/                # Database setup scripts
-│   └── setup-users.js     # Initial user creation script
-├── public/                 # Static assets
-├── components.json         # shadcn/ui configuration
-├── postcss.config.mjs      # PostCSS configuration for Tailwind CSS v4
-├── tsconfig.json          # TypeScript configuration
-└── next.config.ts         # Next.js configuration
-```
+ShamiLearn includes multiple beginner-friendly lessons covering essential Palestinian Arabic vocabulary and phrases. Examples include:
+
+- **Greetings** - Common daily greetings and responses
+- **Introductions** - How to introduce yourself and others
+- **Numbers** - Counting from 1-20 and beyond
+- **Everyday Phrases** - Essential phrases for daily interactions
+- **Family & People** - Family members and relationship terms
+
+> **Note**: The app dynamically manages lesson content through the dashboard, so new lessons can be added without requiring README updates.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 18+ 
-- npm or yarn
-- MongoDB instance (local or cloud)
+- MongoDB Atlas account (or local MongoDB instance)
+- OpenAI API key (for audio generation)
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd learn-shami
+   git clone https://github.com/yourusername/shamilearn.git
+   cd shamilearn
    ```
 
-2. Install dependencies:
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. Set up environment variables:
-   ```bash
-   # Create .env.local file
-   MONGODB_URI=mongodb://localhost:27017/learn-shami
-   MONGODB_DB=learn-shami
-   NEXTAUTH_SECRET=your-super-secret-key-here-at-least-32-characters
-   NEXTAUTH_URL=http://localhost:3000
+3. **Set up environment variables**
    
-
-   ```
-
-4. Test MongoDB connection:
+   Create a `.env.local` file in the root directory:
    ```bash
-   npm run test-mongo
+   MONGODB_URI=your_mongodb_connection_string
+   NEXTAUTH_SECRET=your_super_secret_key_at_least_32_characters
+   NEXTAUTH_URL=http://localhost:3000
+   OPENAI_API_KEY=your_openai_api_key
    ```
 
-5. Set up initial users (includes demo user):
-   ```bash
-   npm run setup-users
-   ```
-
-6. Populate the database with lesson metadata (Lesson 1):
-   ```bash
-   npm run populate-lessons
-   ```
-
-7. Run the development server:
+4. **Run the development server**
    ```bash
    npm run dev
    ```
 
-8. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. **Open your browser**
+   
+   Navigate to [http://localhost:3000](http://localhost:3000) to start learning!
 
-## 📝 Available Scripts
+## 🚀 Deployment
 
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build the application for production
-- `npm run start` - Start production server
-- `npm run test-mongo` - Test MongoDB connection
-- `npm run setup-users` - Set up initial users in MongoDB
-- `npm run populate-lessons` - Populate MongoDB with lesson data
-- `npm run seed-lessons` - Seed Lesson 1 metadata from JSON
-- `npm run setup-progress` - Create indexes and seed demo data (optional)
+ShamiLearn is designed for easy deployment on modern platforms:
 
-## 🔑 Demo User
+- **Frontend**: Deployed on [Vercel](https://vercel.com) for optimal performance and global CDN
+- **Database**: MongoDB Atlas for reliable, scalable data storage
+- **Audio**: OpenAI API for high-quality Arabic pronunciation
 
-- Email: `demo@email.com`
-- Password: `demo123`
+The application automatically handles environment variables and database connections in production.
 
-Log in to see sample streaks/stats and due reviews on the dashboard.
+## 👤 Demo User
 
-## 🖼️ Screenshots
+Want to try ShamiLearn without creating an account? Use our demo credentials:
 
-Add screenshots/GIFs here showcasing:
-- Dashboard with stats/streaks
-- Lesson viewer with audio and progress
-- Review flow (SM-2)
+- **Email**: `demo@email.com`
+- **Password**: `demo123`
 
-## 🎨 Adding More shadcn/ui Components
+> This demo account includes sample progress data to showcase the learning features.
 
-To add more shadcn/ui components:
+## 📖 How It Works
 
-```bash
-npx shadcn@latest add <component-name>
-```
+1. **Sign up** for a free account or use the demo login
+2. **Browse lessons** on the dashboard to see available content
+3. **Study flashcards** with Arabic text, transliteration, and audio
+4. **Take quizzes** to test your knowledge with multiple choice and typing exercises
+5. **Review regularly** using the spaced repetition system for long-term retention
+6. **Track progress** with visual indicators and learning streaks
 
-For example:
-```bash
-npx shadcn@latest add input
-npx shadcn@latest add dialog
-npx shadcn@latest add dropdown-menu
-```
+## 🎯 Learning Methodology
 
-## 🎯 Key Benefits
+ShamiLearn uses the scientifically-proven **SM-2 spaced repetition algorithm** (the same system used by Anki) to optimize your learning:
 
-- **Fast Development**: ESLint disabled for faster iteration
-- **Modern Stack**: Latest versions of all technologies
-- **Type Safety**: Full TypeScript support
-- **Beautiful UI**: Professional-looking components out of the box
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Accessibility**: Built-in accessibility features with Radix UI
-
-## 🔧 Configuration Files
-
-- **`components.json`**: shadcn/ui configuration with New York style
-- **`postcss.config.mjs`**: PostCSS configuration for Tailwind CSS v4
-- **`tsconfig.json`**: TypeScript configuration with strict settings
-- **`next.config.ts`**: Next.js configuration with Turbopack enabled
-
-## 🌟 Why This Setup?
-
-This project structure provides:
-
-1. **Developer Experience**: Fast development with modern tools
-2. **Performance**: Optimized builds with Turbopack
-3. **Maintainability**: Type-safe code with TypeScript
-4. **Design System**: Consistent UI components with shadcn/ui
-5. **Flexibility**: Easy to extend and customize
-6. **Data Persistence**: MongoDB integration for scalable data storage
-
-## 🔐 Authentication
-
-This project includes NextAuth.js authentication with MongoDB integration:
-
-### Features
-- **Credentials Provider**: Email + password authentication
-- **User Registration**: Self-service account creation for learners
-- **MongoDB Adapter**: Persistent user sessions and data
-- **JWT Sessions**: Secure session management with cookies
-- **Protected Routes**: Automatic redirect to login for unauthenticated users
-
-### User Management
-- Users are stored in the `users` collection
-- Passwords are hashed using bcrypt
-- Role-based access control (admin, learner)
-- Self-service registration for new learners
-- Demo accounts available for testing
-
-### Demo Accounts
-- **Admin**: admin@example.com / password
-- **Learner**: learner@example.com / password
-
-## 🗄️ MongoDB Integration
-
-This project includes MongoDB integration for storing lesson metadata and data:
-
-### Database Structure
-- **Collection**: `lessons`
-- **Document Structure**: Contains lesson metadata (title, description, difficulty, tags, etc.)
-- **CSV Files**: Stored in `lessons/` directory and loaded dynamically
-
-### API Endpoints
-- **`/api/lessons/[id]`**: Fetches lesson by ID from MongoDB and combines with CSV data
-
-### Response Format
-```json
-{
-  "lessonId": 1,
-  "title": "Greetings",
-  "description": "Learn common Palestinian greetings for daily interactions.",
-  "difficulty": "Beginner",
-  "tags": ["palestinian", "arabic", "greetings"],
-  "totalItems": 20,
-  "data": [...],
-  "unit": 1,
-  "order": 1,
-  "estimatedTime": "5 minutes"
-}
-```
-
-## 📚 Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [shadcn/ui Documentation](https://ui.shadcn.com/)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [MongoDB Documentation](https://docs.mongodb.com/)
+- Items you find easy are reviewed less frequently
+- Items you find difficult are reviewed more often
+- The system adapts to your learning pace automatically
+- Maintains learning streaks to encourage consistent practice
 
 ## 🤝 Contributing
 
-Feel free to contribute to this project by:
+We welcome contributions to make ShamiLearn even better! Here are some ways you can help:
 
-1. Adding new components
-2. Improving the design
-3. Adding new features
-4. Fixing bugs
-5. Improving documentation
+- 🐛 **Report bugs** or suggest improvements
+- 📝 **Add new lessons** or improve existing content
+- 🎨 **Enhance the UI/UX** with better designs or animations
+- 🔊 **Improve audio quality** or add new pronunciation features
+- 📚 **Write documentation** or help with translations
+- ⚡ **Optimize performance** or add new learning features
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+**Start your Palestinian Arabic learning journey today! 🇵🇸**
