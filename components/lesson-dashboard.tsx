@@ -59,7 +59,7 @@ export default function LessonDashboard() {
               title: item.title,
               description: item.description,
               difficulty: 'Beginner', // Default for now
-              tags: ['palestinian', 'arabic'],
+              tags: ['shami', 'arabic'],
               totalItems: item.totalItems,
               unit: 1,
               order: item.lessonId,

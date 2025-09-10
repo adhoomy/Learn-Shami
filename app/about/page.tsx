@@ -18,9 +18,9 @@ export default function AboutPage() {
             </Button>
           </Link>
           <div className="text-center">
-            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 mx-auto mb-4" />
-            <h1 className="text-4xl font-display text-black mb-4">About Lean to Falasteen</h1>
-            <p className="text-lg text-gray-600">Empowering learners to master Palestinian Arabic</p>
+            <img src="/logo.png" alt="Learn Shami Logo" className="w-16 h-16 mx-auto mb-4" />
+            <h1 className="text-4xl font-display text-black mb-4">About Learn Shami</h1>
+            <p className="text-lg text-gray-600">Empowering learners to master Shami Arabic</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-gray-700 text-lg leading-relaxed">
-              Lean to Falasteen is dedicated to making Palestinian Arabic accessible to learners worldwide. 
+              Learn Shami is dedicated to making Shami Arabic accessible to learners worldwide. 
               We believe that language is a bridge to understanding culture, history, and people. 
               Our platform combines traditional learning methods with modern technology to create 
               an engaging and effective learning experience.
@@ -56,7 +56,7 @@ export default function AboutPage() {
             <CardContent>
               <p className="text-gray-600">
                 Structured lessons covering essential vocabulary, grammar, and cultural context 
-                specific to Palestinian Arabic. Each lesson includes audio pronunciation, 
+                specific to Shami Arabic. Each lesson includes audio pronunciation, 
                 transliteration, and practical examples.
               </p>
             </CardContent>
@@ -87,7 +87,7 @@ export default function AboutPage() {
             <CardContent>
               <p className="text-gray-600">
                 Learn not just the language, but the cultural nuances, expressions, and 
-                context that make Palestinian Arabic unique and meaningful.
+                context that make Shami Arabic unique and meaningful.
               </p>
             </CardContent>
           </Card>
@@ -111,7 +111,7 @@ export default function AboutPage() {
         {/* Why Choose Lean to Falasteen */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="text-2xl font-display text-black">Why Choose Lean to Falasteen?</CardTitle>
+            <CardTitle className="text-2xl font-display text-black">Why Choose Learn Shami?</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -156,7 +156,7 @@ export default function AboutPage() {
                 Ready to Start Learning? 🚀
               </h2>
               <p className="text-primary-100 text-lg mb-6">
-                Join thousands of learners who are already mastering Palestinian Arabic with Lean to Falasteen.
+                Join thousands of learners who are already mastering Shami Arabic with Learn Shami.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/register">

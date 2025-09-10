@@ -94,13 +94,13 @@ function RegisterForm() {
         {/* Logo and Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 shadow-lg" />
+            <img src="/logo.png" alt="Learn Shami Logo" className="w-16 h-16 shadow-lg" />
           </div>
           <h1 className="text-3xl font-display text-neutral-900 mb-2">
-            Join Lean to Falasteen
+            Join Learn Shami
           </h1>
           <p className="text-lg text-neutral-600">
-            Start your journey to master Palestinian Arabic
+            Start your journey to master Shami Arabic
           </p>
         </div>
 

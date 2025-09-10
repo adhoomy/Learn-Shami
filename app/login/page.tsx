@@ -72,7 +72,7 @@ function LoginForm() {
         {/* Logo and Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 shadow-lg" />
+            <img src="/logo.png" alt="Learn Shami Logo" className="w-16 h-16 shadow-lg" />
           </div>
           <h1 className="text-3xl font-display text-neutral-900 mb-2">
             Welcome Back

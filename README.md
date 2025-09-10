@@ -1,8 +1,8 @@
 # ShamiLearn
 
-**Learn Palestinian Arabic with flashcards, quizzes, and spaced repetition.**
+**Learn Shami Arabic with flashcards, quizzes, and spaced repetition.**
 
-A fullstack web application designed to teach Palestinian Arabic through interactive lessons, AI-generated audio, and scientifically-proven spaced repetition learning techniques.
+A fullstack web application designed to teach Shami Arabic through interactive lessons, AI-generated audio, and scientifically-proven spaced repetition learning techniques.
 
 ## ✨ Features
 
@@ -28,7 +28,7 @@ A fullstack web application designed to teach Palestinian Arabic through interac
 
 ## 📚 Lessons
 
-ShamiLearn includes multiple beginner-friendly lessons covering essential Palestinian Arabic vocabulary and phrases. Examples include:
+ShamiLearn includes multiple beginner-friendly lessons covering essential Shami Arabic vocabulary and phrases. Examples include:
 
 - **Greetings** - Common daily greetings and responses
 - **Introductions** - How to introduce yourself and others
@@ -132,4 +132,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Start your Palestinian Arabic learning journey today! 🇵🇸**
+**Start your Shami Arabic learning journey today! 🇸🇾**

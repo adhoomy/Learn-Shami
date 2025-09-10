@@ -8,7 +8,7 @@ import Footer from "@/components/ui/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lean to Falasteen - Master Palestinian Arabic",
+  title: "Learn Shami - Master Shami Arabic",
   description: "Learn the Shami dialect through interactive lessons, spaced repetition, and AI-powered learning.",
 };
 

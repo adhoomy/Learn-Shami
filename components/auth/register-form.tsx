@@ -110,7 +110,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
           Create Account
         </CardTitle>
         <CardDescription>
-          Sign up to start learning Palestinian Arabic
+          Sign up to start learning Shami Arabic
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

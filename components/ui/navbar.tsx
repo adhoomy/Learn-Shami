@@ -40,8 +40,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-8 h-8" />
-                            <span className="text-xl font-display text-neutral-900">Lean to Falasteen</span>
+            <img src="/logo.png" alt="Learn Shami Logo" className="w-8 h-8" />
+                            <span className="text-xl font-display text-neutral-900">Learn Shami</span>
           </Link>
 
           {/* Desktop Navigation */}

@@ -43,7 +43,7 @@ export default function ContactPage() {
             </Button>
           </Link>
           <div className="text-center">
-            <img src="/logo.png" alt="Lean to Falasteen Logo" className="w-16 h-16 mx-auto mb-4" />
+            <img src="/logo.png" alt="Learn Shami Logo" className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-4xl font-display text-black mb-4">Contact Us</h1>
             <p className="text-lg text-gray-600">Get in touch with our team</p>
           </div>
@@ -63,7 +63,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-black">Email</h3>
-                    <p className="text-gray-600">support@leantofalasteen.com</p>
+                    <p className="text-gray-600">support@learnshami.com</p>
                   </div>
                 </div>
 
@@ -197,7 +197,7 @@ export default function ContactPage() {
               
               <div>
                 <h3 className="font-semibold text-black">Is there a mobile app available?</h3>
-                <p className="text-gray-600">Currently, Lean to Falasteen is web-based and works great on mobile browsers. We're working on native mobile apps for iOS and Android.</p>
+                <p className="text-gray-600">Currently, Learn Shami is web-based and works great on mobile browsers. We're working on native mobile apps for iOS and Android.</p>
               </div>
             </div>
           </CardContent>
